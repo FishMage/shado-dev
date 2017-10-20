@@ -1,0 +1,49 @@
+			<div id="page" class='page'>
+					<div id="operators" class="operatorSummaryOuter">
+
+						<div class="operators">
+							<h3>On average, your <em>dispatcher</em> is projected to experience:</h3>
+							<div id="bullets">
+								<ul>
+									<li id="low_work_0">low workload range for <?php echo $low_count_2*10; ?> minutes  <span class="hint--right hint--rounded hint--large" aria-label= "Levels of utilization below 30% have been associated with poor performance due to boredom and distraction."><sup>(?)</sup></span></li>
+									<li id="normal_work_0">moderate workload range for <?php echo $normal_count_2*10; ?> minutes  </li>
+									<li id="high_work_0">high workload range for <?php echo $high_count_2*10; ?> minutes  <span class="hint--right hint--rounded hint--large" aria-label= "A 70% utilization threshold was selected to indicate an upper bound of optimal task loading, at which point operators may be too busy to accumulate information required to maintain situational awareness for safety."><sup>(?)</sup></span></li>
+								</ul>
+							</div>
+
+							<form action="investigate.php?operator=dispatcher" method="post" style='text-align: center;'>
+								<button class="pure-button"type="submit" id="submit1" class="button" style="background-color: #4CAF50; box-shadow: 0px 8px 8px 0px rgba(0,0,0,0.2);">Investigate</button>
+							</form>
+						</div>
+
+						<div class="operators">
+							<h3>On average, your <em>engineer</em> is projected to experience:</h3>
+							<div id="bullets">
+								<ul>
+									<li id="low_work_0">low workload range for <?php echo $low_count_0*10; ?> minutes  <span class="hint--right hint--rounded hint--large" aria-label= "Levels of utilization below 30% have been associated with poor performance due to boredom and distraction."><sup>(?)</sup></span></li>
+									<li id="normal_work_0">moderate workload range for <?php echo $normal_count_0*10; ?> minutes  </li>
+									<li id="high_work_0">high workload range for <?php echo $high_count_0*10; ?> minutes  <span class="hint--right hint--rounded hint--large" aria-label= "A 70% utilization threshold was selected to indicate an upper bound of optimal task loading, at which point operators may be too busy to accumulate information required to maintain situational awareness for safety."><sup>(?)</sup></span></li>
+								</ul>
+							</div>
+
+							<form action="investigate.php?operator=engineer" method="post" style='text-align: center;'>
+								<button class="pure-button"type="submit" id="submit1" class="button" style="background-color: #4CAF50; box-shadow: 0px 8px 8px 0px rgba(0,0,0,0.2);">Investigate</button>
+							</form>
+						</div>
+
+						<div class="operators" style='<?php echo $operator2Style; ?>'>
+							<h3>On average, your <em>conductor</em> is projected to experience:</h3>
+							<div id="bullets">
+								<ul>
+									<li id="low_work_1">low workload range for <?php echo $low_count_1*10; ?> minutes  <span class="hint--right hint--rounded hint--large" aria-label= "Levels of utilization below 30% have been associated with poor performance due to boredom and distraction."><sup>(?)</sup></span></li>
+									<li id="normal_work_1">moderate workload range for <?php echo $normal_count_1*10; ?> minutes</li>
+
+									<li id="high_work_1">high workload range for <?php echo $high_count_1*10; ?> minutes  <span class="hint--right hint--rounded hint--large" aria-label= "A 70% utilization threshold was selected to indicate an upper bound of optimal task loading, at which point operators may be too busy to accumulate information required to maintain situational awareness for safety."><sup>(?)</sup></span></li>
+								</ul>
+							</div>
+
+							<form action="investigate.php?operator=conductor" method="post" style='text-align: center;'>
+								<button class="pure-button" type="submit" id="submit2" class="button" style=" box-shadow: 0px 8px 8px 0px rgba(0,0,0,0.2);;background-color: #4CAF50;">Investigate</button>
+							</form>
+						</div>
+					</div>
