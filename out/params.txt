@@ -1,4 +1,4 @@
-output_path		/Users/siyuchen/Documents/CS/SHADO/out/
+output_path		/Users/siyuchen/Documents/CS/shado-dev/out/
 num_hours		8
 traff_levels	m m m m m m m m
 num_reps		5
