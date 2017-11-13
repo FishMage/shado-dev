@@ -28,7 +28,7 @@ public class ProcRep {
 
     private Replication rep;
 
-    private TrainSim[] trains;
+    private TrainSim[][] trains;
 
     private int repID;
 
@@ -96,8 +96,10 @@ public class ProcRep {
         }
 
         repopsdata = new Data[numoperator];
-        for (int i = 0; i < numoperator; i++){
-            repopsdata[i] = new Data(numtasktypes, (int) hours*6, trains.length);
+        for (int i = 0; i < numoperator; i++) {
+            for (int j = 0; j < rep.parameters.fleetTypes; j++) {
+                repopsdata[i] = new Data(numtasktypes, (int) hours * 6, trains[j].length);
+            }
         }
     }
 
@@ -177,14 +179,14 @@ public class ProcRep {
         for (int i = 0; i < numdispatch; i++){
             fillRepDataCell(dispatchers[i], repdisdata[i], 0);
         }
-
-        for (TrainSim train: trains){
-            Operator[] operators = train.operators;
-            for (int i = 0; i< numoperator; i++){
-                fillRepDataCell(operators[i], repopsdata[i], i);
+        for(int i = 0; i < rep.parameters.fleetTypes;i++) {
+            for (TrainSim train : trains[i]) {
+                Operator[] operators = train.operators;
+                for (int j = 0; i < numoperator; i++) {
+                    fillRepDataCell(operators[j], repopsdata[j], j);
+                }
             }
         }
-
         for (Data each: repopsdata){
             each.avgdata();
         }

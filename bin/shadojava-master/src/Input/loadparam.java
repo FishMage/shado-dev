@@ -13,6 +13,7 @@ import java.util.*;
  * 	LATEST EDIT:	2017/5/22
  * 
  * 	VER: 			1.0
+ *
  * 
  * 	Purpose: 		Load parameter in text.
  * 
@@ -27,9 +28,17 @@ public class loadparam {
     public double[] traffic;
     public int numReps;
     public int[] ops;
-    public int numTrains;
+    //SCHEN 11/10/17 Change numTrains to array
+	//public int numTrains;
+    public int[] numTrains;
+
     public int numDispatch;
     public int[] DispatchTasks;
+
+
+	// SCHEN 11/10/17 Fleet heterogeneity
+	public int fleetTypes;
+	public int[][] fleetHetero;
 
     // Operator settings
 
@@ -86,12 +95,26 @@ public class loadparam {
 		numHours = readDouble(in);
 		traffic = readTraff(in);
 		numReps = readInt(in);
-		numTrains = readInt(in);
+		//SCHEN 11/10/17 fleetTypes represents the combination of different trains
+		fleetTypes = readInt(in);
+
+		//SCHEN 11/10/17 Read numTrains Array
+//		numTrains = readInt(in);
+		numTrains = readIntArr(in);
 		numOps = readInt(in);
 		numDispatch = readInt(in);
 		DispatchTasks = readIntArr(in);
 		numTaskTypes = readInt(in);
-		
+
+
+		//SCHEN 11/10/2017
+		//Load Fleet Heterogeneity info
+
+		fleetHetero = new int[fleetTypes][];
+		for(int i = 0 ; i < fleetTypes; i++){
+			fleetHetero[i] = readIntArr(in);
+		}
+
 		//Initiate array sizes
 		
 		opNames = new String[numOps];

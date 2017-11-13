@@ -31,13 +31,13 @@ public class Replication {
 
     private ArrayList<Task> linked;
 
-    private TrainSim[] trains;
+    private TrainSim[][] trains;
 
     private Dispatch control;
 
     // Inspectors:
 
-    public TrainSim[] getTrains() {
+    public TrainSim[][] getTrains() {
         return trains;
     }
 
@@ -81,34 +81,42 @@ public class Replication {
         linked = control.gettasks();
 
         // Initialize trains.
+//        for(int i = 0; i < parameters.fleetTypes; i++) {
+//            System.out.println("trains.length: "+parameters.numTrains[i]);
+//            trains[i] = new TrainSim[parameters.numTrains[i]];
+//        }
 
-        trains = new TrainSim[parameters.numTrains];
+        //SCHEN 11/10/17 For this version of Fleet hetero, assume each batch has 10 trains
+        trains = new TrainSim[parameters.fleetTypes][parameters.numTrains[0]];
 
-        for (int i = 0; i < parameters.numTrains; i++) {
-
-            trains[i] = new TrainSim(parameters, i);
-            trains[i].genbasis();
+        for (int i = 0; i < parameters.fleetTypes; i++) {
+            for(int j = 0; j < parameters.numTrains[i]; j++) {
+                trains[i][j] = new TrainSim(parameters, j);
+                trains[i][j].genbasis();
+            }
 
         }
 
         // Add linked tasks to trains.
+        for(int i = 0; i < parameters.fleetTypes; i++) {
+            for (Task each : linked) {
 
-        for (Task each : linked) {
-
-            int trainid = each.getTrain();
-            each = new Task(each.getType(), each.getBeginTime(), parameters, false);
-            each.setID(trainid);
-            if (each.getArrTime() < parameters.numHours*60) {
-                trains[trainid].linktask(each);
+                int trainid = each.getTrain();
+                each = new Task(each.getType(), each.getBeginTime(), parameters, false);
+                each.setID(trainid);
+                if (each.getArrTime() < parameters.numHours * 60) {
+//                    System.out.println("Getting Train id: "+i+", "+trainid+" =>"+ trainid%10 );
+                    trains[i][trainid%10].linktask(each);
+                }
             }
         }
-
         // Run each train
+        for(int i = 0; i< parameters.fleetTypes; i++){
+            for (TrainSim each : trains[i]) {
 
-        for (TrainSim each : trains) {
+                each.run();
 
-            each.run();
-
+            }
         }
 
     }
