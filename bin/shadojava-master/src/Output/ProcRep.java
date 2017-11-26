@@ -2,8 +2,12 @@ package Output;
 
 import Engine.*;
 
+import Input.FileWizard;
 import Output.ProcData;
-
+import java.io.*;
+import java.io.BufferedOutputStream;
+import java.io.FileOutputStream;
+import java.io.PrintStream;
 import java.util.ArrayList;
 
 /***************************************************************************
@@ -234,17 +238,19 @@ public class ProcRep {
      *
      ****************************************************************************/
 
-    public void testProcRep(){
-
+    public void testProcRep(int currRep) throws IOException {
+        int numRep = 0;
         for (Data each: repdisdata){
-            System.out.println(" FOR DISPATCHER \n");
             each.avgdata();
-            each.outputdata();
+            System.out.println(" FOR Replication \n"+ (currRep -1));
+            sepCSV(each,currRep);
+            numRep++;
+//            each.outputdata();
         }
 
         for (Data each: repopsdata){
-            System.out.println(" FOR OPERATOR \n");
-            each.outputdata();
+//            System.out.println(" FOR OPERATOR \n");
+//            each.outputdata();
         }
 
     }
@@ -257,14 +263,33 @@ public class ProcRep {
      *
      ****************************************************************************/
 
-    public void run(){
+    public void run(int currRep){
 
         tmpData();
         fillRepData();
         appendData();
-//        testProcRep();
+       try{
+           testProcRep(currRep);
+       }catch(Exception e){
+           System.out.println("JAVA IO");
+       };
+
 
     }
+    /****************************************************************************
+     *
+     *	Method:			SepCSV
+     *
+     *	Purpose:		output CSV for every replication
+     *
+     ****************************************************************************/
+    public void sepCSV(Data dispatchout, int repNum)throws IOException{
+        String  file_head = FileWizard.getabspath();
+        String file_name = file_head + "/out/repCSV/" + "rep_"+ repNum + ".csv";
+        System.setOut(new PrintStream(new BufferedOutputStream(
+                new FileOutputStream(file_name, false)), true));
+        dispatchout.outputdata();
 
+    }
 
 }

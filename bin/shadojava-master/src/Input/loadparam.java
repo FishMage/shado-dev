@@ -73,7 +73,9 @@ public class loadparam {
 	public static boolean DEBUG_ON = false;
 	public static boolean OUTPUT_ON = true;
 	public static boolean RAND_RUN_ON = true;
-		
+
+	//SCHEN 11/15/17 test separated replication
+	public int currRepnum =0;
 	
 	/****************************************************************************
 	*																			

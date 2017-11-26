@@ -58,10 +58,8 @@ public class Replication {
      ****************************************************************************/
 
     public Replication(loadparam param, int id) {
-
         parameters = param;
         this.repID = id;
-
     }
 
     /****************************************************************************

@@ -158,12 +158,10 @@ public class TrainSim {
     public void operatorgen() {
 
         // Create Operators
-
         operators = new Operator[parameters.ops.length];
         for (int i = 0; i < parameters.ops.length; i++) {
             operators[i] = new Operator(i, parameters);
         }
-
     }
 
     /****************************************************************************

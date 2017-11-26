@@ -1,19 +1,18 @@
 output_path		/Users/erinsong/Documents/shadojava/out
 num_hours	    2
 traff_levels   	m h h h l l l m
-num_reps		100
+num_reps		10
 fleet_types     4
-num_train		10 10 10 10
+num_train		2 2 2 2
 num_ops			4
 num_dispatch	1
 dispatch_task	0 2 4
 num_task_types	9
 
-
-fleet_types_0         0 1 2 3
-fleet_types_1         0 2 3
-fleet_types_2         0 1 3
-fleet_types_2         0 2
+fleet_type_0    0 1 2 3
+fleet_type_1    0 2
+fleet_type_2    0 1 3
+fleet_type_3    0 2
 
 op_name			Engineer
 tasks			0 1 2 3 4 5 6 7 8

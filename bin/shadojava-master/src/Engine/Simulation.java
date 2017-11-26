@@ -1,7 +1,9 @@
 package Engine;
+import Input.FileWizard;
 import Input.loadparam;
 import Output.ProcRep;
 
+import java.io.*;
 import java.util.ArrayList;
 
 /***************************************************************************
@@ -98,7 +100,8 @@ public class Simulation {
         Replication processed = new Replication(parameters, repID);
         processed.run();
         ProcRep process = new ProcRep(dispatchoutput, operatoroutput, processed);
-        process.run();
+
+        process.run(repID);
 
         for (int i = 0; i < parameters.numTaskTypes; i++) {
             expiredtaskcount[i] += process.getExpired()[i];
@@ -114,7 +117,7 @@ public class Simulation {
      *
      ****************************************************************************/
 
-    public void run() {
+    public void run() throws IOException {
 
         for (int i = 0; i < repnumber; i++) {
 
@@ -124,13 +127,30 @@ public class Simulation {
             }
         }
 
+        int repNum = 0;
         for (Data each: dispatchoutput){
+//            sepCSV(each,repNum);
+//            repNum++;
             each.avgdata();
         }
         for (Data each: operatoroutput){
             each.avgdata();
         }
     }
-
-	
+    /****************************************************************************
+     *
+     *	Method:			sepCSV
+     *
+     *  Author:         Richard Chen
+     *
+     *	Purpose:		Generate separated CSV file for each replication
+     *
+     ****************************************************************************/
+	public void sepCSV(Data dispatchout, int repNum) throws IOException {
+	        String  file_head = FileWizard.getabspath();
+            String file_name = file_head + "/out/repCSV/" + "rep_"+ repNum + ".csv";
+            System.setOut(new PrintStream(new BufferedOutputStream(
+                    new FileOutputStream(file_name, false)), true));
+            dispatchout.outputdata();
+    }
 }
