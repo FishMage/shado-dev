@@ -187,7 +187,7 @@ public class ProcRep {
         for(int i = 0; i < rep.parameters.fleetTypes;i++) {
 //            for(int j = 0 ; j < trains[i].length; j++){
                 for (TrainSim train : trains[i]) {
-                    System.out.println("Op calculation for train: " + i);
+//                    System.out.println("Op calculation for train: " + i);
                     Operator[][] operators = train.operators;
                     for (int j = 0; i < numoperator; i++) {
                         fillRepDataCell(operators[i][j], repopsdata[j], j);
@@ -253,7 +253,7 @@ public class ProcRep {
         }
 
         for (Data each: repopsdata){
-            System.out.println(" FOR OPERATOR \n");
+//            System.out.println(" FOR OPERATOR \n");
 //            each.outputdata();
             each.avgdata();
 //            sepCSV(each,currRep);
