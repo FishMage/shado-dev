@@ -5,7 +5,7 @@ num_reps		10
 fleet_types     4
 num_train		2 2 2 2
 num_ops			4
-num_dispatch	1
+num_dispatch	2
 dispatch_task	0 2 4
 num_task_types	9
 

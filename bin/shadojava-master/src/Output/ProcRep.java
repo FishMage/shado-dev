@@ -243,12 +243,13 @@ public class ProcRep {
      ****************************************************************************/
 
     public void testProcRep(int currRep) throws IOException {
-        int numRep = 0;
+        int numdisp = 0;
         for (Data each: repdisdata){
             each.avgdata();
             System.out.println("FOR Replication \n"+ (currRep -1));
-            sepCSV(each,currRep);
+            sepCSV(each,currRep,numdisp);
 //            numRep++;
+            numdisp++;
 //            each.outputdata();
         }
 
@@ -289,9 +290,20 @@ public class ProcRep {
      *	Purpose:		output CSV for every replication
      *
      ****************************************************************************/
-    public void sepCSV(Data dispatchout, int repNum)throws IOException{
+    public void sepCSV(Data dispatchout, int repNum,int numdip)throws IOException{
         String  file_head = FileWizard.getabspath();
-        String file_name = file_head + "/out/repCSV/" + "rep_"+ repNum + ".csv";
+        //SCHEN 11/30/17
+        //Make dispatcher dir if not exists
+        String directoryName = "/out/repCSV/dispatcher_"+numdip;
+        File directory = new File(directoryName);
+        if (!directory.exists()){
+            directory.mkdir();
+            // If you require it to make the entire directory path including parents,
+            // use directory.mkdirs(); here instead.
+            System.out.println("mkdir");
+        }
+
+        String file_name = file_head + directoryName + "_rep_"+ repNum + ".csv";
         System.setOut(new PrintStream(new BufferedOutputStream(
                 new FileOutputStream(file_name, false)), true));
         dispatchout.outputdata();
