@@ -69,7 +69,7 @@ public class Simulation {
 
         parameters = param;
         repnumber = param.numReps;
-
+        System.out.println("NumReps: " + repnumber);
         // Generate overall data field
 
         operatoroutput = new Data[param.numOps];

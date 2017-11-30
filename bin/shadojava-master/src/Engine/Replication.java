@@ -89,7 +89,8 @@ public class Replication {
 
         for (int i = 0; i < parameters.fleetTypes; i++) {
             for(int j = 0; j < parameters.numTrains[i]; j++) {
-                trains[i][j] = new TrainSim(parameters, j);
+                //SCHEN 11/20/17 trainId change for 2d Array
+                trains[i][j] = new TrainSim(parameters, i*10 + j);
                 trains[i][j].genbasis();
             }
 
@@ -111,9 +112,7 @@ public class Replication {
         // Run each train
         for(int i = 0; i< parameters.fleetTypes; i++){
             for (TrainSim each : trains[i]) {
-
                 each.run();
-
             }
         }
 

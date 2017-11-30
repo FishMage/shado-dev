@@ -178,16 +178,16 @@ public class ProcRep {
 
     public void fillRepData(){
 
-        Operator[] dispatchers = rep.getDispatch().getDispatch();
+        Operator[][] dispatchers = rep.getDispatch().getDispatch();
 
         for (int i = 0; i < numdispatch; i++){
-            fillRepDataCell(dispatchers[i], repdisdata[i], 0);
+            fillRepDataCell(dispatchers[i][0], repdisdata[i], 0);
         }
         for(int i = 0; i < rep.parameters.fleetTypes;i++) {
             for (TrainSim train : trains[i]) {
-                Operator[] operators = train.operators;
+                Operator[][] operators = train.operators;
                 for (int j = 0; i < numoperator; i++) {
-                    fillRepDataCell(operators[j], repopsdata[j], j);
+                    fillRepDataCell(operators[i][j], repopsdata[j], j);
                 }
             }
         }
@@ -242,7 +242,7 @@ public class ProcRep {
         int numRep = 0;
         for (Data each: repdisdata){
             each.avgdata();
-            System.out.println(" FOR Replication \n"+ (currRep -1));
+            System.out.println("FOR Replication \n"+ (currRep -1));
             sepCSV(each,currRep);
             numRep++;
 //            each.outputdata();

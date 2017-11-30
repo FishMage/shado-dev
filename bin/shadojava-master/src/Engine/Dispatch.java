@@ -24,7 +24,7 @@ public class Dispatch {
 
     private ArrayList<Task> linkedtasks;
 
-    private Operator[] dispatchers;
+    private Operator[][] dispatchers;
 
     private int[] linked;
 
@@ -48,7 +48,7 @@ public class Dispatch {
         return totrain;
     }
 
-    public Operator[] getDispatch() {
+    public Operator[][] getDispatch() {
         return dispatchers;
     }
 
@@ -151,12 +151,13 @@ public class Dispatch {
      ****************************************************************************/
 
     public void genDispatch() {
-
-        dispatchers = new Operator[parameters.numDispatch];
+        // SCHEN 11/20/17
+        // Note: Dispatcher is a 1d array, to fit in the data structure,
+        // change it to 2d array with each subarray with length == 1
+        dispatchers = new Operator[parameters.numDispatch][1];
 
         for (int i = 0; i < parameters.numDispatch; i++) {
-
-            dispatchers[i] = new Operator(i, parameters.DispatchTasks);
+            dispatchers[i][0] = new Operator(i, parameters.DispatchTasks);
         }
     }
 
@@ -174,16 +175,19 @@ public class Dispatch {
         DispatchSim.run();
         proctasks = new ArrayList<Task>();
         totrain = new ArrayList<Task>();
-        for (Operator dispatcher : DispatchSim.operators) {
-            proctasks.addAll(dispatcher.getQueue().records());
-        }
-        for (Task each : proctasks) {
-            if (!each.checkexpired()) {
-                if (each.linked()) {
-                    totrain.add(each);
-                }
-            }
-        }
+        //SCHEN 11/20/17 Changes for 2d array in trainSim Object
+         for(int i = 0; i < parameters.numDispatch; i++) {
+             for (Operator dispatcher : DispatchSim.operators[i]) {
+                 proctasks.addAll(dispatcher.getQueue().records());
+             }
+             for (Task each : proctasks) {
+                 if (!each.checkexpired()) {
+                     if (each.linked()) {
+                         totrain.add(each);
+                     }
+                 }
+             }
+         }
     }
 
 

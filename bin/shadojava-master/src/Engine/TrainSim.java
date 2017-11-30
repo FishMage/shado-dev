@@ -24,7 +24,9 @@ public class TrainSim {
 
     public loadparam parameters;
 
-    public Operator[] operators;
+    public Operator[][] operators;
+
+    public Operator[] dispatchers;
 
     public int trainID;
 
@@ -56,7 +58,7 @@ public class TrainSim {
      *
      ****************************************************************************/
 
-    public TrainSim(loadparam param, Operator[] dis, ArrayList<Task> list) {
+    public TrainSim(loadparam param, Operator[][] dis, ArrayList<Task> list) {
         tasktime = list;
         operators = dis;
         parameters = param;
@@ -158,10 +160,19 @@ public class TrainSim {
     public void operatorgen() {
 
         // Create Operators
-        operators = new Operator[parameters.ops.length];
-        for (int i = 0; i < parameters.ops.length; i++) {
-            operators[i] = new Operator(i, parameters);
+        //SCHEN 11/20/17:
+        //TODO: Create Different Operatorset for different types of trains
+//        operators = new Operator[parameters.ops.length];
+        operators = new Operator[parameters.fleetTypes][parameters.ops.length];
+//        System.out.println("****FleetType:****");
+        for (int i = 0; i < parameters.fleetTypes; i++) {
+            for(int j = 0; j < parameters.fleetHetero[i].length; j++) {
+//                System.out.print(parameters.fleetHetero[i][j]+ ", ");
+                operators[i][j] = new Operator(parameters.fleetHetero[i][j], parameters);
+            }
+//            System.out.println();
         }
+//        System.out.println("-----Single Rep Scan Complete------");
     }
 
     /****************************************************************************
@@ -184,10 +195,13 @@ public class TrainSim {
         // If the task can be operated by this operator, get his queue.
 
         for (int i = 0; i < operators.length; i++) {
-            if (IntStream.of(operators[i].taskType).anyMatch(x -> x == task.getType())) {
-                proc.add(operators[i].getQueue());
-                working.add(operators[i]);
-
+            for(int j = 0; j < operators[i].length; j++ ){
+                if(operators[i][j] != null) {
+                    if (IntStream.of(operators[i][j].taskType).anyMatch(x -> x == task.getType())) {
+                        proc.add(operators[i][j].getQueue());
+                        working.add(operators[i][j]);
+                    }
+                }
             }
         }
 
@@ -251,12 +265,15 @@ public class TrainSim {
         // Finish tasks if no new tasks comes in.
 
         double totaltime = parameters.numHours * 60;
-        for (Operator each : operators) {
-            while (each.getQueue().getfinTime() < totaltime) {
-                each.getQueue().done();
+        for(int i = 0; i < operators.length; i++) {
+            for (Operator each : operators[i]) {
+                if (each != null) {
+                    while (each.getQueue().getfinTime() < totaltime) {
+                        each.getQueue().done();
+                    }
+                }
             }
         }
-
     }
 
 }

@@ -141,7 +141,7 @@ public class loadparam {
 
 		//Read in agent type and tasks they can do
 		
-		for (int i = 0; i< numOps; i++){
+		for (int i = 0; i < numOps; i++){
 			opNames[i] = readString(in);
 			opTasks[i] = readIntArr(in);
 			ops[i] = i;
