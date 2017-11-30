@@ -134,6 +134,7 @@ public class Simulation {
             each.avgdata();
         }
         for (Data each: operatoroutput){
+
             each.avgdata();
         }
     }
