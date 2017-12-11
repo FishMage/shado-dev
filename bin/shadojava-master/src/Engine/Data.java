@@ -16,9 +16,7 @@ package Engine;
 public class Data {
 
     public double[][][] data;
-
     public double[][] avg;
-
     public double[][] std;
 
     /****************************************************************************
@@ -93,8 +91,6 @@ public class Data {
                 std[x][y] = Math.sqrt(devSum / (N - 1));
             }
         }
-
-
     }
 
     /****************************************************************************
@@ -115,6 +111,4 @@ public class Data {
 
         }
     }
-
-
 }

@@ -8,13 +8,13 @@ import java.util.*;
  * 
  * 	AUTHOR: 		BRANCH VINCENT
  * 
- * 	TRANSLATOR: 	ROCKY LI
+ * 	TRANSLATOR: 	ROCKY LI, RICHARD CHEN
  * 	
- * 	LATEST EDIT:	2017/5/22
+ * 	LATEST EDIT:	2017/12/2
  * 
- * 	VER: 			1.0
+ * 	VER: 			1.0 SHOW
+ * 					1.1 SHADO
  *
- * 
  * 	Purpose: 		Load parameter in text.
  * 
  **************************************************************************/
@@ -22,7 +22,6 @@ import java.util.*;
 public class loadparam {
 	
 	// General input variables
-	
 	public String outputPath;
 	public double numHours;
     public double[] traffic;
@@ -35,17 +34,27 @@ public class loadparam {
     public int numDispatch;
     public int[] DispatchTasks;
 
+    //SCHEN 12/4/17 Fleet Autonomy level param
+	// None-> default,
+	// Some ->70%
+	// Full-> 30%
+	public int autolvl;
+
 
 	// SCHEN 11/10/17 Fleet heterogeneity
 	public int fleetTypes;
 	public int[][] fleetHetero;
+
 
     // Operator settings
 
     public int numOps;
 	public String[] opNames;
 	public int[][] opTasks;
-		
+
+	//SCHEN 12/10/17 Team Corrdination
+	public int teamComm;
+
 	// Task Settings
 		
 	public int numTaskTypes;
@@ -61,7 +70,8 @@ public class loadparam {
 	public int[][] affByTraff;
 	public int[][] opNums;
 	public int[][] trigger;
-
+	//SCHEN 12/10/17 Added: whether the task is affected by team coordination
+	public int[] teamCoordAff;
 	// Adding isLinked
 	
 	public int[] linked;
@@ -108,6 +118,9 @@ public class loadparam {
 		DispatchTasks = readIntArr(in);
 		numTaskTypes = readInt(in);
 
+		//SCHEN 12/4/15 Fleet Autonomous level
+		autolvl = readInt(in);
+
 
 		//SCHEN 11/10/2017
 		//Load Fleet Heterogeneity info
@@ -135,6 +148,7 @@ public class loadparam {
 		ops = new int[numOps];
 		linked = new int[numTaskTypes];
 		trigger = new int[numTaskTypes][];
+		teamCoordAff = new int[numTaskTypes];
 
 		// Read in train operators by train ID.
 //		for ()
@@ -163,6 +177,7 @@ public class loadparam {
 			affByTraff[i] = readIntArr(in);
 			linked[i] = readInt(in);
 			trigger[i] = readIntArr(in);
+			teamCoordAff[i] = readInt(in);
 
 		}
 		

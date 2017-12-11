@@ -99,7 +99,16 @@ public class Task implements Comparable<Task> {
 		} else {
 			arrTime = PrevTime;
 		}
-		serTime = genSerTime();
+		//SCHEN 12/10/17 Fleet Autonomy, Team Coord and Exogenous factor added
+		arrTime *= getFleetAutonomy();
+		int teamCoordParam = parameters.teamCoordAff[Type];
+		if(teamCoordParam == 1)
+			serTime = genSerTime() * 0.7;
+		else if(teamCoordParam == 2)
+			serTime = genSerTime() * 0.3;
+		else
+			serTime = genSerTime();
+
 		expTime = genExpTime();
 		beginTime = arrTime;
 		opNums = parameters.opNums[Type];
@@ -343,6 +352,36 @@ public class Task implements Comparable<Task> {
 		return arrTime + 2*serTime + expiration;
 
 	}
+
+	/****************************************************************************
+	 *
+	 *	Method:			getFleetAutonomy
+	 *
+	 *	Purpose:		Fetch fleet autonomy level
+	 *					0: default
+	 *					1: Some 70% of arrival rate
+	 *					2: Full 30% of arrival rate
+	 *
+	 ****************************************************************************/
+
+	private double getFleetAutonomy(){
+		//SCHEN 12/10/17: Add Fleet autonomy -> adjust arrival rate
+		double autoLevel = 1;
+
+		if(parameters.autolvl == 1) autoLevel = 0.7;
+		if(parameters.autolvl == 2) autoLevel = 0.3;
+
+		return  autoLevel;
+	}
+
+//	private  double getTeamComm(){
+//		double teamComm = 1;
+//		if(parameters.teamCoordAff == 1) teamComm = 0.7;
+//		if(parameters.autolvl == 2) teamComm = 0.3;
+//
+//		return  teamComm;
+//	}
+
 }
 
 
