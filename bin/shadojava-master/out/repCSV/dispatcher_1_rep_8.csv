@@ -1,12 +1,66 @@
-0.34485304439183556,0.5789216762383285,0.5761470660186165,0.21712970001650955,0.17947820844606888,0.08461542476400652,0.27386695305824205,0.3121393894303299,0.23124631181703137,0.5657052987593119,0.34393629024697425,0.250874753966146,
+0.5391345118672668,0.44017680177021545,0.46930402796385007,0.050784133918242436,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.46592326363845515,
 0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,
-0.05981132304756642,0.0,0.02499474766450538,0.07382212204926475,0.0,0.07123783737004263,0.1334916782091895,0.0,0.0,0.04186971638523218,0.38606161254437055,0.41869618707430867,
+0.0,0.09576374221105244,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.08322943595362098,
 0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,
-0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.04437835919516253,0.0,0.02491807886098485,0.0,0.0,
-0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,
-0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,
+0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.040309015153724204,
 0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,
 0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,
+0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,
+0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,
+TaskGen for Train ID: 0
+    - Number of Task: 156
+	new opid: 0
+	new opid: 1
+	new opid: 2
+	new opid: 3
+TaskGen for Train ID: 1
+    - Number of Task: 153
+	new opid: 0
+	new opid: 1
+	new opid: 2
+	new opid: 3
+TaskGen for Train ID: 10
+    - Number of Task: 153
+	new opid: 0
+	new opid: 2
+TaskGen for Train ID: 11
+    - Number of Task: 155
+	new opid: 0
+	new opid: 2
+TaskGen for Train ID: 20
+    - Number of Task: 155
+	new opid: 0
+	new opid: 1
+	new opid: 3
+TaskGen for Train ID: 21
+    - Number of Task: 129
+	new opid: 0
+	new opid: 1
+	new opid: 3
+TaskGen for Train ID: 30
+    - Number of Task: 166
+	new opid: 0
+	new opid: 3
+TaskGen for Train ID: 31
+    - Number of Task: 166
+	new opid: 0
+	new opid: 3
+fillRepDataCell for TrainID: 0
+fillRepDataCell for TrainID: 0
+fillRepDataCell for TrainID: 1
+fillRepDataCell for TrainID: 1
+fillRepDataCell for TrainID: 0
+fillRepDataCell for TrainID: 0
+fillRepDataCell for TrainID: 1
+fillRepDataCell for TrainID: 1
+fillRepDataCell for TrainID: 0
+fillRepDataCell for TrainID: 0
+fillRepDataCell for TrainID: 1
+fillRepDataCell for TrainID: 1
+fillRepDataCell for TrainID: 0
+fillRepDataCell for TrainID: 0
+fillRepDataCell for TrainID: 1
+fillRepDataCell for TrainID: 1
 FOR Replication 
 8
 mkdir

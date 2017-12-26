@@ -38,13 +38,18 @@ public class loadparam {
 	// None-> default,
 	// Some ->70%
 	// Full-> 30%
-	public int autolvl;
 
+	public int autolvl;
+	public int teamComm;
+	public int [] hasExogenous;
 
 	// SCHEN 11/10/17 Fleet heterogeneity
 	public int fleetTypes;
 	public int[][] fleetHetero;
 
+	//	//SCHEN 12/10/17 Team Corrdination
+	public String[] exNames;
+	public String[] exTypes;
 
     // Operator settings
 
@@ -52,8 +57,6 @@ public class loadparam {
 	public String[] opNames;
 	public int[][] opTasks;
 
-	//SCHEN 12/10/17 Team Corrdination
-	public int teamComm;
 
 	// Task Settings
 		
@@ -120,7 +123,18 @@ public class loadparam {
 
 		//SCHEN 12/4/15 Fleet Autonomous level
 		autolvl = readInt(in);
-
+		teamComm = readInt(in);
+		hasExogenous = readIntArr(in);
+		//Has exo-factors
+		if(hasExogenous[0] == 1){
+			int numExos = hasExogenous[1];
+			exNames = new String[numExos];
+			exTypes = new String[numExos];
+			for(int i = 0; i < numExos; i++){
+				exNames[i] = readString(in);
+				exTypes[i] = readString(in);
+			}
+		}
 
 		//SCHEN 11/10/2017
 		//Load Fleet Heterogeneity info

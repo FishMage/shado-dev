@@ -15,8 +15,9 @@ import java.util.ArrayList;
  * 	FILE: 			ProcRep.java
  *
  * 	AUTHOR: 		ROCKY LI
+ * 	                Richard Chen
  *
- * 	DATE:			2017/9/10
+ * 	DATE:			2017/9/10, 201712/2
  *
  * 	VER: 			1.0
  *
@@ -179,18 +180,19 @@ public class ProcRep {
     public void fillRepData(){
         //SCHEN 11/29/17
         //TODO: output operator's data
-        Operator[][] dispatchers = rep.getDispatch().getDispatch();
+        Operator[] dispatchers = rep.getDispatch().getDispatch();
 
         for (int i = 0; i < numdispatch; i++){
-            fillRepDataCell(dispatchers[i][0], repdisdata[i], 0);
+            fillRepDataCell(dispatchers[i], repdisdata[i], 0);
         }
         for(int i = 0; i < rep.parameters.fleetTypes;i++) {
 //            for(int j = 0 ; j < trains[i].length; j++){
                 for (TrainSim train : trains[i]) {
 //                    System.out.println("Op calculation for train: " + i);
-                    Operator[][] operators = train.operators;
-                    for (int j = 0; i < numoperator; i++) {
-                        fillRepDataCell(operators[i][j], repopsdata[j], j);
+                    Operator[] operators = train.operators;
+                    for (int j = 0; j < 2; j++) {
+                        System.out.println("fillRepDataCell for TrainID: " + train.getTrainID()%10);
+                        fillRepDataCell(operators[j], repopsdata[j], train.getTrainID()%10);
                     }
                 }
 //            }

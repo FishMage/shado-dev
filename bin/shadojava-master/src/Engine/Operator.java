@@ -46,7 +46,7 @@ public class Operator {
 	 ****************************************************************************/
 
 	public Operator (int opid, loadparam param){
-
+		System.out.println("	new opid: " + opid);
 		parameters = param;
 		opId = opid;
 		taskType = parameters.opTasks[opid];

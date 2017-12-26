@@ -43,16 +43,21 @@ public class Main {
 		System.out.println("FleetHetero: "+ Arrays.deepToString(data.fleetHetero));
 		System.out.println("Fleet Types: "+ data.fleetTypes);
 		System.out.println("numTrains: "+ Arrays.toString(data.numTrains));
+		System.out.println("autoLevel: "+ data.autolvl);
+		System.out.println("team Communication: "+ data.teamComm);
+		System.out.println("hasExo: "+ Arrays.toString(data.hasExogenous));
+		System.out.println("exNames: "+ Arrays.toString(data.exNames));
+		System.out.println("exTypes: "+ Arrays.toString(data.exTypes));
 
 		// Runs simulation
 
 		Simulation sim = new Simulation(data);
 		sim.run();
-
-		// Generate Output
-
-		DataWrapper analyze = new DataWrapper(sim, data);
-		analyze.output();
+//
+//		// Generate Output
+//
+//		DataWrapper analyze = new DataWrapper(sim, data);
+//		analyze.output();
 
 	}
 

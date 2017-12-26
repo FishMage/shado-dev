@@ -36,6 +36,9 @@ public class Task implements Comparable<Task> {
 	private int trainID;
 	private boolean expired;
 
+	private double lvl_SOME = 0.7;
+	private double lvl_FULL = 0.3;
+	private double lvl_None = 1.0;
 	// This adds functionalities of the Dispatcher
 
 	private boolean isLinked;
@@ -100,14 +103,14 @@ public class Task implements Comparable<Task> {
 			arrTime = PrevTime;
 		}
 		//SCHEN 12/10/17 Fleet Autonomy, Team Coord and Exogenous factor added
-		arrTime *= getFleetAutonomy();
+//		arrTime *= getFleetAutonomy();
 		int teamCoordParam = parameters.teamCoordAff[Type];
+		serTime = genSerTime();
 		if(teamCoordParam == 1)
-			serTime = genSerTime() * 0.7;
+			changeServTime(lvl_SOME);
 		else if(teamCoordParam == 2)
-			serTime = genSerTime() * 0.3;
-		else
-			serTime = genSerTime();
+			changeServTime(lvl_FULL);
+		applyExogenousFactor();
 
 		expTime = genExpTime();
 		beginTime = arrTime;
@@ -204,7 +207,10 @@ public class Task implements Comparable<Task> {
 		if (lambda == 0){
 			return Double.POSITIVE_INFINITY;
 		}
-		return Math.log(1-Math.random())/(-lambda);
+		double result = Math.log(1-Math.random())/(-lambda);
+//		System.out.println("Exponential: return " + result);
+		return result;
+
 
 	}
 
@@ -271,8 +277,9 @@ public class Task implements Comparable<Task> {
 	 ****************************************************************************/
 
 	private double genArrTime(double PrevTime){
-
-		double TimeTaken = Exponential(parameters.arrPms[Type][Phase]);
+		//SCHEN 12/16/17 Add fleet autonomy function by decreasing the arrival rate
+		double arrivalRate = changeArrivalRate(getFleetAutonomy());
+		double TimeTaken = Exponential(arrivalRate);
 
 		if (TimeTaken == Double.POSITIVE_INFINITY){
 			return Double.POSITIVE_INFINITY;
@@ -324,6 +331,7 @@ public class Task implements Comparable<Task> {
 		char type = parameters.serDists[Type];
 		double start = parameters.serPms[Type][0];
 		double end = parameters.serPms[Type][1];
+//		System.out.println("genSerTime: Sertime " +start+ " " +end);
 		return GenTime(type, start, end);
 
 	}
@@ -368,8 +376,8 @@ public class Task implements Comparable<Task> {
 		//SCHEN 12/10/17: Add Fleet autonomy -> adjust arrival rate
 		double autoLevel = 1;
 
-		if(parameters.autolvl == 1) autoLevel = 0.7;
-		if(parameters.autolvl == 2) autoLevel = 0.3;
+		if(parameters.autolvl == 1) autoLevel = lvl_SOME;
+		if(parameters.autolvl == 2) autoLevel = lvl_FULL;
 
 		return  autoLevel;
 	}
@@ -381,7 +389,38 @@ public class Task implements Comparable<Task> {
 //
 //		return  teamComm;
 //	}
+	/****************************************************************************
+	 *
+	 *	Method:			changeServTime, changeArrivalRate
+	 *
+	 *	Purpose:		change Service time and arrival rate by multiply by a number
+	 *
+	 ****************************************************************************/
+	private double changeServTime(double num){
+		return serTime * num;
+	}
 
+	private double changeArrivalRate(double num){
+		return parameters.arrPms[Type][Phase] * num;
+	}
+
+	private void applyExogenousFactor(){
+
+		if(parameters.hasExogenous.length > 1){
+			int numExo = parameters.hasExogenous[1];
+			for(int i = 0; i < numExo; i++){
+				if(parameters.exTypes[i].equals("long_serv")){
+					changeServTime(1.1);
+				}
+				if (parameters.exTypes[i].equals("add_task")) {
+					//TODO: additional Task function
+				}
+				if(parameters.exTypes[i].equals("inc_arrival")){
+					changeArrivalRate(1.1);
+				}
+			}
+		}
+	}	//END applyExogenousFactor()
 }
 
 
