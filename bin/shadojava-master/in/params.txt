@@ -3,7 +3,7 @@ num_hours	    2
 traff_levels   	m h h h l l l m
 num_reps		10
 fleet_types     4
-num_train		3 2 3 3
+num_train		3 3 3 3
 num_ops			4
 num_dispatch	2
 dispatch_task	0 2 4
