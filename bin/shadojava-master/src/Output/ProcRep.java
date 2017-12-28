@@ -191,7 +191,7 @@ public class ProcRep {
 //                    System.out.println("Op calculation for train: " + i);
                     Operator[] operators = train.operators;
                     for (int j = 0; j < 2; j++) {
-                        System.out.println("fillRepDataCell for TrainID: " + train.getTrainID()%10);
+//                        System.out.println("fillRepDataCell for TrainID: " + train.getTrainID()%10);
                         fillRepDataCell(operators[j], repopsdata[j], train.getTrainID()%10);
                     }
                 }

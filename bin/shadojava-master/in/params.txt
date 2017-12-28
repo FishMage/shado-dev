@@ -9,8 +9,8 @@ num_dispatch	2
 dispatch_task	0 2 4
 num_task_types	9
 autonomy_lvl    0
-team_comm       2
-hasExogenous    1 2
+team_comm       0
+hasExogenous    0 2
 
 ex_name         Weather
 type            long_serv
@@ -161,18 +161,6 @@ islinked		0
 trigger			-1
 team_coord_aff  0
 
-name 	        internal task
-prty         	0 5 0
-arr_dist     	E
-arr_pms      	0.0666667 0.2 0.4
-ser_dist     	E
-ser_pms      	3.0303 0
-exp_dist     	E
-exp_pms_lo   	0 0.166 0
-exp_pms_hi   	0 0.1795 0
-aff_by_traff  	0 1 0
-islinked		0
-trigger			-1
-team_coord_aff  0
+
 
 

@@ -406,7 +406,7 @@ public class Task implements Comparable<Task> {
 
 	private void applyExogenousFactor(){
 
-		if(parameters.hasExogenous.length > 1){
+		if(parameters.hasExogenous[0] == 1){
 			int numExo = parameters.hasExogenous[1];
 			for(int i = 0; i < numExo; i++){
 				if(parameters.exTypes[i].equals("long_serv")){

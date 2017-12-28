@@ -125,16 +125,16 @@ public class loadparam {
 		autolvl = readInt(in);
 		teamComm = readInt(in);
 		hasExogenous = readIntArr(in);
+
 		//Has exo-factors
-		if(hasExogenous[0] == 1){
-			int numExos = hasExogenous[1];
-			exNames = new String[numExos];
-			exTypes = new String[numExos];
-			for(int i = 0; i < numExos; i++){
-				exNames[i] = readString(in);
-				exTypes[i] = readString(in);
-			}
-		}
+		int numExos = hasExogenous[1];
+        exNames = new String[numExos];
+        exTypes = new String[numExos];
+        for(int i = 0; i < numExos; i++){
+            exNames[i] = readString(in);
+            exTypes[i] = readString(in);
+        }
+
 
 		//SCHEN 11/10/2017
 		//Load Fleet Heterogeneity info
