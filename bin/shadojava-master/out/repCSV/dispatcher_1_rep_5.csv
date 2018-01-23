@@ -1,67 +1,67 @@
-0.670334607482958,0.6832287532763399,0.6258981279663147,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.6892198022732714,0.5851412557855653,
+0.5479925470903387,0.726851608782604,0.7209525023734047,0.2935208342001352,0.2229047419764152,0.19089707216769636,0.4435728581306808,0.38932394470846177,0.19841365820163226,0.5975811680890342,0.18068284916035537,0.35579650408782726,
 0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,
-0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.12292199679046867,0.29155769546572685,
+0.0,0.10621037027254476,0.047216705400977776,0.26303297003077253,0.0,0.010729238497451554,0.0,0.09074015145153425,0.210336556224215,0.03790447857142354,0.35180811494976183,0.43708290878938705,
 0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,
-0.0,0.019190521262250293,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.001118656681287078,
+0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0112081589062214,0.0,0.024912994269259414,0.0,
 0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,
 0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,
 0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,
 0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,
 TaskGen for Train ID: 0
-    - Number of Task: 125
+    - Number of Task: 166
 	new opid: 0
 	new opid: 1
 	new opid: 2
 	new opid: 3
 TaskGen for Train ID: 1
-    - Number of Task: 154
+    - Number of Task: 135
 	new opid: 0
 	new opid: 1
 	new opid: 2
 	new opid: 3
 TaskGen for Train ID: 2
-    - Number of Task: 173
+    - Number of Task: 180
 	new opid: 0
 	new opid: 1
 	new opid: 2
 	new opid: 3
 TaskGen for Train ID: 10
-    - Number of Task: 161
+    - Number of Task: 187
 	new opid: 0
 	new opid: 2
 TaskGen for Train ID: 11
-    - Number of Task: 175
+    - Number of Task: 158
 	new opid: 0
 	new opid: 2
 TaskGen for Train ID: 12
-    - Number of Task: 161
+    - Number of Task: 159
 	new opid: 0
 	new opid: 2
 TaskGen for Train ID: 20
-    - Number of Task: 145
+    - Number of Task: 165
 	new opid: 0
 	new opid: 1
 	new opid: 3
 TaskGen for Train ID: 21
-    - Number of Task: 159
+    - Number of Task: 157
 	new opid: 0
 	new opid: 1
 	new opid: 3
 TaskGen for Train ID: 22
-    - Number of Task: 166
+    - Number of Task: 146
 	new opid: 0
 	new opid: 1
 	new opid: 3
 TaskGen for Train ID: 30
-    - Number of Task: 165
+    - Number of Task: 172
 	new opid: 0
 	new opid: 3
 TaskGen for Train ID: 31
-    - Number of Task: 152
+    - Number of Task: 174
 	new opid: 0
 	new opid: 3
 TaskGen for Train ID: 32
-    - Number of Task: 150
+    - Number of Task: 170
 	new opid: 0
 	new opid: 3
 FOR Replication 

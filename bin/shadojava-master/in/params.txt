@@ -9,7 +9,6 @@ num_dispatch	2
 dispatch_task	0 2 4
 num_task_types	9
 autonomy_lvl    0
-team_comm       0
 hasExogenous    0 2
 
 ex_name         Weather
@@ -25,15 +24,23 @@ fleet_type_3    0 3
 
 op_name			Engineer
 tasks			0 1 2 3 4 5 6 7 8
+team_size       0
+team_comms      0
 
 op_name			Conductor
 tasks			5 6 8
+team_size       0
+team_comms      0
 
 op_name			Positive Train Control
 tasks		    1 5 6
+team_size       0
+team_comms      0
 
 op_name			Cruise Control
 tasks			8
+team_size       0
+team_comms      0
 
 name       		Communicating
 prty         	4 3 4

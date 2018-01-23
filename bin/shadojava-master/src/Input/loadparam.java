@@ -40,7 +40,6 @@ public class loadparam {
 	// Full-> 30%
 
 	public int autolvl;
-	public int teamComm;
 	public int [] hasExogenous;
 
 	// SCHEN 11/10/17 Fleet heterogeneity
@@ -57,6 +56,8 @@ public class loadparam {
 	public String[] opNames;
 	public int[][] opTasks;
 
+    public int[] teamComm;
+    public int[] teamSize;
 
 	// Task Settings
 		
@@ -123,7 +124,7 @@ public class loadparam {
 
 		//SCHEN 12/4/15 Fleet Autonomous level
 		autolvl = readInt(in);
-		teamComm = readInt(in);
+//		teamComm = readInt(in);
 		hasExogenous = readIntArr(in);
 
 		//Has exo-factors
@@ -144,10 +145,26 @@ public class loadparam {
 			fleetHetero[i] = readIntArr(in);
 		}
 
-		//Initiate array sizes
-		
+
+        //SCHEN 1/20/2018 Individualize team_comm to each operator type
 		opNames = new String[numOps];
 		opTasks = new int[numOps][];
+		teamComm = new int[numOps];
+        teamSize = new int[numOps];
+        ops = new int[numOps];
+		for (int i = 0; i < numOps; i++){
+			opNames[i] = readString(in);
+			opTasks[i] = readIntArr(in);
+
+            //Team settings
+            teamSize[i] = readInt(in);
+			teamComm[i] = readInt(in);
+			ops[i] = i;
+		}
+
+		//Initiate array sizes
+		
+
 		taskNames = new String[numTaskTypes];
 		taskPrty = new int[numTaskTypes][];
 		arrDists = new char[numTaskTypes];
@@ -159,7 +176,6 @@ public class loadparam {
 	    expPmsHi = new double[numTaskTypes][];
 		affByTraff = new int[numTaskTypes][];
 		opNums = new int[numTaskTypes][];
-		ops = new int[numOps];
 		linked = new int[numTaskTypes];
 		trigger = new int[numTaskTypes][];
 		teamCoordAff = new int[numTaskTypes];
@@ -168,13 +184,7 @@ public class loadparam {
 //		for ()
 
 		//Read in agent type and tasks they can do
-		
-		for (int i = 0; i < numOps; i++){
-			opNames[i] = readString(in);
-			opTasks[i] = readIntArr(in);
-			ops[i] = i;
-		}
-		
+
 		//Read in the task parameters
 		
 		for (int i = 0; i< numTaskTypes; i++){

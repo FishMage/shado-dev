@@ -44,7 +44,7 @@ public class Main {
 		System.out.println("Fleet Types: "+ data.fleetTypes);
 		System.out.println("numTrains: "+ Arrays.toString(data.numTrains));
 		System.out.println("autoLevel: "+ data.autolvl);
-		System.out.println("team Communication: "+ data.teamComm);
+		System.out.println("team Communication: "+ Arrays.toString(data.teamComm));
 		System.out.println("hasExo: "+ Arrays.toString(data.hasExogenous));
 		System.out.println("exNames: "+ Arrays.toString(data.exNames));
 		System.out.println("exTypes: "+ Arrays.toString(data.exTypes));

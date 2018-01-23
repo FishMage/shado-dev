@@ -280,7 +280,7 @@ public class ProcRep {
        try{
            testProcRep(currRep);
        }catch(Exception e){
-           System.out.println("JAVA IO");
+           System.out.println("JAVA IO EXCEPTION");
        };
 
 
