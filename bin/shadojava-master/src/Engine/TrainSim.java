@@ -30,6 +30,10 @@ public class TrainSim {
 
     public int trainID;
 
+    // NEW feature: AI Assistant
+    // SCHEN 1/20/18 whether AI is present in this fleetType
+    public boolean hasAI;
+
     // This is an arraylist of ALL tasks in the order that they're arriving.
 
     public ArrayList<Task> tasktime;
@@ -91,6 +95,7 @@ public class TrainSim {
         System.out.println("TaskGen for Train ID: "+ trainID);
         tasktime = new ArrayList<Task>();
 
+        // TODO add AI assitant to shorter the service time.
         // For each type of tasks:
 
         for (int i = 0; i < parameters.numTaskTypes; i++) {
@@ -102,7 +107,9 @@ public class TrainSim {
             // Start a new task with PrevTime = 0
 
             Task origin;
+            // TODO add Internal communication task
 
+            // NORMAL task
             if (parameters.arrPms[i][0] == 0){
                 origin = new Task (i, 30 + Math.random(), parameters, false);
             } else {
@@ -164,7 +171,7 @@ public class TrainSim {
 
         // Create Operators
         //SCHEN 11/20/17:
-        //TODO: Create Different Operatorset for different types of trains
+        //TODO[COMPLETE]: Create Different Operatorset for different types of trains
 //        operators = new Operator[parameters.ops.length];
         int fleetType = trainID/10;
         operators = new Operator[parameters.fleetHetero[fleetType].length];
@@ -210,19 +217,16 @@ public class TrainSim {
         }
 
         // Sort queue by tasks queued.
-
         Collections.sort(proc);
 
         // Before inserting new tasks, make sure all the tasks that can be finished
         // before the arrival of the new tasks is finished.
+        // NEW FEATURE: AI Assistant
 
         while (proc.get(0).getfinTime() < task.getArrTime()) {
             proc.get(0).done();
         }
-
         // add task to queue.
-
-
         // **** I'm setting the operator so that we can access the data arrays of each operator ****
         proc.get(0).operator = working.get(0);
         proc.get(0).add(task);
@@ -238,10 +242,19 @@ public class TrainSim {
      ****************************************************************************/
 
     public void genbasis() {
-
         // Generate stuff
+        checkAI();
         taskgen();
         operatorgen();
+    }
+    /****************************************************************************
+     *
+     *	Method:			checkAI
+     *
+     *	Purpose:	    check Whether AI is present in this FleetType
+     *
+     ****************************************************************************/
+    public void checkAI(){
 
     }
 
@@ -256,12 +269,14 @@ public class TrainSim {
 
     public void run() {
 
-//        addTriggered();
+        //  addTriggered();
 
-        sortTask();
+        // SCHEN 1/20/18 Operator Strategies
+        //if STF( "Shortest task first") Sort, else: FIFO
+        if(parameters.opStrats.equals("STF"))
+            sortTask();
 
         // Put tasks into queue at appropriate order.
-
         for (Task task : tasktime) {
             puttask(task);
         }
@@ -276,7 +291,6 @@ public class TrainSim {
                         each.getQueue().done();
                     }
                 }
-//            }
         }
     }
 

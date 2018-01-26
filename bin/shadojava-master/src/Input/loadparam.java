@@ -41,6 +41,7 @@ public class loadparam {
 
 	public int autolvl;
 	public int [] hasExogenous;
+	public String opStrats;
 
 	// SCHEN 11/10/17 Fleet heterogeneity
 	public int fleetTypes;
@@ -77,7 +78,7 @@ public class loadparam {
 	//SCHEN 12/10/17 Added: whether the task is affected by team coordination
 	public int[] teamCoordAff;
 	// Adding isLinked
-	
+    public int numPhases;
 	public int[] linked;
 	
 	// Toggle Global Variables
@@ -121,11 +122,12 @@ public class loadparam {
 		numDispatch = readInt(in);
 		DispatchTasks = readIntArr(in);
 		numTaskTypes = readInt(in);
-
+        numPhases = readInt(in);
 		//SCHEN 12/4/15 Fleet Autonomous level
 		autolvl = readInt(in);
 //		teamComm = readInt(in);
 		hasExogenous = readIntArr(in);
+        opStrats = readString(in);
 
 		//Has exo-factors
 		int numExos = hasExogenous[1];
@@ -158,7 +160,7 @@ public class loadparam {
 
             //Team settings
             teamSize[i] = readInt(in);
-			teamComm[i] = readInt(in);
+			teamComm[i] = readChar(in);
 			ops[i] = i;
 		}
 
