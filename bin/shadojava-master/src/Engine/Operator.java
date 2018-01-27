@@ -37,6 +37,8 @@ public class Operator {
 		return this.myQueue;
 	}
 
+	public String getName(){return this.name;}
+
 	/****************************************************************************
 	 *
 	 *	Main Object:	Operator

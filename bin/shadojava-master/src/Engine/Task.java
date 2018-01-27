@@ -85,7 +85,7 @@ public class Task implements Comparable<Task> {
 	 *
 	 ****************************************************************************/
 
-	public Task(int type, double PrevTime, loadparam Param, boolean fromPrev) {
+	public Task(int type, double PrevTime, loadparam Param, boolean fromPrev ) {
 
 		Type = type;
 		parameters = Param;
@@ -121,6 +121,56 @@ public class Task implements Comparable<Task> {
 		expired = false;
 
 	}
+
+	/****************************************************************************
+	 *
+	 *	Main Object:	Task overload with AI
+	 *
+	 *	Purpose:		Generate a new task on completion of old task. And return
+	 *					it's parameters.
+	 *
+	 ****************************************************************************/
+
+	public Task(int type, double PrevTime, loadparam Param, boolean fromPrev, boolean hasAI ) {
+
+		Type = type;
+		parameters = Param;
+		prevTime = PrevTime;
+		if (parameters.arrPms[type][0] != 0) {
+			Phase = getPhase(PrevTime, parameters.numHours);
+		} else {
+			Phase = getPhase(31, parameters.numHours);
+		}
+
+		Priority = Param.taskPrty[Type][Phase];
+		if (fromPrev == true) {
+			arrTime = genArrTime(PrevTime);
+		} else {
+			arrTime = PrevTime;
+		}
+		//SCHEN 12/10/17 Fleet Autonomy, Team Coord and Exogenous factor added
+//		arrTime *= getFleetAutonomy();
+		int teamCoordParam = parameters.teamCoordAff[Type];
+		serTime = genSerTime();
+		if(teamCoordParam == 1)
+			changeServTime(lvl_SOME);
+		else if(teamCoordParam == 2)
+			changeServTime(lvl_FULL);
+		applyExogenousFactor();
+		applyAI();
+
+		// Use Service time to calculate ExpTime
+		expTime = genExpTime();
+		beginTime = arrTime;
+		opNums = parameters.opNums[Type];
+		name = parameters.taskNames[Type];
+		isLinked = parameters.linked[Type] == 1;
+		elapsedTime = 0;
+		expired = false;
+
+	}
+
+
 
 	/****************************************************************************
 	 *
@@ -421,6 +471,10 @@ public class Task implements Comparable<Task> {
 			}
 		}
 	}	//END applyExogenousFactor()
+
+	private void applyAI(){
+		changeServTime(0.7);
+	}
 }
 
 

@@ -109,11 +109,17 @@ public class TrainSim {
             Task origin;
             // TODO add Internal communication task
 
-            // NORMAL task
+            // if hasAI, use overloaded constructor
             if (parameters.arrPms[i][0] == 0){
-                origin = new Task (i, 30 + Math.random(), parameters, false);
+                if(checkAI())
+                    origin = new Task (i, 30 + Math.random(), parameters, false,true);
+                else
+                    origin = new Task (i, 30 + Math.random(), parameters, false);
             } else {
-                origin = new Task(i, 0, parameters, true);
+                if(checkAI())
+                    origin = new Task(i, 0, parameters, true,true);
+                else
+                    origin = new Task(i, 0, parameters, true);
             }
 
             if (origin.linked()) {
@@ -180,6 +186,7 @@ public class TrainSim {
             for(int j = 0; j < parameters.fleetHetero[fleetType].length; j++) {
 //                System.out.print(parameters.fleetHetero[i][j]+ ", ");
                 operators[j] = new Operator(parameters.fleetHetero[fleetType][j], parameters);
+                if(operators[j].getName().equals("Artificially Intelligent Agent")) hasAI = true;
             }
 //            System.out.println();
 //        }
@@ -254,8 +261,8 @@ public class TrainSim {
      *	Purpose:	    check Whether AI is present in this FleetType
      *
      ****************************************************************************/
-    public void checkAI(){
-
+    public boolean checkAI(){
+        return this.hasAI;
     }
 
 
