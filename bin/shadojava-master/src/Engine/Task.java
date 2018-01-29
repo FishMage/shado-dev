@@ -22,6 +22,7 @@ public class Task implements Comparable<Task> {
 
 	private int Type;
 	private int Phase;
+	private int shiftPeriod;
 	private int Priority;
 	private double prevTime;
 	private double arrTime;
@@ -33,7 +34,7 @@ public class Task implements Comparable<Task> {
 	private int[] opNums;
 	private loadparam parameters;
 	private String name;
-	private int trainID;
+	private int vehicleID;
 	private boolean expired;
 
 	private double lvl_SOME = 0.7;
@@ -61,7 +62,7 @@ public class Task implements Comparable<Task> {
 	}
 
 	public void setID(int id){
-		trainID = id;
+		vehicleID = id;
 	}
 
 	public void setQueue(int q){
@@ -92,8 +93,10 @@ public class Task implements Comparable<Task> {
 		prevTime = PrevTime;
 		if (parameters.arrPms[type][0] != 0) {
 			Phase = getPhase(PrevTime, parameters.numHours);
+			shiftPeriod = getShiftTime(PrevTime,parameters.numHours);
 		} else {
 			Phase = getPhase(31, parameters.numHours);
+            shiftPeriod = getShiftTime(PrevTime,parameters.numHours);
 		}
 
 		Priority = Param.taskPrty[Type][Phase];
@@ -111,7 +114,7 @@ public class Task implements Comparable<Task> {
 		else if(teamCoordParam == 2)
 			changeServTime(lvl_FULL);
 		applyExogenousFactor();
-
+        changeServTime(1.01*(shiftPeriod+1));
 		expTime = genExpTime();
 		beginTime = arrTime;
 		opNums = parameters.opNums[Type];
@@ -131,16 +134,18 @@ public class Task implements Comparable<Task> {
 	 *
 	 ****************************************************************************/
 
-	public Task(int type, double PrevTime, loadparam Param, boolean fromPrev, boolean hasAI ) {
+	public Task(int type, double PrevTime, loadparam Param, boolean fromPrev, boolean hasAI, char lvlComm ) {
 
 		Type = type;
 		parameters = Param;
 		prevTime = PrevTime;
-		if (parameters.arrPms[type][0] != 0) {
-			Phase = getPhase(PrevTime, parameters.numHours);
-		} else {
-			Phase = getPhase(31, parameters.numHours);
-		}
+        if (parameters.arrPms[type][0] != 0) {
+            Phase = getPhase(PrevTime, parameters.numHours);
+            shiftPeriod = getShiftTime(PrevTime,parameters.numHours);
+        } else {
+            Phase = getPhase(31, parameters.numHours);
+            shiftPeriod = getShiftTime(PrevTime,parameters.numHours);
+        }
 
 		Priority = Param.taskPrty[Type][Phase];
 		if (fromPrev == true) {
@@ -158,7 +163,9 @@ public class Task implements Comparable<Task> {
 			changeServTime(lvl_FULL);
 		applyExogenousFactor();
 		applyAI();
-
+        applyTeamCoord(lvlComm);
+        //NEW FEATURE: SHIFT SCHEDULE 1% fatiqueIncrease serTime
+        changeServTime(1.01*(shiftPeriod+1));
 		// Use Service time to calculate ExpTime
 		expTime = genExpTime();
 		beginTime = arrTime;
@@ -195,7 +202,7 @@ public class Task implements Comparable<Task> {
 
 	// The following are inspector functions.
 
-	public int getTrain() {return this.trainID;}
+	public int getvehicle() {return this.vehicleID;}
 
 	public String getName() {return this.name;}
 
@@ -242,6 +249,22 @@ public class Task implements Comparable<Task> {
 		} else return 2;
 
 	}
+
+    /****************************************************************************
+     *
+     *	Method:			GetPhase
+     *
+     *	Purpose:		Return the Phase
+     *
+     ****************************************************************************/
+
+
+    public int getShiftTime(double time, double hours){
+//        System.out.println("at shift period: "+(int)time/60);
+        return (int)time/60;
+
+    }
+
 
 	/****************************************************************************
 	 *
@@ -330,7 +353,6 @@ public class Task implements Comparable<Task> {
 		//SCHEN 12/16/17 Add fleet autonomy function by decreasing the arrival rate
 		double arrivalRate = changeArrivalRate(getFleetAutonomy());
 		double TimeTaken = Exponential(arrivalRate);
-
 		if (TimeTaken == Double.POSITIVE_INFINITY){
 			return Double.POSITIVE_INFINITY;
 		}
@@ -471,6 +493,11 @@ public class Task implements Comparable<Task> {
 			}
 		}
 	}	//END applyExogenousFactor()
+
+	private void applyTeamCoord(char lvlTeamCoord){
+		if(lvlTeamCoord =='S') changeArrivalRate(0.7);
+        if(lvlTeamCoord =='F') changeArrivalRate(0.3);
+	}
 
 	private void applyAI(){
 		changeServTime(0.7);

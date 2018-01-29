@@ -5,7 +5,7 @@ import Input.loadparam;
 
 /***************************************************************************
  * 
- * 	FILE: 			TrainSim.java
+ * 	FILE: 			VehicleSim.java
  * 
  * 	AUTHOR: 		ROCKY LI
  * 	
@@ -13,12 +13,12 @@ import Input.loadparam;
  * 
  * 	VER: 			1.0
  * 
- * 	Purpose: 		Create and manage the simulation of a single train.
+ * 	Purpose: 		Create and manage the simulation of a single vehicle.
  * 
  **************************************************************************/
 
 
-public class TrainSim {
+public class VehicleSim {
 
     // The parameters loaded from file
 
@@ -28,7 +28,7 @@ public class TrainSim {
 
     public Operator[] dispatchers;
 
-    public int trainID;
+    public int vehicleID;
 
     // NEW feature: AI Assistant
     // SCHEN 1/20/18 whether AI is present in this fleetType
@@ -40,8 +40,8 @@ public class TrainSim {
 
     // Inspectors
 
-    public int getTrainID() {
-        return trainID;
+    public int getvehicleID() {
+        return vehicleID;
     }
 
     public double getTotalTime() {
@@ -54,17 +54,17 @@ public class TrainSim {
         tasktime.add(task);
     }
 
-    //SCHEN 12/16/17 Modify fleet heterogeniety, fix bug: all train has all operator settings
-    public int trainType;
+    //SCHEN 12/16/17 Modify fleet heterogeniety, fix bug: all vehicle has all operator settings
+    public int vehicleType;
     /****************************************************************************
      *
-     *	Side Object:	TrainSim
+     *	Side Object:	VehicleSim
      *
      *	Purpose:		Create a simulation for Dispatcher using the same logic
      *
      ****************************************************************************/
 
-    public TrainSim(loadparam param, Operator[] dis, ArrayList<Task> list) {
+    public VehicleSim(loadparam param, Operator[] dis, ArrayList<Task> list) {
         tasktime = list;
         operators = dis;
         parameters = param;
@@ -72,15 +72,15 @@ public class TrainSim {
 
     /****************************************************************************
      *
-     *	Main Object:	TrainSim
+     *	Main Object:	VehicleSim
      *
-     *	Purpose:		Create a simulation for a single train.
+     *	Purpose:		Create a simulation for a single vehicle.
      *
      ****************************************************************************/
 
-    public TrainSim(loadparam param, int trainid) {
+    public VehicleSim(loadparam param, int vehicleid) {
         parameters = param;
-        trainID = trainid;
+        vehicleID = vehicleid;
     }
 
     /****************************************************************************
@@ -92,13 +92,14 @@ public class TrainSim {
      ****************************************************************************/
 
     public void taskgen() {
-        System.out.println("TaskGen for Train ID: "+ trainID);
+        System.out.println("TaskGen for vehicle ID: "+ vehicleID);
         tasktime = new ArrayList<Task>();
 
-        // TODO add AI assitant to shorter the service time.
+        // TODO[COMPLETED] add AI assitant to shorter the service time.
         // For each type of tasks:
 
-        for (int i = 0; i < parameters.numTaskTypes; i++) {
+        //If teamCoord Presents task number = total tasknum -1
+        for (int i = 0; i < parameters.numTaskTypes + checkTeamCoord(); i++) {
 
             // Create a new empty list of Tasks
 
@@ -107,17 +108,19 @@ public class TrainSim {
             // Start a new task with PrevTime = 0
 
             Task origin;
-            // TODO add Internal communication task
+            // TODO[COMPLETED] add Internal communication task
 
             // if hasAI, use overloaded constructor
-            if (parameters.arrPms[i][0] == 0){
-                if(checkAI())
-                    origin = new Task (i, 30 + Math.random(), parameters, false,true);
+            if (parameters.arrPms[i][0] == 0){ //First task
+                if(checkAI()) {
+                    origin = new Task(i, 30 + Math.random(), parameters, false, true, parameters.teamComm[0]); //New Task
+                }
                 else
-                    origin = new Task (i, 30 + Math.random(), parameters, false);
+                    origin = new Task (i, 30 + Math.random(), parameters, false); //Old task
             } else {
-                if(checkAI())
-                    origin = new Task(i, 0, parameters, true,true);
+                if(checkAI()) {
+                    origin = new Task(i, 0, parameters, true, true, parameters.teamComm[0]);
+                }
                 else
                     origin = new Task(i, 0, parameters, true);
             }
@@ -126,14 +129,14 @@ public class TrainSim {
                 continue;
             }
 
-            origin.setID(trainID);
+            origin.setID(vehicleID);
             indlist.add(origin);
 
             // While the next task is within the time frame, generate.
 
             while (origin.getArrTime() < parameters.numHours * 60) {
                 origin = new Task(i, origin.getArrTime(), parameters, true);
-                origin.setID(trainID);
+                origin.setID(vehicleID);
                 indlist.add(origin);
             }
 
@@ -177,15 +180,15 @@ public class TrainSim {
 
         // Create Operators
         //SCHEN 11/20/17:
-        //TODO[COMPLETE]: Create Different Operatorset for different types of trains
+        //TODO[COMPLETE]: Create Different Operatorset for different types of vehicles
 //        operators = new Operator[parameters.ops.length];
-        int fleetType = trainID/10;
-        operators = new Operator[parameters.fleetHetero[fleetType].length];
+        int fleetType = vehicleID/10;
+        operators = new Operator[parameters.numOps];
 //        System.out.println("****FleetType:****");
 //        for (int i = 0; i < parameters.fleetTypes; i++) {
-            for(int j = 0; j < parameters.fleetHetero[fleetType].length; j++) {
+            for(int j = 0; j < parameters.numOps; j++) {
 //                System.out.print(parameters.fleetHetero[i][j]+ ", ");
-                operators[j] = new Operator(parameters.fleetHetero[fleetType][j], parameters);
+                operators[j] = new Operator(j, parameters);
                 if(operators[j].getName().equals("Artificially Intelligent Agent")) hasAI = true;
             }
 //            System.out.println();
@@ -244,7 +247,7 @@ public class TrainSim {
      *
      *	Method:			genbasis
      *
-     *	Purpose:		Generate the base set of data in TrainSim object.
+     *	Purpose:		Generate the base set of data in VehicleSim object.
      *
      ****************************************************************************/
 
@@ -264,7 +267,20 @@ public class TrainSim {
     public boolean checkAI(){
         return this.hasAI;
     }
-
+    /****************************************************************************
+     *
+     *	Method:			checkTeamCoord
+     *
+     *	Purpose:	    check Whether teamCoordination is present in this simulation
+     *
+     ****************************************************************************/
+    public int checkTeamCoord(){
+        for(char c: parameters.teamComm){
+//            System.out.println("Team Coord presents");
+            if(c != 'N') return 0;
+        }
+        return -1;
+    }
 
     /****************************************************************************
      *

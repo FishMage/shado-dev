@@ -12,7 +12,7 @@ import Input.loadparam;
  *
  * 	VER: 			1.0
  *
- * 	Purpose: 		Create simulation for multiple train and dispatch
+ * 	Purpose: 		Create simulation for multiple vehicle and dispatch
  *
  **************************************************************************/
 
@@ -20,7 +20,7 @@ public class Dispatch {
 
     public loadparam parameters;
 
-    public TrainSim[] trains;
+    public VehicleSim[] vehicles;
 
     private ArrayList<Task> linkedtasks;
 
@@ -30,7 +30,7 @@ public class Dispatch {
 
     private ArrayList<Task> proctasks;
 
-    private ArrayList<Task> totrain;
+    private ArrayList<Task> tovehicle;
 
     // Constructor is HERE
 
@@ -45,7 +45,7 @@ public class Dispatch {
     }
 
     public ArrayList<Task> gettasks() {
-        return totrain;
+        return tovehicle;
     }
 
     public Operator[] getDispatch() {
@@ -79,7 +79,7 @@ public class Dispatch {
             if (origin.linked())
                 continue;
 
-            // Set train ID.
+            // Set vehicle ID.
             origin.setID(-1);
             indlist.add(origin);
 
@@ -96,14 +96,14 @@ public class Dispatch {
 
         }
 
-        // For each train:
+        // For each vehicle:
 
         //SCHEN 11/10/17 Modify the functionality to fit fleet heterogeneity
-        //for (int j = 0; j < parameters.numTrains; j++) {
+        //for (int j = 0; j < parameters.numvehicles; j++) {
         for (int k = 0; k < parameters.fleetTypes; k++) {
 
-            //For each train
-            for (int j = 0; j < parameters.numTrains[k]; j++) {
+            //For each vehicle
+            for (int j = 0; j < parameters.numvehicles[k]; j++) {
 
                 // For each type of tasks:
                 for (int i = 0; i < parameters.numTaskTypes; i++) {
@@ -118,9 +118,9 @@ public class Dispatch {
                     }
                     linkedt.add(i);
 
-                    // Set train ID.
-                    //SCHEN 11/10/17 Train id for 2d array
-//                    System.out.println("train id: " + (k*10 +j));
+                    // Set vehicle ID.
+                    //SCHEN 11/10/17 vehicle id for 2d array
+//                    System.out.println("vehicle id: " + (k*10 +j));
                     int id = k*10 +j;
                     origin.setID(id);
 
@@ -171,11 +171,11 @@ public class Dispatch {
 
     public void runDispatch() {
 
-        TrainSim DispatchSim = new TrainSim(parameters, dispatchers, linkedtasks);
+        VehicleSim DispatchSim = new VehicleSim(parameters, dispatchers, linkedtasks);
         DispatchSim.run();
         proctasks = new ArrayList<Task>();
-        totrain = new ArrayList<Task>();
-        //SCHEN 11/20/17 Changes for 2d array in trainSim Object
+        tovehicle = new ArrayList<Task>();
+        //SCHEN 11/20/17 Changes for 2d array in VehicleSim Object
          for(int i = 0; i < parameters.numDispatch; i++) {
              for (Operator dispatcher : DispatchSim.operators) {
                  proctasks.addAll(dispatcher.getQueue().records());
@@ -183,7 +183,7 @@ public class Dispatch {
              for (Task each : proctasks) {
                  if (!each.checkexpired()) {
                      if (each.linked()) {
-                         totrain.add(each);
+                         tovehicle.add(each);
                      }
                  }
              }

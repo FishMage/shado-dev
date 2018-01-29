@@ -33,7 +33,7 @@ public class ProcRep {
 
     private Replication rep;
 
-    private TrainSim[][] trains;
+    private VehicleSim[][] vehicles;
 
     private int repID;
 
@@ -73,7 +73,7 @@ public class ProcRep {
         this.rep = rep;
         dispatchdata = dis;
         operatordata = ops;
-        trains = rep.getTrains();
+        vehicles = rep.getvehicles();
         repID = rep.getRepID();
         numdispatch = rep.parameters.numDispatch;
         numoperator = rep.parameters.numOps;
@@ -103,7 +103,7 @@ public class ProcRep {
         repopsdata = new Data[numoperator];
         for (int i = 0; i < numoperator; i++) {
             for (int j = 0; j < rep.parameters.fleetTypes; j++) {
-                repopsdata[i] = new Data(numtasktypes, (int) hours * 6, trains[j].length);
+                repopsdata[i] = new Data(numtasktypes, (int) hours * 6, vehicles[j].length);
             }
         }
     }
@@ -116,7 +116,7 @@ public class ProcRep {
      *
      ****************************************************************************/
 
-    public void fillRepDataCell(Operator operator, Data incremented, int trainID){
+    public void fillRepDataCell(Operator operator, Data incremented, int vehicleID){
 
         // Get Operator's task record.
 
@@ -150,17 +150,17 @@ public class ProcRep {
 
                 if (endscale > i) {
                     if (!startcheck) {
-                        incremented.datainc(each.getType(), i - 1, trainID, i - beginscale);
+                        incremented.datainc(each.getType(), i - 1, vehicleID, i - beginscale);
                         startcheck = true;
                     } else {
-                        incremented.datainc(each.getType(), i - 1, trainID, 1);
+                        incremented.datainc(each.getType(), i - 1, vehicleID, 1);
                     }
                 } else {
                     if (!startcheck) {
-                        incremented.datainc(each.getType(), i - 1, trainID, endscale - beginscale);
+                        incremented.datainc(each.getType(), i - 1, vehicleID, endscale - beginscale);
                         break;
                     } else {
-                        incremented.datainc(each.getType(), i - 1, trainID, endscale - i + 1);
+                        incremented.datainc(each.getType(), i - 1, vehicleID, endscale - i + 1);
                         break;
                     }
                 }
@@ -186,13 +186,13 @@ public class ProcRep {
             fillRepDataCell(dispatchers[i], repdisdata[i], 0);
         }
         for(int i = 0; i < rep.parameters.fleetTypes;i++) {
-//            for(int j = 0 ; j < trains[i].length; j++){
-                for (TrainSim train : trains[i]) {
-//                    System.out.println("Op calculation for train: " + i);
-                    Operator[] operators = train.operators;
+//            for(int j = 0 ; j < vehicles[i].length; j++){
+                for (VehicleSim vehicle : vehicles[i]) {
+//                    System.out.println("Op calculation for vehicle: " + i);
+                    Operator[] operators = vehicle.operators;
                     for (int j = 0; j < 2; j++) {
-//                        System.out.println("fillRepDataCell for TrainID: " + train.getTrainID()%10);
-                        fillRepDataCell(operators[j], repopsdata[j], train.getTrainID()%10);
+//                        System.out.println("fillRepDataCell for vehicleID: " + vehicle.getvehicleID()%10);
+                        fillRepDataCell(operators[j], repopsdata[j], vehicle.getvehicleID()%10);
                     }
                 }
 //            }

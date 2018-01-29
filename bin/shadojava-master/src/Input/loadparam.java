@@ -27,9 +27,9 @@ public class loadparam {
     public double[] traffic;
     public int numReps;
     public int[] ops;
-    //SCHEN 11/10/17 Change numTrains to array
-	//public int numTrains;
-    public int[] numTrains;
+    //SCHEN 11/10/17 Change numvehicles to array
+	//public int numvehicles;
+    public int[] numvehicles;
 
     public int numDispatch;
     public int[] DispatchTasks;
@@ -57,7 +57,7 @@ public class loadparam {
 	public String[] opNames;
 	public int[][] opTasks;
 
-    public int[] teamComm;
+    public char[] teamComm;
     public int[] teamSize;
 
 	// Task Settings
@@ -112,12 +112,12 @@ public class loadparam {
 		numHours = readDouble(in);
 		traffic = readTraff(in);
 		numReps = readInt(in);
-		//SCHEN 11/10/17 fleetTypes represents the combination of different trains
+		//SCHEN 11/10/17 fleetTypes represents the combination of different vehicles
 		fleetTypes = readInt(in);
 
-		//SCHEN 11/10/17 Read numTrains Array
-//		numTrains = readInt(in);
-		numTrains = readIntArr(in);
+		//SCHEN 11/10/17 Read numvehicles Array
+//		numvehicles = readInt(in);
+		numvehicles = readIntArr(in);
 		numOps = readInt(in);
 		numDispatch = readInt(in);
 		DispatchTasks = readIntArr(in);
@@ -151,7 +151,7 @@ public class loadparam {
         //SCHEN 1/20/2018 Individualize team_comm to each operator type
 		opNames = new String[numOps];
 		opTasks = new int[numOps][];
-		teamComm = new int[numOps];
+		teamComm = new char[numOps];
         teamSize = new int[numOps];
         ops = new int[numOps];
 		for (int i = 0; i < numOps; i++){
@@ -182,7 +182,7 @@ public class loadparam {
 		trigger = new int[numTaskTypes][];
 		teamCoordAff = new int[numTaskTypes];
 
-		// Read in train operators by train ID.
+		// Read in vehicle operators by vehicle ID.
 //		for ()
 
 		//Read in agent type and tasks they can do

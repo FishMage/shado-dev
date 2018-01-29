@@ -12,7 +12,7 @@ different dispatcher sectors.
 
 different task service time by dispatcher.
 
-system enviroment task generator (independent task generation outside trains)
+system enviroment task generator (independent task generation outside vehicles)
 
 dist functions.
 

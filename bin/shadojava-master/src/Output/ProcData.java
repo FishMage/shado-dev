@@ -71,10 +71,10 @@ public class ProcData {
 
 	// Wrapper.
 
-//	public void store(double time, Operator ops, int trainID, Simulation sim, int repID) {
+//	public void store(double time, Operator ops, int vehicleID, Simulation sim, int repID) {
 //		countExpired(sim);
 //		trim(time);
-//		outpututilization(ops, time, trainID);
+//		outpututilization(ops, time, vehicleID);
 //		output(ops, sim, repID);
 //
 //	}
@@ -121,7 +121,7 @@ public class ProcData {
 
 	// Put operator's task into 10 minute packs.
 
-//	public void outpututilization(Operator operator, double time, int trainID) {
+//	public void outpututilization(Operator operator, double time, int vehicleID) {
 //
 //        int i = 1;
 //
@@ -141,16 +141,16 @@ public class ProcData {
 //
 //						percBusy = each.getSerTime() / 10;
 //
-//						operator.getUtilization().datainc(each.getType(), i - 1, trainID, percBusy);
+//						operator.getUtilization().datainc(each.getType(), i - 1, vehicleID, percBusy);
 //
 //
 //				} else {
 //
 //                    if (i > beginscale) {
 //                        percBusy = i - beginscale;
-//                        operator.getUtilization().datainc(each.getType(), i - 1, trainID, percBusy);
+//                        operator.getUtilization().datainc(each.getType(), i - 1, vehicleID, percBusy);
 //						percBusy = endscale - i;
-//						operator.getUtilization().datainc(each.getType(), i, trainID, percBusy);
+//						operator.getUtilization().datainc(each.getType(), i, vehicleID, percBusy);
 //
 //                    }
 //
@@ -158,7 +158,7 @@ public class ProcData {
 //
 //					percBusy = each.getSerTime() / 10;
 //
-//					operator.getUtilization().datainc(each.getType(), i - 1, trainID, percBusy);
+//					operator.getUtilization().datainc(each.getType(), i - 1, vehicleID, percBusy);
 //
 //				}
 //			}

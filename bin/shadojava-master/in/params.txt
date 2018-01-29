@@ -1,10 +1,10 @@
 output_path		/Users/erinsong/Documents/shadojava/out
-num_hours	    2
+num_hours	    8
 traff_levels   	m h h h l l l m
 num_reps		10
 fleet_types     4
-num_train		3 3 3 3
-num_ops			4
+num_vehicle		3 3 3 3
+num_ops			3
 num_dispatch	2
 dispatch_task	0 2 4
 num_task_types	9
@@ -27,22 +27,18 @@ fleet_type_3    0 3
 op_name			Dispatcher
 tasks			0 1 2 3 4 5 6 7 8
 team_size       0
-team_comms      0
+team_comms      N
 
 op_name			Operations Management Specialist
 tasks			5 6 8
 team_size       0
-team_comms      0
+team_comms      F
 
 op_name			Artificially Intelligent Agent
-tasks			8
+tasks			8 9
 team_size       0
-team_comms      0
+team_comms      N
 
-op_name			Positive Train Control
-tasks			1 5 6
-team_size       0
-team_comms      0
 
 name       		Communicating
 prty         	4 3 4
@@ -156,19 +152,19 @@ islinked		0
 trigger			-1
 team_coord_aff  0
 
-name 			Planning Ahead
-prty         	0 5 0
+name       		Communicating internally
+prty         	4 3 4
 arr_dist     	E
-arr_pms      	0.0666667 0.2 0.4
+arr_pms      	0.952381 0.1 0.75188
 ser_dist     	E
-ser_pms      	3.0303 0
+ser_pms      	7.5188 0
 exp_dist     	E
-exp_pms_lo   	0 0.166 0
-exp_pms_hi   	0 0.1795 0
+exp_pms_lo   	0 0.107167 0
+exp_pms_hi   	0 0.0863333 0
 aff_by_traff  	0 1 0
 islinked		0
 trigger			-1
-team_coord_aff  0
+team_coord_aff  1
 
 
 

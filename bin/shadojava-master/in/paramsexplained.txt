@@ -2,8 +2,8 @@ output_path		/Users/erinsong/Documents/shadojava/out		# This is the output file 
 num_hours		8						# This is the number of hours being simulated
 traff_levels   		m h h h l l l m					# This is the traffic level of each of the hour simulated
 num_reps		10						# This is the number of repetition ran
-num_train		10						# This is the number of trains in the simulation
-num_ops			4						# This is the number of operator on each train
+num_vehicle		10						# This is the number of vehicles in the simulation
+num_ops			4						# This is the number of operator on each vehicle
 num_dispatch		1						# This is the number of dispatcher for the simulation
 dispatch_task		0 2 4						# This is the tasklist that dispatcher are able to do
 num_task_types		9						# This is the number of types of tasks.
@@ -14,7 +14,7 @@ tasks			0 1 2 3 4 5 6 7 8				# This is the list of tasks that this operator is a
 op_name			Conductor
 tasks			5 6 8
 
-op_name			Positive Train Control
+op_name			Positive vehicle Control
 tasks			1 5 6
 
 op_name			Cruise Control
@@ -30,7 +30,7 @@ exp_dist     	E						# This is the distribution type of the expiration time.
 exp_pms_lo   	0 0.107167 0					# This is the parameter of the above distribution in three different phases when the traffic are low.
 exp_pms_hi   	0 0.0863333 0					# When traffic are high.
 aff_by_traff  	0 1 0						# In which phase are the task affected by traffic
-islinked		1					# Whether the tasks goes to both dispatcher and the operator on trains.
+islinked		1					# Whether the tasks goes to both dispatcher and the operator on vehicles.
 trigger			-1					# A list of tasks that are triggered by the current task, -1 means no tasks are triggered.
 
 name      		Exception Handling

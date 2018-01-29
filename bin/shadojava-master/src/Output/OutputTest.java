@@ -42,8 +42,8 @@
 //        }
 //        System.out.println(sumtim);
 //
-//        TrainSim sampleTrain = sourcedata.getTrains()[0];
-//        Operator[] operators = sampleTrain.operators;
+//        VehicleSim samplevehicle = sourcedata.getvehicles()[0];
+//        Operator[] operators = samplevehicle.operators;
 //        for (Operator each: operators){
 //            System.out.println(each.name);
 //            ArrayList<Task> tasklist = each.getQueue().records();

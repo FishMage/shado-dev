@@ -3,7 +3,7 @@ package Engine;
 import Engine.Dispatch;
 import Engine.Simulation;
 import Engine.Task;
-import Engine.TrainSim;
+import Engine.VehicleSim;
 import Input.loadparam;
 
 import java.util.ArrayList;
@@ -31,14 +31,14 @@ public class Replication {
 
     private ArrayList<Task> linked;
 
-    private TrainSim[][] trains;
+    private VehicleSim[][] vehicles;
 
     private Dispatch control;
 
     // Inspectors:
 
-    public TrainSim[][] getTrains() {
-        return trains;
+    public VehicleSim[][] getvehicles() {
+        return vehicles;
     }
 
     public Dispatch getDispatch() {
@@ -78,40 +78,40 @@ public class Replication {
         control.run();
         linked = control.gettasks();
 
-        // Initialize trains.
+        // Initialize vehicles.
 //        for(int i = 0; i < parameters.fleetTypes; i++) {
-//            System.out.println("trains.length: "+parameters.numTrains[i]);
-//            trains[i] = new TrainSim[parameters.numTrains[i]];
+//            System.out.println("vehicles.length: "+parameters.numvehicles[i]);
+//            vehicles[i] = new VehicleSim[parameters.numvehicles[i]];
 //        }
 
-        //SCHEN 11/10/17 For this version of Fleet hetero, assume each batch has 10 trains
-        trains = new TrainSim[parameters.fleetTypes][parameters.numTrains[0]];
+        //SCHEN 11/10/17 For this version of Fleet hetero, assume each batch has 10 vehicles
+        vehicles = new VehicleSim[parameters.fleetTypes][parameters.numvehicles[0]];
 
         for (int i = 0; i < parameters.fleetTypes; i++) {
-            for(int j = 0; j < parameters.numTrains[i]; j++) {
-                //SCHEN 11/20/17 trainId change for 2d Array
-                trains[i][j] = new TrainSim(parameters, i*10 + j);
-                trains[i][j].genbasis();
+            for(int j = 0; j < parameters.numvehicles[i]; j++) {
+                //SCHEN 11/20/17 vehicleId change for 2d Array
+                vehicles[i][j] = new VehicleSim(parameters, i*10 + j);
+                vehicles[i][j].genbasis();
             }
 
         }
 
-        // Add linked tasks to trains.
+        // Add linked tasks to vehicles.
         for(int i = 0; i < parameters.fleetTypes; i++) {
             for (Task each : linked) {
 
-                int trainid = each.getTrain();
+                int vehicleid = each.getvehicle();
                 each = new Task(each.getType(), each.getBeginTime(), parameters, false);
-                each.setID(trainid);
+                each.setID(vehicleid);
                 if (each.getArrTime() < parameters.numHours * 60) {
-//                    System.out.println("Getting Train id: "+i+", "+trainid+" =>"+ trainid%10 );
-                    trains[i][trainid%10].linktask(each);
+//                    System.out.println("Getting vehicle id: "+i+", "+vehicleid+" =>"+ vehicleid%10 );
+                    vehicles[i][vehicleid%10].linktask(each);
                 }
             }
         }
-        // Run each train
+        // Run each vehicle
         for(int i = 0; i< parameters.fleetTypes; i++){
-            for (TrainSim each : trains[i]) {
+            for (VehicleSim each : vehicles[i]) {
                 each.run();
             }
         }
