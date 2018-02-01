@@ -78,8 +78,9 @@ public class VehicleSim {
      *
      ****************************************************************************/
 
-    public VehicleSim(loadparam param, int vehicleid,  ArrayList<Task> list) {
+    public VehicleSim(loadparam param, int vehicleid,  Operator[] remoteOps, ArrayList<Task> list) {
         tasktime = list;
+        operators = remoteOps;
         parameters = param;
         vehicleID = vehicleid;
     }
@@ -256,7 +257,7 @@ public class VehicleSim {
         // Generate stuff
         checkAI();
         taskgen();
-        operatorgen();
+//        operatorgen();
     }
     /****************************************************************************
      *

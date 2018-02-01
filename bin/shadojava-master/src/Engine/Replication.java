@@ -95,7 +95,7 @@ public class Replication {
         for (int i = 0; i < parameters.fleetTypes; i++) {
             for(int j = 0; j < parameters.numvehicles[i]; j++) {
                 //SCHEN 11/20/17 vehicleId change for 2d Array
-                vehicles[i][j] = new VehicleSim(parameters, i*10 + j,globalTasks);
+                vehicles[i][j] = new VehicleSim(parameters,i*10 + j,remoteOps.getRemoteOp(),globalTasks);
                 vehicles[i][j].genbasis();
             }
 
