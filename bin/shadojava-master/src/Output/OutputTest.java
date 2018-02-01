@@ -26,13 +26,13 @@
 //        sourcedata = once;
 //    }
 //
-//    private Operator dispatch;
+//    private Operator RemoteOp;
 //
 //    public void textinspect(){
 //
-//        dispatch = sourcedata.getDispatch().getDispatch()[0];
-//        System.out.println(dispatch.name);
-//        ArrayList<Task> tasklis = dispatch.getQueue().records();
+//        RemoteOp = sourcedata.getRemoteOp().getRemoteOp()[0];
+//        System.out.println(RemoteOp.name);
+//        ArrayList<Task> tasklis = RemoteOp.getQueue().records();
 //        double sumtim = 0;
 //        for (Task tasks: tasklis){
 //            System.out.println(tasks.getName() + "\t" + tasks.getBeginTime() +

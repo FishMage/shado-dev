@@ -5,8 +5,8 @@ num_reps		10
 fleet_types     4
 num_vehicle		3 3 3 3
 num_ops			4
-num_dispatch	2
-dispatch_task	0 2 4
+num_RemoteOp	2
+RemoteOp_task	0 2 4
 num_task_types	9
 num_phases      2
 autonomy_lvl    0
@@ -24,20 +24,20 @@ fleet_type_1    0 2
 fleet_type_2    0 1 3
 fleet_type_3    0 3
 
-op_name			Dispatcher
+op_name			RemoteOper
 tasks			0 1 2 3 4 5 6 7 8
 team_size       0
-team_comms      0
+team_comms      M
 
 op_name			Operations Management Specialist
 tasks			5 6 8
 team_size       0
-team_comms      0
+team_comms      N
 
 op_name			Artificially Intelligent Agent
 tasks			8
 team_size       0
-team_comms      0
+team_comms      S
 
 name  			 Actuation
 prty    	    4 7

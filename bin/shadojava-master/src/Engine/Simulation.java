@@ -31,7 +31,7 @@ public class Simulation {
 
     private Data[] operatoroutput;
 
-    private Data[] dispatchoutput;
+    private Data[] RemoteOpoutput;
 
     private int repnumber;
 
@@ -47,13 +47,13 @@ public class Simulation {
         return operatoroutput[i];
     }
 
-    public Data getDispatchoutput(int i) {
-        return dispatchoutput[i];
+    public Data getRemoteOpoutput(int i) {
+        return RemoteOpoutput[i];
     }
 
     public Data[] getopsdata() { return operatoroutput; }
 
-    public Data[] getdisdata() { return dispatchoutput; }
+    public Data[] getdisdata() { return RemoteOpoutput; }
 
     /****************************************************************************
      *
@@ -77,9 +77,9 @@ public class Simulation {
             operatoroutput[i] = new Data(param.numTaskTypes, (int) param.numHours * 6, param.numReps);
         }
 
-        dispatchoutput = new Data[param.numDispatch];
-        for (int i = 0; i < param.numDispatch; i++) {
-            dispatchoutput[i] = new Data(param.numTaskTypes, (int) param.numHours * 6, param.numReps);
+        RemoteOpoutput = new Data[param.numRemoteOp];
+        for (int i = 0; i < param.numRemoteOp; i++) {
+            RemoteOpoutput[i] = new Data(param.numTaskTypes, (int) param.numHours * 6, param.numReps);
         }
 
         expiredtaskcount = new int[param.numTaskTypes];
@@ -99,7 +99,7 @@ public class Simulation {
 
         Replication processed = new Replication(parameters, repID);
         processed.run();
-        ProcRep process = new ProcRep(dispatchoutput, operatoroutput, processed);
+        ProcRep process = new ProcRep(RemoteOpoutput, operatoroutput, processed);
 
         process.run(repID);
 
@@ -128,7 +128,7 @@ public class Simulation {
         }
 
         int repNum = 0;
-        for (Data each: dispatchoutput){
+        for (Data each: RemoteOpoutput){
 //            sepCSV(each,repNum);
 //            repNum++;
             each.avgdata();
@@ -147,11 +147,11 @@ public class Simulation {
      *	Purpose:		Generate separated CSV file for each replication
      *
      ****************************************************************************/
-	public void sepCSV(Data dispatchout, int repNum) throws IOException {
+	public void sepCSV(Data RemoteOpout, int repNum) throws IOException {
 	        String  file_head = FileWizard.getabspath();
             String file_name = file_head + "/out/repCSV/" + "rep_"+ repNum + ".csv";
             System.setOut(new PrintStream(new BufferedOutputStream(
                     new FileOutputStream(file_name, false)), true));
-            dispatchout.outputdata();
+            RemoteOpout.outputdata();
     }
 }

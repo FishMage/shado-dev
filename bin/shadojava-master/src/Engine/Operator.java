@@ -13,7 +13,7 @@ import Input.loadparam;
  * 	VER: 			1.0
  *
  * 	Purpose: 		generate operator that wraps Queue objects. This is where
- * 					the distinction between an operator and a dispatcher is made.
+ * 					the distinction between an operator and a RemoteOper is made.
  *
  **************************************************************************/
 
@@ -48,7 +48,7 @@ public class Operator {
 	 ****************************************************************************/
 
 	public Operator (int opid, loadparam param){
-		System.out.println("	new opid: " + opid);
+//		System.out.println("	new opid: " + opid);
 		parameters = param;
 		opId = opid;
 		taskType = parameters.opTasks[opid];
@@ -61,16 +61,16 @@ public class Operator {
 
 	/****************************************************************************
 	 *
-	 *	Main Object:	Dispatcher
+	 *	Main Object:	RemoteOper
 	 *
-	 *	Purpose:		Generate a Dispatcher from the parameter file imported
+	 *	Purpose:		Generate a RemoteOper from the parameter file imported
 	 *
 	 ****************************************************************************/
 
 	public Operator(int dpid, int[] task) {
 
 		taskType = task;
-		name = "Dispatcher " + Integer.toString(dpid);
+//		name =  ": " + Integer.toString(dpid%10);
 		myQueue = new Queue();
 		dpID = dpid;
 

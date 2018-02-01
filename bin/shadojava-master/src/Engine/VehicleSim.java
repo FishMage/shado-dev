@@ -26,7 +26,7 @@ public class VehicleSim {
 
     public Operator[] operators;
 
-    public Operator[] dispatchers;
+    public Operator[] RemoteOpers;
 
     public int vehicleID;
 
@@ -60,13 +60,13 @@ public class VehicleSim {
      *
      *	Side Object:	VehicleSim
      *
-     *	Purpose:		Create a simulation for Dispatcher using the same logic
+     *	Purpose:		Create a simulation for RemoteOper using the same logic
      *
      ****************************************************************************/
 
-    public VehicleSim(loadparam param, Operator[] dis, ArrayList<Task> list) {
+    public VehicleSim(loadparam param, Operator[] remoteOps, ArrayList<Task> list) {
         tasktime = list;
-        operators = dis;
+        operators = remoteOps;
         parameters = param;
     }
 
@@ -78,7 +78,8 @@ public class VehicleSim {
      *
      ****************************************************************************/
 
-    public VehicleSim(loadparam param, int vehicleid) {
+    public VehicleSim(loadparam param, int vehicleid,  ArrayList<Task> list) {
+        tasktime = list;
         parameters = param;
         vehicleID = vehicleid;
     }
@@ -180,7 +181,7 @@ public class VehicleSim {
 
         // Create Operators
         //SCHEN 11/20/17:
-        //TODO[COMPLETE]: Create Different Operatorset for different types of vehicles
+        //TODO[COMPLETED]: Create Different Operatorset for different types of vehicles
 //        operators = new Operator[parameters.ops.length];
         int fleetType = vehicleID/10;
         operators = new Operator[parameters.numOps];
@@ -301,7 +302,8 @@ public class VehicleSim {
 
         // Put tasks into queue at appropriate order.
         for (Task task : tasktime) {
-            puttask(task);
+            if(tasktime.size() != 0)
+                puttask(task);
         }
 
         // Finish tasks if no new tasks comes in.
@@ -314,7 +316,7 @@ public class VehicleSim {
                         each.getQueue().done();
                     }
                 }
-        }
+            }
     }
 
 }

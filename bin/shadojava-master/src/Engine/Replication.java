@@ -1,6 +1,6 @@
 package Engine;
 
-import Engine.Dispatch;
+import Engine.RemoteOp;
 import Engine.Simulation;
 import Engine.Task;
 import Engine.VehicleSim;
@@ -33,7 +33,9 @@ public class Replication {
 
     private VehicleSim[][] vehicles;
 
-    private Dispatch control;
+    private RemoteOp remoteOps;
+
+    private ArrayList<Task> globalTasks;
 
     // Inspectors:
 
@@ -41,8 +43,8 @@ public class Replication {
         return vehicles;
     }
 
-    public Dispatch getDispatch() {
-        return control;
+    public RemoteOp getRemoteOp() {
+        return remoteOps;
     }
 
     public int getRepID() {
@@ -74,10 +76,13 @@ public class Replication {
 
         // Initialize control center.
 
-        control = new Dispatch(parameters);
-        control.run();
-        linked = control.gettasks();
+        //TODO 1.generate a global queue and can be modified
+        //TODO 2. Switch to 2 Threads for production and consumption
+        globalTasks = new ArrayList<Task>();
 
+        remoteOps = new RemoteOp(parameters,globalTasks);
+        remoteOps.run();
+        linked = remoteOps.gettasks();
         // Initialize vehicles.
 //        for(int i = 0; i < parameters.fleetTypes; i++) {
 //            System.out.println("vehicles.length: "+parameters.numvehicles[i]);
@@ -90,25 +95,25 @@ public class Replication {
         for (int i = 0; i < parameters.fleetTypes; i++) {
             for(int j = 0; j < parameters.numvehicles[i]; j++) {
                 //SCHEN 11/20/17 vehicleId change for 2d Array
-                vehicles[i][j] = new VehicleSim(parameters, i*10 + j);
+                vehicles[i][j] = new VehicleSim(parameters, i*10 + j,globalTasks);
                 vehicles[i][j].genbasis();
             }
 
         }
 
         // Add linked tasks to vehicles.
-        for(int i = 0; i < parameters.fleetTypes; i++) {
-            for (Task each : linked) {
-
-                int vehicleid = each.getvehicle();
-                each = new Task(each.getType(), each.getBeginTime(), parameters, false);
-                each.setID(vehicleid);
-                if (each.getArrTime() < parameters.numHours * 60) {
-//                    System.out.println("Getting vehicle id: "+i+", "+vehicleid+" =>"+ vehicleid%10 );
-                    vehicles[i][vehicleid%10].linktask(each);
-                }
-            }
-        }
+//        for(int i = 0; i < parameters.fleetTypes; i++) {
+//            for (Task each : linked) {
+//
+//                int vehicleid = each.getvehicle();
+//                each = new Task(each.getType(), each.getBeginTime(), parameters, false);
+//                each.setID(vehicleid);
+//                if (each.getArrTime() < parameters.numHours * 60) {
+////                    System.out.println("Getting vehicle id: "+i+", "+vehicleid+" =>"+ vehicleid%10 );
+//                    vehicles[i][vehicleid%10].linktask(each);
+//                }
+//            }
+//        }
         // Run each vehicle
         for(int i = 0; i< parameters.fleetTypes; i++){
             for (VehicleSim each : vehicles[i]) {

@@ -48,6 +48,8 @@ public class Main {
 		System.out.println("hasExo: "+ Arrays.toString(data.hasExogenous));
 		System.out.println("exNames: "+ Arrays.toString(data.exNames));
 		System.out.println("exTypes: "+ Arrays.toString(data.exTypes));
+		System.out.println("Total Number of Remote Ops: "+ data.teamSizeTotal);
+		System.out.println("Remote Ops taskType"+ Arrays.deepToString(data.opTasks));
 
 		// Runs simulation
 

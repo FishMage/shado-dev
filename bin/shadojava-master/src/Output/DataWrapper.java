@@ -50,13 +50,13 @@ public class DataWrapper {
 
         setFileHead();
 
-        // Dispatch & Engineer timetables
+        // RemoteOp & Engineer timetables
 
-        for (int i = 0; i < parameter.numDispatch; i++) {
-            String file_name = file_head + "/out/" + "dispatcher" + ".csv";
+        for (int i = 0; i < parameter.numRemoteOp; i++) {
+            String file_name = file_head + "/out/" + "RemoteOper" + ".csv";
             System.setOut(new PrintStream(new BufferedOutputStream(
                     new FileOutputStream(file_name, false)), true));
-            sim.getDispatchoutput(i).outputdata();
+            sim.getRemoteOpoutput(i).outputdata();
         }
 
         for (int j = 0; j < parameter.numOps; j++) {

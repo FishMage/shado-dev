@@ -1,6 +1,6 @@
 Purpose:
 
-Dispatch Center.
+RemoteOp Center.
 
 Changes:
 
@@ -8,9 +8,9 @@ website looks.
 
 Java:
 
-different dispatcher sectors.
+different RemoteOper sectors.
 
-different task service time by dispatcher.
+different task service time by RemoteOper.
 
 system enviroment task generator (independent task generation outside vehicles)
 

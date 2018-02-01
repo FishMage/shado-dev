@@ -18,8 +18,7 @@ import Input.loadparam;
 
 public class Task implements Comparable<Task> {
 
-//Task specific variables.
-
+	//Task specific variables.
 	private int Type;
 	private int Phase;
 	private int shiftPeriod;
@@ -40,7 +39,8 @@ public class Task implements Comparable<Task> {
 	private double lvl_SOME = 0.7;
 	private double lvl_FULL = 0.3;
 	private double lvl_None = 1.0;
-	// This adds functionalities of the Dispatcher
+
+	// This adds functionalities of the RemoteOper
 
 	private boolean isLinked;
 
@@ -48,7 +48,7 @@ public class Task implements Comparable<Task> {
 
 	private int queued;
 
-// Mutators
+	// Mutators
 	public boolean checkexpired() { return expired; }
 
 	public void setArrTime(double time) { arrTime = time;}
@@ -106,7 +106,6 @@ public class Task implements Comparable<Task> {
 			arrTime = PrevTime;
 		}
 		//SCHEN 12/10/17 Fleet Autonomy, Team Coord and Exogenous factor added
-//		arrTime *= getFleetAutonomy();
 		int teamCoordParam = parameters.teamCoordAff[Type];
 		serTime = genSerTime();
 		if(teamCoordParam == 1)
@@ -154,18 +153,21 @@ public class Task implements Comparable<Task> {
 			arrTime = PrevTime;
 		}
 		//SCHEN 12/10/17 Fleet Autonomy, Team Coord and Exogenous factor added
-//		arrTime *= getFleetAutonomy();
 		int teamCoordParam = parameters.teamCoordAff[Type];
 		serTime = genSerTime();
 		if(teamCoordParam == 1)
 			changeServTime(lvl_SOME);
 		else if(teamCoordParam == 2)
 			changeServTime(lvl_FULL);
+
+		//Modules
 		applyExogenousFactor();
 		applyAI();
         applyTeamCoord(lvlComm);
+
         //NEW FEATURE: SHIFT SCHEDULE 1% fatiqueIncrease serTime
-        changeServTime(1.01*(shiftPeriod+1));
+        changeServTime(1+ 0.01*(shiftPeriod+1));
+
 		// Use Service time to calculate ExpTime
 		expTime = genExpTime();
 		beginTime = arrTime;
@@ -174,10 +176,7 @@ public class Task implements Comparable<Task> {
 		isLinked = parameters.linked[Type] == 1;
 		elapsedTime = 0;
 		expired = false;
-
 	}
-
-
 
 	/****************************************************************************
 	 *

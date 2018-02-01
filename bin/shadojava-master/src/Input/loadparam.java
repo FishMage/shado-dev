@@ -31,8 +31,8 @@ public class loadparam {
 	//public int numvehicles;
     public int[] numvehicles;
 
-    public int numDispatch;
-    public int[] DispatchTasks;
+    public int numRemoteOp;
+    public int[] RemoteOpTasks;
 
     //SCHEN 12/4/17 Fleet Autonomy level param
 	// None-> default,
@@ -53,6 +53,8 @@ public class loadparam {
 
     // Operator settings
 
+	//Global count for number of operators
+	public int teamSizeTotal;
     public int numOps;
 	public String[] opNames;
 	public int[][] opTasks;
@@ -119,8 +121,8 @@ public class loadparam {
 //		numvehicles = readInt(in);
 		numvehicles = readIntArr(in);
 		numOps = readInt(in);
-		numDispatch = readInt(in);
-		DispatchTasks = readIntArr(in);
+		numRemoteOp = readInt(in);
+		RemoteOpTasks = readIntArr(in);
 		numTaskTypes = readInt(in);
         numPhases = readInt(in);
 		//SCHEN 12/4/15 Fleet Autonomous level
@@ -149,6 +151,7 @@ public class loadparam {
 
 
         //SCHEN 1/20/2018 Individualize team_comm to each operator type
+		teamSizeTotal = 0;
 		opNames = new String[numOps];
 		opTasks = new int[numOps][];
 		teamComm = new char[numOps];
@@ -160,9 +163,11 @@ public class loadparam {
 
             //Team settings
             teamSize[i] = readInt(in);
+            teamSizeTotal += teamSize[i];
 			teamComm[i] = readChar(in);
 			ops[i] = i;
 		}
+
 
 		//Initiate array sizes
 		

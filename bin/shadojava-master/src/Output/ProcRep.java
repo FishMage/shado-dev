@@ -27,7 +27,7 @@ import java.util.ArrayList;
 
 public class ProcRep {
 
-    private Data[] dispatchdata;
+    private Data[] RemoteOpdata;
 
     private Data[] operatordata;
 
@@ -37,7 +37,7 @@ public class ProcRep {
 
     private int repID;
 
-    private int numdispatch;
+    private int numRemoteOp;
 
     private int numoperator;
 
@@ -71,11 +71,11 @@ public class ProcRep {
     public ProcRep(Data[] dis, Data[] ops, Replication rep){
 
         this.rep = rep;
-        dispatchdata = dis;
+        RemoteOpdata = dis;
         operatordata = ops;
         vehicles = rep.getvehicles();
         repID = rep.getRepID();
-        numdispatch = rep.parameters.numDispatch;
+        numRemoteOp = rep.parameters.numRemoteOp;
         numoperator = rep.parameters.numOps;
         numtasktypes = rep.parameters.numTaskTypes;
         hours = rep.parameters.numHours;
@@ -95,8 +95,8 @@ public class ProcRep {
 
     public void tmpData(){
 
-        repdisdata = new Data[numdispatch];
-        for (int i = 0; i < numdispatch; i++){
+        repdisdata = new Data[numRemoteOp];
+        for (int i = 0; i < numRemoteOp; i++){
             repdisdata[i] = new Data(numtasktypes,(int) hours*6, 1);
         }
 
@@ -180,10 +180,10 @@ public class ProcRep {
     public void fillRepData(){
         //SCHEN 11/29/17
         //TODO: output operator's data
-        Operator[] dispatchers = rep.getDispatch().getDispatch();
+        Operator[] RemoteOpers = rep.getRemoteOp().getRemoteOp();
 
-        for (int i = 0; i < numdispatch; i++){
-            fillRepDataCell(dispatchers[i], repdisdata[i], 0);
+        for (int i = 0; i < numRemoteOp; i++){
+            fillRepDataCell(RemoteOpers[i], repdisdata[i], 0);
         }
         for(int i = 0; i < rep.parameters.fleetTypes;i++) {
 //            for(int j = 0 ; j < vehicles[i].length; j++){
@@ -213,10 +213,10 @@ public class ProcRep {
 
     public void appendData(){
 
-        // Process the dispatch data
+        // Process the RemoteOp data
 
-        for (int i = 0; i < numdispatch; i++){
-            Data processed = dispatchdata[i];
+        for (int i = 0; i < numRemoteOp; i++){
+            Data processed = RemoteOpdata[i];
             for (int x = 0; x < processed.data.length; x++){
                 for (int y = 0; y < processed.data[0].length; y++){
                     processed.datainc(x, y, repID, repdisdata[i].dataget(x, y, 0));
@@ -292,23 +292,23 @@ public class ProcRep {
      *	Purpose:		output CSV for every replication
      *
      ****************************************************************************/
-    public void sepCSV(Data dispatchout, int repNum,int numdip)throws IOException{
+    public void sepCSV(Data RemoteOpout, int repNum,int numdip)throws IOException{
         String  file_head = FileWizard.getabspath();
         //SCHEN 11/30/17
-        //Make dispatcher dir if not exists
-        String directoryName = "/out/repCSV/dispatcher_"+numdip;
+        //Make RemoteOper dir if not exists
+        String directoryName = "/out/repCSV/RemoteOper_"+numdip;
         File directory = new File(directoryName);
         if (!directory.exists()){
             directory.mkdir();
             // If you require it to make the entire directory path including parents,
             // use directory.mkdirs(); here instead.
-            System.out.println("mkdir");
+//            System.out.println("mkdir");
         }
 
         String file_name = file_head + directoryName + "_rep_"+ repNum + ".csv";
         System.setOut(new PrintStream(new BufferedOutputStream(
                 new FileOutputStream(file_name, false)), true));
-        dispatchout.outputdata();
+        RemoteOpout.outputdata();
 
     }
 

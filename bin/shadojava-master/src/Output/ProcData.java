@@ -178,8 +178,8 @@ public class ProcData {
 //
 //	public void output(Operator operator, Simulation o, int rep) {
 //		Data data;
-//		if (operator.name.contains("Dispatcher")) {
-//			data = o.getDispatchoutput(operator.dpID);
+//		if (operator.name.contains("RemoteOper")) {
+//			data = o.getRemoteOpoutput(operator.dpID);
 //		} else {
 //			data = o.getOperatoroutput(operator.opId);
 //		}
