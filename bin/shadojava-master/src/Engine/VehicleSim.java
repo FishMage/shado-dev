@@ -248,9 +248,10 @@ public class VehicleSim {
         }
         // add task to queue.
         // **** I'm setting the operator so that we can access the data arrays of each operator ****
+        proc.get(0).operator = working.get(0);
+        if(!proc.get(0).operator.getName().equals("Artificially Intelligent Agent")
+            && !failTask(proc.get(0).operator,task, task.getType(),getTriangularDistribution(task.getType()))){
 
-        if(!failTask(proc.get(0).operator,task, task.getType(),getTriangularDistribution(task.getType()))){
-            proc.get(0).operator = working.get(0);
             proc.get(0).add(task);
         }
 
