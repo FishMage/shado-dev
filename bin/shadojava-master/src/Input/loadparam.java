@@ -1,4 +1,8 @@
 package Input;
+import Engine.Operator;
+import Engine.Task;
+import javafx.util.Pair;
+
 import java.io.*;
 import java.util.*;
 
@@ -33,7 +37,8 @@ public class loadparam {
 
     public int numRemoteOp;
     public int[] RemoteOpTasks;
-
+    public List<Pair<Operator, Task>> failedTasks = new ArrayList<>();
+    public int failTaskCount;
     //SCHEN 12/4/17 Fleet Autonomy level param
 	// None-> default,
 	// Some ->70%
@@ -82,7 +87,8 @@ public class loadparam {
 	// Adding isLinked
     public int numPhases;
 	public int[] linked;
-	
+	public double[][] humanError;
+
 	// Toggle Global Variables
 	
 	public static boolean TRAFFIC_ON = true;
@@ -116,7 +122,7 @@ public class loadparam {
 		numReps = readInt(in);
 		//SCHEN 11/10/17 fleetTypes represents the combination of different vehicles
 		fleetTypes = readInt(in);
-
+        failTaskCount = 0;
 		//SCHEN 11/10/17 Read numvehicles Array
 //		numvehicles = readInt(in);
 		numvehicles = readIntArr(in);
@@ -186,6 +192,7 @@ public class loadparam {
 		linked = new int[numTaskTypes];
 		trigger = new int[numTaskTypes][];
 		teamCoordAff = new int[numTaskTypes];
+		humanError = new double[numTaskTypes][];
 
 		// Read in vehicle operators by vehicle ID.
 //		for ()
@@ -209,6 +216,7 @@ public class loadparam {
 			linked[i] = readInt(in);
 			trigger[i] = readIntArr(in);
 			teamCoordAff[i] = readInt(in);
+			humanError[i] = readDoubleArr(in);
 
 		}
 		

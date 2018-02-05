@@ -248,7 +248,7 @@ public class ProcRep {
         int numdisp = 0;
         for (Data each: repdisdata){
             each.avgdata();
-            System.out.println("FOR Replication \n"+ (currRep -1));
+//            System.out.println("FOR Replication \n"+ (currRep -1));
             sepCSV(each,currRep,numdisp);
 //            numRep++;
             numdisp++;
@@ -259,7 +259,7 @@ public class ProcRep {
 //            System.out.println(" FOR OPERATOR \n");
 //            each.outputdata();
             each.avgdata();
-//            sepCSV(each,currRep);
+            sepCSV(each,currRep,numoperator);
         }
 
     }
@@ -296,7 +296,7 @@ public class ProcRep {
         String  file_head = FileWizard.getabspath();
         //SCHEN 11/30/17
         //Make RemoteOper dir if not exists
-        String directoryName = "/out/repCSV/RemoteOper_"+numdip;
+        String directoryName = "/out/repCSV/RemoteOps_"+numdip;
         File directory = new File(directoryName);
         if (!directory.exists()){
             directory.mkdir();
@@ -309,6 +309,7 @@ public class ProcRep {
         System.setOut(new PrintStream(new BufferedOutputStream(
                 new FileOutputStream(file_name, false)), true));
         RemoteOpout.outputdata();
+
 
     }
 

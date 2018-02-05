@@ -2,19 +2,20 @@ package Engine;
 import java.util.*;
 import java.util.stream.*;
 import Input.loadparam;
+import javafx.util.Pair;
 
 /***************************************************************************
- * 
+ *
  * 	FILE: 			VehicleSim.java
- * 
+ *
  * 	AUTHOR: 		ROCKY LI
- * 	
+ *
  * 	DATA:			2017/6/2
- * 
+ *
  * 	VER: 			1.0
- * 
+ *
  * 	Purpose: 		Create and manage the simulation of a single vehicle.
- * 
+ *
  **************************************************************************/
 
 
@@ -113,34 +114,38 @@ public class VehicleSim {
             // TODO[COMPLETED] add Internal communication task
 
             // if hasAI, use overloaded constructor
-            if (parameters.arrPms[i][0] == 0){ //First task
-                if(checkAI()) {
-                    origin = new Task(i, 30 + Math.random(), parameters, false, true, parameters.teamComm[0]); //New Task
+            // TODO determined whether the task shoudld fail
+
+
+                if (parameters.arrPms[i][0] == 0) { //First task
+                    if (checkAI()) {
+                        origin = new Task(i, 30 + Math.random(), parameters, false, true, parameters.teamComm[0]); //New Task
+                    } else
+                        origin = new Task(i, 30 + Math.random(), parameters, false); //Old task
+                } else {
+
+                    if (checkAI()) {
+                        origin = new Task(i, 0, parameters, true, true, parameters.teamComm[0]);
+                    } else
+                        origin = new Task(i, 0, parameters, true);
+
                 }
-                else
-                    origin = new Task (i, 30 + Math.random(), parameters, false); //Old task
-            } else {
-                if(checkAI()) {
-                    origin = new Task(i, 0, parameters, true, true, parameters.teamComm[0]);
+
+                if (origin.linked()) {
+                    continue;
                 }
-                else
-                    origin = new Task(i, 0, parameters, true);
-            }
 
-            if (origin.linked()) {
-                continue;
-            }
-
-            origin.setID(vehicleID);
-            indlist.add(origin);
-
-            // While the next task is within the time frame, generate.
-
-            while (origin.getArrTime() < parameters.numHours * 60) {
-                origin = new Task(i, origin.getArrTime(), parameters, true);
                 origin.setID(vehicleID);
                 indlist.add(origin);
-            }
+
+                // While the next task is within the time frame, generate.
+
+                while (origin.getArrTime() < parameters.numHours * 60) {
+                    origin = new Task(i, origin.getArrTime(), parameters, true);
+                    origin.setID(vehicleID);
+                    indlist.add(origin);
+                }
+
 
             // Put all task into the master tasklist.
 
@@ -188,11 +193,11 @@ public class VehicleSim {
         operators = new Operator[parameters.numOps];
 //        System.out.println("****FleetType:****");
 //        for (int i = 0; i < parameters.fleetTypes; i++) {
-            for(int j = 0; j < parameters.numOps; j++) {
+        for(int j = 0; j < parameters.numOps; j++) {
 //                System.out.print(parameters.fleetHetero[i][j]+ ", ");
-                operators[j] = new Operator(j, parameters);
-                if(operators[j].getName().equals("Artificially Intelligent Agent")) hasAI = true;
-            }
+            operators[j] = new Operator(j, parameters);
+            if(operators[j].getName().equals("Artificially Intelligent Agent")) hasAI = true;
+        }
 //            System.out.println();
 //        }
 //        System.out.println("-----Single Rep Scan Complete------");
@@ -218,13 +223,16 @@ public class VehicleSim {
         // If the task can be operated by this operator, get his queue.
 
 //        for (int i = 0; i < operators.length; i++) {
-            for(int j = 0; j < operators.length; j++ ){
-                if(operators[j] != null) {
-                    if (IntStream.of(operators[j].taskType).anyMatch(x -> x == task.getType())) {
+        for(int j = 0; j < operators.length; j++ ){
+            if(operators[j] != null) {
+                if (IntStream.of(operators[j].taskType).anyMatch(x -> x == task.getType())) {
+                    //Put task in appropriate Queue
+//                    System.out.println("    Adding Task to-> "+operators[j].getName());
                         proc.add(operators[j].getQueue());
                         working.add(operators[j]);
-                    }
+
                 }
+            }
 //            }
         }
 
@@ -236,12 +244,17 @@ public class VehicleSim {
         // NEW FEATURE: AI Assistant
 
         while (proc.get(0).getfinTime() < task.getArrTime()) {
-            proc.get(0).done();
+                proc.get(0).done();
         }
         // add task to queue.
         // **** I'm setting the operator so that we can access the data arrays of each operator ****
-        proc.get(0).operator = working.get(0);
-        proc.get(0).add(task);
+
+        if(!failTask(proc.get(0).operator,task, task.getType(),getTriangularDistribution(task.getType()))){
+            proc.get(0).operator = working.get(0);
+            proc.get(0).add(task);
+        }
+
+
 
     }
 
@@ -255,7 +268,7 @@ public class VehicleSim {
 
     public void genbasis() {
         // Generate stuff
-        checkAI();
+//        checkAI();
         taskgen();
 //        operatorgen();
     }
@@ -283,6 +296,53 @@ public class VehicleSim {
         }
         return -1;
     }
+    /****************************************************************************
+     *
+     *	Method:		    getTriangularDistribution
+     *
+     *	Purpose:	    generate a TriangularDistribution value
+     *
+     ****************************************************************************/
+    private double getTriangularDistribution(int Type){
+        double c = parameters.humanError[Type][0];
+        double a = parameters.humanError[Type][1];
+        double b = parameters.humanError[Type][2];
+
+        double F = (c - a)/(b - a);
+        double rand = Math.random();
+//        System.out.print("Triangular Distribution: ");
+        if (rand < F) {
+//            System.out.println( a + Math.sqrt(rand * (b - a) * (c - a)));
+            return a + Math.sqrt(rand * (b - a) * (c - a));
+        } else {
+//            System.out.println( b - Math.sqrt((1 - rand) * (b - a) * (b - c)));
+            return b - Math.sqrt((1 - rand) * (b - a) * (b - c));
+
+        }
+    }
+    /****************************************************************************
+     *
+     *	Method:		    failTask
+     *
+     *	Purpose:	    determined whethere the task is failed based on the failed param
+     *                  add to a fail task map if fails
+     *
+     ****************************************************************************/
+    private boolean failTask(Operator operator,Task task,int type, double distValue){
+        double rangeMin = parameters.humanError[type][1];
+        double rangeMax = parameters.humanError[type][2];
+        Random r = new Random();
+        double randomValue = rangeMin + (rangeMax - rangeMin) * r.nextDouble();
+//        System.out.println("comparing" +distValue+" and "+randomValue);
+        if(Math.abs(randomValue - distValue) <= 0.0001){
+            System.out.println(task.getName()+" Task Fail! "+parameters.failTaskCount++);
+
+            parameters.failedTasks.add(new Pair <Operator,Task>(operator,task));
+            return true;
+        }
+        return false;
+    }
+
 
     /****************************************************************************
      *
@@ -303,21 +363,18 @@ public class VehicleSim {
 
         // Put tasks into queue at appropriate order.
         for (Task task : tasktime) {
-            if(tasktime.size() != 0)
                 puttask(task);
+
         }
 
         // Finish tasks if no new tasks comes in.
-
         double totaltime = parameters.numHours * 60;
-//        for(int i = 0; i < operators.length; i++) {
-            for (Operator each : operators) {
-                if (each != null) {
-                    while (each.getQueue().getfinTime() < totaltime) {
-                        each.getQueue().done();
-                    }
+        for (Operator each : operators) {
+            if (each != null) {
+                while (each.getQueue().getfinTime() < totaltime) {
+                    each.getQueue().done();
                 }
             }
+        }
     }
-
 }

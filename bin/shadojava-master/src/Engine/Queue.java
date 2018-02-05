@@ -133,6 +133,7 @@ public class Queue implements Comparable<Queue>{
 
     public void done() {
 
+
         // This if statement avoids error when calling done on an empty queue.
 
         if (taskqueue.peek() != null) {
@@ -185,6 +186,7 @@ public class Queue implements Comparable<Queue>{
         numtask();
 
     }
+
 
     /****************************************************************************
      *

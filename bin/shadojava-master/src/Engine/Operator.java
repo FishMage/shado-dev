@@ -67,10 +67,10 @@ public class Operator {
 	 *
 	 ****************************************************************************/
 
-	public Operator(int dpid, int[] task) {
+	public Operator(int dpid, String name,int[] task) {
 
 		taskType = task;
-//		name =  ": " + Integer.toString(dpid%10);
+		this.name =  name +" " + Integer.toString(dpid%10);
 		myQueue = new Queue();
 		dpID = dpid;
 

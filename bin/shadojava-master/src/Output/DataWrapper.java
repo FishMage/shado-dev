@@ -5,6 +5,9 @@ import java.io.*;
 import Engine.*;
 import Input.FileWizard;
 import Input.loadparam;
+import java.util.*;
+import com.sun.tools.doclets.formats.html.SourceToHTMLConverter;
+import javafx.util.Pair;
 
 
 /***************************************************************************
@@ -69,13 +72,19 @@ public class DataWrapper {
 
         // Expired Tasks
 
-        String file_name = file_head + "/out/" + "expiredtask_" + ".csv";
+        String file_name = file_head + "/out/repCSV/" + "simulation_summary_" + ".csv";
         System.setOut(new PrintStream(new BufferedOutputStream(
                 new FileOutputStream(file_name, false)), true));
         for (int i = 0; i < parameter.numTaskTypes; i++) {
             System.out.println("Task name: " + parameter.taskNames[i]);
             System.out.println("expired: " + sim.getExpiredtask()[i]);
             System.out.println("completed: " + sim.getCompletedtaskcount()[i]);
+
+
+        }
+        System.out.println("***FAILED TASKS COUNT:"+parameter.failTaskCount+" ***");
+        for(Pair<Operator,Task> p: parameter.failedTasks){
+            System.out.println("Operator "+ p.getKey().getName()+" Failed: "+p.getValue().getName());
 
         }
     }

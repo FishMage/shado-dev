@@ -121,7 +121,7 @@ public class Task implements Comparable<Task> {
 		isLinked = parameters.linked[Type] == 1;
 		elapsedTime = 0;
 		expired = false;
-
+//        ExponentialTest();
 	}
 
 	/****************************************************************************
@@ -176,6 +176,7 @@ public class Task implements Comparable<Task> {
 		isLinked = parameters.linked[Type] == 1;
 		elapsedTime = 0;
 		expired = false;
+//        getTriangularDistribution();
 	}
 
 	/****************************************************************************
@@ -279,8 +280,9 @@ public class Task implements Comparable<Task> {
 		if (lambda == 0){
 			return Double.POSITIVE_INFINITY;
 		}
-		double result = Math.log(1-Math.random())/(-lambda);
-//		System.out.println("Exponential: return " + result);
+		double result = Math.log(1- Math.random())/(-lambda);
+//        double result = Math.log(0.5)/(-lambda);
+//		System.out.println("Exponential with "+lambda+" : return " + result);
 		return result;
 
 
@@ -472,7 +474,7 @@ public class Task implements Comparable<Task> {
 	}
 
 	private double changeArrivalRate(double num){
-		return parameters.arrPms[Type][Phase] * num;
+		return parameters.arrPms[Type][Phase];
 	}
 
 	private void applyExogenousFactor(){
@@ -501,6 +503,13 @@ public class Task implements Comparable<Task> {
 	private void applyAI(){
 		changeServTime(0.7);
 	}
+
+	private void ExponentialTest(){
+	    for(double i  = 0; i < 1; i+=0.1) {
+            System.out.println("Exponential: "+i + " = "+Exponential(i));
+        }
+    }
+
 }
 
 

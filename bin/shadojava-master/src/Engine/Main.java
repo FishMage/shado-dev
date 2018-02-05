@@ -50,16 +50,18 @@ public class Main {
 		System.out.println("exTypes: "+ Arrays.toString(data.exTypes));
 		System.out.println("Total Number of Remote Ops: "+ data.teamSizeTotal);
 		System.out.println("Remote Ops taskType"+ Arrays.deepToString(data.opTasks));
+		System.out.println("Human Error Input: "+ Arrays.deepToString(data.humanError));
 
 		// Runs simulation
 
 		Simulation sim = new Simulation(data);
 		sim.run();
+        System.out.println("Failed Tasks: "+ data.failTaskCount);
 //
 //		// Generate Output
 //
-//		DataWrapper analyze = new DataWrapper(sim, data);
-//		analyze.output();
+		DataWrapper analyze = new DataWrapper(sim, data);
+		analyze.output();
 
 	}
 
