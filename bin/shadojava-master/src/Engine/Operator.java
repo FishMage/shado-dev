@@ -39,31 +39,13 @@ public class Operator {
 
 	public String getName(){return this.name;}
 
-	/****************************************************************************
-	 *
-	 *	Main Object:	Operator
-	 *
-	 *	Purpose:		Generate an operator object from the parameter file imported
-	 *
-	 ****************************************************************************/
 
-	public Operator (int opid, loadparam param){
-//		System.out.println("	new opid: " + opid);
-		parameters = param;
-		opId = opid;
-		taskType = parameters.opTasks[opid];
-		name = parameters.opNames[opid];
-
-		// Next line generates an empty queue.
-
-		myQueue = new Queue();
-	}
 
 	/****************************************************************************
 	 *
-	 *	Main Object:	RemoteOper
+	 *	Main Object:	RemoteOperator
 	 *
-	 *	Purpose:		Generate a RemoteOper from the parameter file imported
+	 *	Purpose:		Generate a RemoteOperator from the parameter file imported
 	 *
 	 ****************************************************************************/
 
@@ -71,8 +53,8 @@ public class Operator {
 
 		taskType = task;
 		this.name =  name +" " + Integer.toString(dpid%10);
-		myQueue = new Queue();
 		dpID = dpid;
+		myQueue = new Queue(this);
 
 	}
 }

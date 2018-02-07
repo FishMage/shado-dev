@@ -3,6 +3,7 @@ package Output;
 import Engine.*;
 
 import Input.FileWizard;
+import Input.loadparam;
 import Output.ProcData;
 import java.io.*;
 import java.io.BufferedOutputStream;
@@ -53,6 +54,8 @@ public class ProcRep {
 
     private int[] expired;
 
+    private loadparam parameter;
+
     // INSPECTORS
 
     public int[] getExpired() { return expired; }
@@ -68,7 +71,7 @@ public class ProcRep {
      *
      ****************************************************************************/
 
-    public ProcRep(Data[] dis, Data[] ops, Replication rep){
+    public ProcRep(Data[] dis, Data[] ops, Replication rep, loadparam parameter){
 
         this.rep = rep;
         RemoteOpdata = dis;
@@ -81,7 +84,7 @@ public class ProcRep {
         hours = rep.parameters.numHours;
         expired = new int[numtasktypes];
         completed = new int[numtasktypes];
-
+        this.parameter = parameter;
 
     }
 
@@ -259,7 +262,7 @@ public class ProcRep {
 //            System.out.println(" FOR OPERATOR \n");
 //            each.outputdata();
             each.avgdata();
-            sepCSV(each,currRep,numoperator);
+//            sepCSV(each,currRep,numoperator);
         }
 
     }
@@ -296,7 +299,7 @@ public class ProcRep {
         String  file_head = FileWizard.getabspath();
         //SCHEN 11/30/17
         //Make RemoteOper dir if not exists
-        String directoryName = "/out/repCSV/RemoteOps_"+numdip;
+        String directoryName = "/out/repCSV/Repli_"+repNum;
         File directory = new File(directoryName);
         if (!directory.exists()){
             directory.mkdir();
@@ -305,11 +308,11 @@ public class ProcRep {
 //            System.out.println("mkdir");
         }
 
-        String file_name = file_head + directoryName + "_rep_"+ repNum + ".csv";
+        String file_name = file_head + directoryName + "_"+parameter.opNames[numdip] + ".csv";
         System.setOut(new PrintStream(new BufferedOutputStream(
                 new FileOutputStream(file_name, false)), true));
         RemoteOpout.outputdata();
-
+//        directory.close();
 
     }
 

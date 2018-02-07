@@ -99,14 +99,15 @@ public class Simulation {
 
         Replication processed = new Replication(parameters, repID);
         processed.run();
-        ProcRep process = new ProcRep(RemoteOpoutput, operatoroutput, processed);
-
-        process.run(repID);
-
-        for (int i = 0; i < parameters.numTaskTypes; i++) {
-            expiredtaskcount[i] += process.getExpired()[i];
-            completedtaskcount[i] += process.getCompleted()[i];
-        }
+        parameters.reps[repID] = processed;
+//        ProcRep process = new ProcRep(RemoteOpoutput, operatoroutput, processed);
+//
+//        process.run(repID);
+//
+//        for (int i = 0; i < parameters.numTaskTypes; i++) {
+//            expiredtaskcount[i] += process.getExpired()[i];
+//            completedtaskcount[i] += process.getCompleted()[i];
+//        }
     }
 
     /****************************************************************************
@@ -122,8 +123,18 @@ public class Simulation {
         for (int i = 0; i < repnumber; i++) {
 
             processReplication(i);
-            if (i%10 == 0){
+            parameters.replicationTracker ++;
+//            if (i%10 == 0){
                 System.out.println("we're at " + i + " repetition");
+//            }
+        }
+        for(int i = 0; i < repnumber; i++){
+            ProcRep process = new ProcRep(RemoteOpoutput, operatoroutput, parameters.reps[i],parameters);
+            process.run(i);
+
+            for (int j = 0; j < parameters.numTaskTypes; j++) {
+                expiredtaskcount[j] += process.getExpired()[j];
+                completedtaskcount[j] += process.getCompleted()[j];
             }
         }
 

@@ -40,17 +40,8 @@ public class Main {
 //		SCHEN 11/10/17 Test for Reading Fleet Hetero
 //		String strHetero = data.fleetHetero.toString();
 
-		System.out.println("FleetHetero: "+ Arrays.deepToString(data.fleetHetero));
-		System.out.println("Fleet Types: "+ data.fleetTypes);
-		System.out.println("numvehicles: "+ Arrays.toString(data.numvehicles));
-		System.out.println("autoLevel: "+ data.autolvl);
-		System.out.println("team Communication: "+ Arrays.toString(data.teamComm));
-		System.out.println("hasExo: "+ Arrays.toString(data.hasExogenous));
-		System.out.println("exNames: "+ Arrays.toString(data.exNames));
-		System.out.println("exTypes: "+ Arrays.toString(data.exTypes));
-		System.out.println("Total Number of Remote Ops: "+ data.teamSizeTotal);
-		System.out.println("Remote Ops taskType"+ Arrays.deepToString(data.opTasks));
-		System.out.println("Human Error Input: "+ Arrays.deepToString(data.humanError));
+//		printBasicInfo(data);
+
 
 		// Runs simulation
 
@@ -63,6 +54,19 @@ public class Main {
 		DataWrapper analyze = new DataWrapper(sim, data);
 		analyze.output();
 
+	}
+	private static void printBasicInfo(loadparam data){
+		System.out.println("FleetHetero: "+ Arrays.deepToString(data.fleetHetero));
+		System.out.println("Fleet Types: "+ data.fleetTypes);
+		System.out.println("numvehicles: "+ Arrays.toString(data.numvehicles));
+		System.out.println("autoLevel: "+ data.autolvl);
+		System.out.println("team Communication: "+ Arrays.toString(data.teamComm));
+		System.out.println("hasExo: "+ Arrays.toString(data.hasExogenous));
+		System.out.println("exNames: "+ Arrays.toString(data.exNames));
+		System.out.println("exTypes: "+ Arrays.toString(data.exTypes));
+		System.out.println("Total Number of Remote Ops: "+ data.teamSizeTotal);
+		System.out.println("Remote Ops taskType"+ Arrays.deepToString(data.opTasks));
+		System.out.println("Human Error Input: "+ Arrays.deepToString(data.humanError));
 	}
 
 }

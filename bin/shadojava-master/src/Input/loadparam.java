@@ -1,5 +1,6 @@
 package Input;
 import Engine.Operator;
+import Engine.Replication;
 import Engine.Task;
 import javafx.util.Pair;
 
@@ -36,9 +37,12 @@ public class loadparam {
     public int[] numvehicles;
 
     public int numRemoteOp;
+    public Replication[] reps;
     public int[] RemoteOpTasks;
-    public List<Pair<Operator, Task>> failedTasks = new ArrayList<>();
-    public int failTaskCount;
+//    public List<Pair<Operator, Task>> failedTasks = new ArrayList<>();
+    public HashMap<Integer,ArrayList> rep_failTask;
+    public HashMap<Integer,Integer> failTaskCount;
+    public int replicationTracker;
     //SCHEN 12/4/17 Fleet Autonomy level param
 	// None-> default,
 	// Some ->70%
@@ -122,7 +126,10 @@ public class loadparam {
 		numReps = readInt(in);
 		//SCHEN 11/10/17 fleetTypes represents the combination of different vehicles
 		fleetTypes = readInt(in);
-        failTaskCount = 0;
+        failTaskCount = new HashMap<>();
+       	replicationTracker = 0;
+
+
 		//SCHEN 11/10/17 Read numvehicles Array
 //		numvehicles = readInt(in);
 		numvehicles = readIntArr(in);
@@ -137,6 +144,8 @@ public class loadparam {
 		hasExogenous = readIntArr(in);
         opStrats = readString(in);
 
+		reps = new Replication[numReps];
+		rep_failTask = new HashMap<>();
 		//Has exo-factors
 		int numExos = hasExogenous[1];
         exNames = new String[numExos];

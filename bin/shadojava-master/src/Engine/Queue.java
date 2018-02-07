@@ -83,10 +83,11 @@ public class Queue implements Comparable<Queue>{
      *
      ****************************************************************************/
 
-    public Queue() {
+    public Queue(Operator op) {
         taskqueue = new PriorityQueue<Task>();
         time = 0;
         finTime = Double.POSITIVE_INFINITY;
+        this.operator = op;
     }
 
     /****************************************************************************

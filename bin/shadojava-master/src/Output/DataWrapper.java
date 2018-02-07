@@ -56,7 +56,7 @@ public class DataWrapper {
         // RemoteOp & Engineer timetables
 
         for (int i = 0; i < parameter.numRemoteOp; i++) {
-            String file_name = file_head + "/out/" + "RemoteOper" + ".csv";
+            String file_name = file_head + "/out/" + "RemoteOperator" + ".csv";
             System.setOut(new PrintStream(new BufferedOutputStream(
                     new FileOutputStream(file_name, false)), true));
             sim.getRemoteOpoutput(i).outputdata();
@@ -72,7 +72,7 @@ public class DataWrapper {
 
         // Expired Tasks
 
-        String file_name = file_head + "/out/repCSV/" + "simulation_summary_" + ".csv";
+        String file_name = file_head + "/out/repCSV/" + "Simulation_Summary_" + ".csv";
         System.setOut(new PrintStream(new BufferedOutputStream(
                 new FileOutputStream(file_name, false)), true));
         for (int i = 0; i < parameter.numTaskTypes; i++) {
@@ -82,9 +82,26 @@ public class DataWrapper {
 
 
         }
-        System.out.println("***FAILED TASKS COUNT:"+parameter.failTaskCount+" ***");
-        for(Pair<Operator,Task> p: parameter.failedTasks){
-            System.out.println("Operator "+ p.getKey().getName()+" Failed: "+p.getValue().getName());
+        System.out.println("*** FAILED TASKS ***");
+//            System.out.println("Operator "+ p.getKey().getName()+" Failed: "+p.getValue().getName());
+            for(int i = 0 ; i< parameter.numReps; i++){
+                HashMap<Integer,Integer> failCnt = parameter.failTaskCount;
+                int currFailCnt = failCnt.get(i);
+                System.out.println("In Replication " + i +": "+ "Number of Fail Tasks: "+currFailCnt);
+            }
+
+        for(int i = 0; i < parameter.numReps;i++) {
+            String summary_file_name = file_head + "/out/repCSV/" + "Replication_Summary_" +i+ ".csv";
+            System.setOut(new PrintStream(new BufferedOutputStream(
+                    new FileOutputStream(summary_file_name, false)), true));
+            System.out.println("Fail Task Detail: ");
+            ArrayList<Pair<Operator,Task>> failList = parameter.rep_failTask.get(i);
+            for(int k = 0 ; k < failList.size(); k++){
+                String opName = failList.get(k).getKey().getName();
+                String tName = failList.get(k).getValue().getName();
+                System.out.println(opName+" Fails" +tName);
+            }
+
 
         }
     }
