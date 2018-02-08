@@ -97,6 +97,7 @@ public class Replication {
             if(remoteOps.getRemoteOp()[j] != null) {
                 if (IntStream.of(remoteOps.getRemoteOp()[j].taskType).anyMatch(x -> x == task.getType())) {
                     //Put task in appropriate Queue
+                    //DEBUG:
 //                    System.out.println("    Adding Task "+task.getType()+" to-> "+remoteOps.getRemoteOp()[j].getName()
 //                    +", Current queue Size: " + remoteOps.getRemoteOp()[j].getQueue().taskqueue.size());
 //                        proc.add(operators[j].getQueue());
@@ -227,7 +228,7 @@ public class Replication {
             for(int j = 0; j < parameters.numvehicles[i]; j++) {
                 //SCHEN 11/20/17 vehicleId change for 2d Array
                 vehicles[i][j] = new VehicleSim(parameters,i*10 + j,remoteOps.getRemoteOp(),globalTasks);
-                vehicles[i][j].genbasis();
+                vehicles[i][j].genVehicleTask();
             }
 
         }
@@ -236,20 +237,8 @@ public class Replication {
             puttask(task);
 
         }
-        // Add linked tasks to vehicles.
-//        for(int i = 0; i < parameters.fleetTypes; i++) {
-//            for (Task each : linked) {
-//
-//                int vehicleid = each.getvehicle();
-//                each = new Task(each.getType(), each.getBeginTime(), parameters, false);
-//                each.setID(vehicleid);
-//                if (each.getArrTime() < parameters.numHours * 60) {
-////                    System.out.println("Getting vehicle id: "+i+", "+vehicleid+" =>"+ vehicleid%10 );
-//                    vehicles[i][vehicleid%10].linktask(each);
-//                }
-//            }
-//        }
-        // Run each vehicle
+
+       // Run each vehicle
         for(int i = 0; i< parameters.fleetTypes; i++){
             for (VehicleSim each : vehicles[i]) {
                 each.run();
@@ -257,7 +246,6 @@ public class Replication {
         }
         parameters.rep_failTask.put(parameters.replicationTracker,this.failedTasks);
         System.out.println("Curr Replication: " + parameters.replicationTracker);
-//        parameters.replicationTracker++;
 
     }
 }

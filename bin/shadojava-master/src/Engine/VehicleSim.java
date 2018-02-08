@@ -45,6 +45,10 @@ public class VehicleSim {
         return vehicleID;
     }
 
+    public boolean checkAI(){
+        return this.hasAI;
+    }
+
     public double getTotalTime() {
         return parameters.numHours * 60;
     }
@@ -131,13 +135,6 @@ public class VehicleSim {
 
                 }
 
-                if (newTask.linked()) {
-//                    continue;
-                }
-
-//                newTask.setID(vehicleID);
-//                indlist.add(newTask);
-
                 // While the next task is within the time frame, generate.
 
                 while (newTask.getArrTime() < parameters.numHours * 60) {
@@ -206,28 +203,16 @@ public class VehicleSim {
 
     /****************************************************************************
      *
-     *	Method:			genbasis
+     *	Method:			genVehicleTask
      *
      *	Purpose:		Generate the base set of data in VehicleSim object.
      *
      ****************************************************************************/
 
-    public void genbasis() {
-        // Generate stuff
-//        checkAI();
+    public void genVehicleTask() {
         taskgen();
-//        operatorgen();
     }
-    /****************************************************************************
-     *
-     *	Method:			checkAI
-     *
-     *	Purpose:	    check Whether AI is present in this FleetType
-     *
-     ****************************************************************************/
-    public boolean checkAI(){
-        return this.hasAI;
-    }
+
     /****************************************************************************
      *
      *	Method:			checkTeamCoord
