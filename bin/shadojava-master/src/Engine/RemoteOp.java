@@ -176,27 +176,27 @@ public class RemoteOp {
      *	Purpose:		generate the final state of the RemoteOper and their tasks.
      *
      ****************************************************************************/
-
-    public void runRemoteOp() {
-
-        VehicleSim RemoteOpSim = new VehicleSim(parameters, RemoteOpers, linkedtasks);
-        RemoteOpSim.run();
-        proctasks = new ArrayList<Task>();
-        tovehicle = new ArrayList<Task>();
-        //SCHEN 11/20/17 Changes for 2d array in VehicleSim Object
-         for(int i = 0; i < parameters.numRemoteOp; i++) {
-             for (Operator RemoteOp : RemoteOpSim.operators) {
-                 proctasks.addAll(RemoteOp.getQueue().records());
-             }
-             for (Task each : proctasks) {
-                 if (!each.checkexpired()) {
-                     if (each.linked()) {
-                         tovehicle.add(each);
-                     }
-                 }
-             }
-         }
-    }
+//
+//    public void runRemoteOp() {
+//
+//        VehicleSim RemoteOpSim = new VehicleSim(parameters, RemoteOpers, linkedtasks);
+//        RemoteOpSim.run();
+//        proctasks = new ArrayList<Task>();
+//        tovehicle = new ArrayList<Task>();
+//        //SCHEN 11/20/17 Changes for 2d array in VehicleSim Object
+//         for(int i = 0; i < parameters.numRemoteOp; i++) {
+//             for (Operator RemoteOp : RemoteOpSim.operators) {
+//                 proctasks.addAll(RemoteOp.getQueue().records());
+//             }
+//             for (Task each : proctasks) {
+//                 if (!each.checkexpired()) {
+//                     if (each.linked()) {
+//                         tovehicle.add(each);
+//                     }
+//                 }
+//             }
+//         }
+//    }
 
 
     /****************************************************************************

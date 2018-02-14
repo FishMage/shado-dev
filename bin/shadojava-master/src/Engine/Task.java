@@ -95,7 +95,8 @@ public class Task implements Comparable<Task> {
 		Type = type;
 		parameters = Param;
 		prevTime = PrevTime;
-		this.fail = false;
+//        System.out.println("PrevTime: "+prevTime);
+        this.fail = false;
 		if (parameters.arrPms[type][0] != 0) {
 			Phase = getPhase(PrevTime, parameters.numHours);
 			shiftPeriod = getShiftTime(PrevTime,parameters.numHours);
@@ -168,7 +169,7 @@ public class Task implements Comparable<Task> {
 
 		//Modules
 		applyExogenousFactor();
-		applyAI();
+		applyAI(hasAI);
         applyTeamCoord(lvlComm);
 
         //NEW FEATURE: SHIFT SCHEDULE 1% fatiqueIncrease serTime
@@ -506,8 +507,9 @@ public class Task implements Comparable<Task> {
         if(lvlTeamCoord =='F') changeArrivalRate(0.3);
 	}
 
-	private void applyAI(){
-		changeServTime(0.7);
+	private void applyAI(boolean hasAI){
+	    if(hasAI)
+	    	changeServTime(0.7);
 	}
 
 	private void ExponentialTest(){

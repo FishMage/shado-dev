@@ -8,6 +8,7 @@ import Input.loadparam;
 import java.util.*;
 import java.lang.*;
 //import org.javatuples.Tuple;
+import java.util.concurrent.BlockingQueue;
 import java.util.stream.*;
 import Input.loadparam;
 import com.sun.tools.javac.util.Log;
@@ -49,6 +50,9 @@ public class Replication {
     private RemoteOp remoteOps;
 
     private ArrayList<Task> globalTasks;
+
+    //TEST: Multithreaded producer with global timing
+    private BlockingQueue<Task> globalWatingTasks;
 
     private ArrayList<Pair <Operator,Task>> failedTasks;
 
@@ -211,6 +215,12 @@ public class Replication {
         return false;
     }
 
+    public void sortTask() {
+
+        // Sort task by time.
+
+        Collections.sort(globalTasks, (o1, o2) -> Double.compare(o1.getArrTime(), o2.getArrTime()));
+    }
     /****************************************************************************
      *
      *	Method:		run
@@ -242,14 +252,16 @@ public class Replication {
         for (int i = 0; i < parameters.fleetTypes; i++) {
             for(int j = 0; j < parameters.numvehicles[i]; j++) {
                 //SCHEN 11/20/17 vehicleId change for 2d Array
-                vehicles[i][j] = new VehicleSim(parameters,i*10 + j,remoteOps.getRemoteOp(),globalTasks);
+                vehicles[i][j] = new VehicleSim(parameters,i*10 + j,remoteOps.getRemoteOp(),globalTasks,globalWatingTasks);
                 System.out.println("Vehicle "+(i*10+j)+" generates tasks");
                 vehicles[i][j].genVehicleTask();
             }
         }
-
+        sortTask();
         System.out.println("Total Tasks: "+globalTasks.size());
+
         for (Task task : globalTasks) {
+//            System.out.println("PrevTime after sorting: " +task.getArrTime());
             puttask(task);
 
         }

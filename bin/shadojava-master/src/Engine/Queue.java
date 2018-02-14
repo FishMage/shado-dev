@@ -1,4 +1,6 @@
 package Engine;
+import Input.loadparam;
+
 import java.util.*;
 
 /***************************************************************************
@@ -132,8 +134,13 @@ public class Queue implements Comparable<Queue>{
      *
      ****************************************************************************/
 
-    public void done() {
+    public void done(loadparam parameters) {
 
+
+        //NEW FEATURE OPERATOR STRATEGIES
+        if(parameters.opStrats.equals("STF")){
+
+        }
 
         // This if statement avoids error when calling done on an empty queue.
 

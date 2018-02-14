@@ -1,5 +1,6 @@
 package Engine;
 import java.util.*;
+import java.util.concurrent.BlockingQueue;
 import java.util.stream.*;
 import Input.loadparam;
 import javafx.util.Pair;
@@ -19,7 +20,7 @@ import javafx.util.Pair;
  **************************************************************************/
 
 
-public class VehicleSim {
+public class VehicleSim  {
 
     // The parameters loaded from file
 
@@ -29,6 +30,11 @@ public class VehicleSim {
 
     public Operator[] RemoteOpers;
 
+    //Multithread variable section
+    private BlockingQueue<Task> globalWatingTasks;
+
+
+
     public int vehicleID;
 
     // NEW feature: AI Assistant
@@ -36,11 +42,9 @@ public class VehicleSim {
     public boolean hasAI;
 
     // This is an arraylist of ALL tasks in the order that they're arriving.
-
     public ArrayList<Task> globalTasks;
 
     // Inspectors
-
     public int getvehicleID() {
         return vehicleID;
     }
@@ -69,11 +73,11 @@ public class VehicleSim {
      *
      ****************************************************************************/
 
-    public VehicleSim(loadparam param, Operator[] remoteOps, ArrayList<Task> list) {
-        globalTasks = list;
-        operators = remoteOps;
-        parameters = param;
-    }
+//    public VehicleSim(loadparam param, Operator[] remoteOps, ArrayList<Task> list) {
+//        globalTasks = list;
+//        operators = remoteOps;
+//        parameters = param;
+//    }
 
     /****************************************************************************
      *
@@ -83,7 +87,11 @@ public class VehicleSim {
      *
      ****************************************************************************/
 
-    public VehicleSim(loadparam param, int vehicleid,  Operator[] remoteOps, ArrayList<Task> list) {
+    public VehicleSim(loadparam param, int vehicleid,  Operator[] remoteOps, ArrayList<Task> list, BlockingQueue<Task> globalWaitingTasks) {
+
+        //Test Concurrency
+        this.globalWatingTasks = globalWaitingTasks;
+
         globalTasks = list;
         operators = remoteOps;
         parameters = param;
@@ -98,7 +106,7 @@ public class VehicleSim {
      *
      ****************************************************************************/
 
-    public void taskgen() {
+    public synchronized void taskgen() {
         System.out.println("TaskGen for vehicle ID: "+ vehicleID);
 
 
@@ -125,23 +133,17 @@ public class VehicleSim {
             //DEBUG
 //            System.out.println("Now Generating Task type: "+taskType +", Fleet Type:" + fleetType);
                 if (parameters.arrPms[i][0] == 0) { //First task
-                    if (checkAI()) {
-                        newTask = new Task(taskType, 30 + Math.random(), parameters, false, true, parameters.teamComm[0]); //New Task
-                    } else
-                        newTask = new Task(taskType, 30 + Math.random(), parameters, false); //Old task
+                        newTask = new Task(taskType, 30 + Math.random(), parameters, false, checkAI(), parameters.teamComm[0]); //New Task
                 } else {
 
-                    if (checkAI()) {
-                        newTask = new Task(taskType, 0, parameters, true, true, parameters.teamComm[0]);
-                    } else
-                        newTask = new Task(taskType, 0, parameters, true);
+                        newTask = new Task(taskType, 0, parameters, true, checkAI(), parameters.teamComm[0]);
 
                 }
 
                 // While the next task is within the time frame, generate.
 
                 while (newTask.getArrTime() < parameters.numHours * 60) {
-                    newTask = new Task(i, newTask.getArrTime(), parameters, true);
+                    newTask = new Task(i, newTask.getArrTime(), parameters, true,true, parameters.teamComm[0]);
                     newTask.setID(vehicleID);
                     // TODO if the queue is idle;
 //                    globalTasks.add(newTask);
@@ -151,18 +153,18 @@ public class VehicleSim {
 
             // Put all task into the master tasklist.
 
-//            globalTasks.addAll(indlist);
+            globalTasks.addAll(indlist);
             System.out.println("    -Type :"+taskType+" Total Number of Task gen: " + indlist.size());
         }
 
     }
-
-    public void sortTask() {
-
-        // Sort task by time.
-
-        Collections.sort(globalTasks, (o1, o2) -> Double.compare(o1.getArrTime(), o2.getArrTime()));
-    }
+//
+//    public void sortTask() {
+//
+//        // Sort task by time.
+//
+//        Collections.sort(globalTasks, (o1, o2) -> Double.compare(o1.getArrTime(), o2.getArrTime()));
+//    }
 
     public void addTriggered() {
 
@@ -177,33 +179,27 @@ public class VehicleSim {
         }
     }
 
-    /****************************************************************************
-     *
-     *	Method:			operatorgen
-     *
-     *	Purpose:		Generate an array of operators.
-     *
-     ****************************************************************************/
-
-    public void operatorgen() {
-
-        // Create Operators
-        //SCHEN 11/20/17:
-        //TODO[COMPLETED]: Create Different Operatorset for different types of vehicles
+//    /****************************************************************************
+//     *
+//     *	Method:			operatorgen
+//     *
+//     *	Purpose:		Generate an array of operators.
+//     *
+//     ****************************************************************************/
+//
+//    public void operatorgen() {
+//
+//        // Create Operators
+//        //SCHEN 11/20/17:
+//        //TODO[COMPLETED]: Create Different Operatorset for different types of vehicles
 //        operators = new Operator[parameters.ops.length];
-        int fleetType = vehicleID/10;
-        operators = new Operator[parameters.numOps];
-//        System.out.println("****FleetType:****");
-//        for (int i = 0; i < parameters.fleetTypes; i++) {
-        for(int j = 0; j < parameters.numOps; j++) {
-//                System.out.print(parameters.fleetHetero[i][j]+ ", ");
-//            operators[j] = new Operator(j, parameters);
-            if(operators[j].getName().equals("Artificially Intelligent Agent")) hasAI = true;
-        }
-//            System.out.println();
+//        int fleetType = vehicleID/10;
+//        operators = new Operator[parameters.numOps];
+//        for(int j = 0; j < parameters.numOps; j++) {
+//            if(operators[j].getName().equals("Artificially Intelligent Agent")) hasAI = true;
 //        }
-//        System.out.println("-----Single Rep Scan Complete------");
-    }
+//        }
+//    }
 
 
     /****************************************************************************
@@ -245,26 +241,13 @@ public class VehicleSim {
 
     public void run() {
 
-        //  addTriggered();
-
-        // SCHEN 1/20/18 Operator Strategies
-        //if STF( "Shortest task first") Sort, else: FIFO
-        if(parameters.opStrats.equals("STF"))
-            sortTask();
-
-        // Put tasks into queue at appropriate order.
-//        System.out.println("Total Tasks: "+globalTasks.size());
-//        for (Task task : globalTasks) {
-//                puttask(task);
-//
-//        }
 
         // Finish tasks if no new tasks comes in.
         double totaltime = parameters.numHours * 60;
         for (Operator each : operators) {
             if (each != null) {
                 while (each.getQueue().getfinTime() < totaltime) {
-                    each.getQueue().done();
+                    each.getQueue().done(parameters);
                 }
             }
         }
