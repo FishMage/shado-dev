@@ -6,12 +6,20 @@ import Engine.Task;
 import Engine.VehicleSim;
 import Input.loadparam;
 import java.util.*;
+import java.lang.*;
 //import org.javatuples.Tuple;
 import java.util.stream.*;
 import Input.loadparam;
+import com.sun.tools.javac.util.Log;
 import javafx.util.Pair;
+import jdk.nashorn.internal.runtime.Debug;
+import sun.jvm.hotspot.debugger.Debugger;
+
 import java.util.ArrayList;
 import java.util.stream.IntStream;
+
+import static com.sun.xml.internal.ws.spi.db.BindingContextFactory.LOGGER;
+
 
 /***************************************************************************
  *
@@ -141,7 +149,7 @@ public class Replication {
         // **** I'm setting the operator so that we can access the data arrays of each operator ****
 //        proc.get(0).operator = working.get(0);
         if(!failTask(optimal_op,task, task.getType(),getTriangularDistribution(task.getType()))){
-            optimal_op.getQueue().add(task);
+                optimal_op.getQueue().add(task);
         }
     }
 
@@ -183,14 +191,21 @@ public class Replication {
         Random r = new Random();
         double randomValue = rangeMin + (rangeMax - rangeMin) * r.nextDouble();
 //        System.out.println("comparing" +distValue+" and "+randomValue);
-        if(operator.getName().equals("Artificially Intelligent Agent"))
+
+        //If it is AI, skip
+        if(operator.getName().split(" ")[0].equals("Artificially"))
             return false;
-        if(Math.abs(randomValue - distValue) <= 0.00001){
+        if(Math.abs(randomValue - distValue) <= 0.0001){
             HashMap<Integer,Integer> failCnt = parameters.failTaskCount;
             int currCnt = failCnt.get(parameters.replicationTracker);
             failCnt.put(parameters.replicationTracker,++currCnt);
 //            System.out.println(operator.getName()+" fails " +task.getName()+", Total Fail "+ currCnt);
             this.failedTasks.add(new Pair <Operator,Task>(operator,task));
+            if(Math.random() < parameters.failThreshold){
+                //Task Failed but still processed by operator
+                task.setFail();
+                return false;
+            }
             return true;
         }
         return false;
@@ -228,10 +243,11 @@ public class Replication {
             for(int j = 0; j < parameters.numvehicles[i]; j++) {
                 //SCHEN 11/20/17 vehicleId change for 2d Array
                 vehicles[i][j] = new VehicleSim(parameters,i*10 + j,remoteOps.getRemoteOp(),globalTasks);
+                System.out.println("Vehicle "+(i*10+j)+" generates tasks");
                 vehicles[i][j].genVehicleTask();
             }
-
         }
+
         System.out.println("Total Tasks: "+globalTasks.size());
         for (Task task : globalTasks) {
             puttask(task);

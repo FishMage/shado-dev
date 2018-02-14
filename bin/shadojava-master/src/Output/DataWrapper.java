@@ -99,7 +99,11 @@ public class DataWrapper {
             for(int k = 0 ; k < failList.size(); k++){
                 String opName = failList.get(k).getKey().getName();
                 String tName = failList.get(k).getValue().getName();
-                System.out.println(opName+" Fails" +tName);
+                System.out.print(opName+" Fails" +tName);
+                if(failList.get(k).getValue().getFail()){
+                    System.out.print(" But still proceed by the Operator");
+                }
+                System.out.println();
             }
 
 

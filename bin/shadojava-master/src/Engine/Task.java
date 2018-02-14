@@ -35,7 +35,7 @@ public class Task implements Comparable<Task> {
 	private String name;
 	private int vehicleID;
 	private boolean expired;
-
+	private boolean fail; // Indicates fail but proceed
 	private double lvl_SOME = 0.7;
 	private double lvl_FULL = 0.3;
 	private double lvl_None = 1.0;
@@ -50,6 +50,10 @@ public class Task implements Comparable<Task> {
 
 	// Mutators
 	public boolean checkexpired() { return expired; }
+
+	public boolean getFail(){return this.fail;}
+
+	public void setFail(){this.fail = true;}
 
 	public void setArrTime(double time) { arrTime = time;}
 
@@ -91,6 +95,7 @@ public class Task implements Comparable<Task> {
 		Type = type;
 		parameters = Param;
 		prevTime = PrevTime;
+		this.fail = false;
 		if (parameters.arrPms[type][0] != 0) {
 			Phase = getPhase(PrevTime, parameters.numHours);
 			shiftPeriod = getShiftTime(PrevTime,parameters.numHours);
@@ -138,6 +143,7 @@ public class Task implements Comparable<Task> {
 		Type = type;
 		parameters = Param;
 		prevTime = PrevTime;
+		this.fail = false;
         if (parameters.arrPms[type][0] != 0) {
             Phase = getPhase(PrevTime, parameters.numHours);
             shiftPeriod = getShiftTime(PrevTime,parameters.numHours);

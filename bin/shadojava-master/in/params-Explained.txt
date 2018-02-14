@@ -1,27 +1,27 @@
 output_path		/Users/erinsong/Documents/shadojava/out
 num_hours	    8
 traff_levels   	m h h h l l l m
-num_reps	    2
-fleet_types     4
-num_vehicle		3 3 3 3
-num_ops 		3
-num_RemoteOp	3
-RemoteOp_task	0 2 4
-num_task_types	9
-num_phases      3
-autonomy_lvl    0
-hasExogenous    0 2
+num_reps	    2               # Number of Replications
+fleet_types     4               # Number of FleetTypes
+num_vehicle		3 3 3 3         # Number of Vehicle in each fleet type
+num_ops 		3               # Types of Operators (Legacy parameter, can be replaced by next param)
+num_RemoteOp	3               # Types of Operators
+RemoteOp_task	0 2 4           # Legacy Param, not used
+num_task_types	9               # Number of task types
+num_phases      3               # Number of Phases, need to match the input in each task
+autonomy_lvl    0               # Level of Autonomy. 0: None, 1: Some, 2: Full
+hasExogenous    0 2             # First param can be 1 or 0; indicates whether there is Exo Factors,
+                                #  Second param indicates how many exo factors, if the first param is 0, ignore the details in exoFactor section.
+op_strats       FIFO            # Operator strategies, Now we have FIFO(first in first out) and STF(Shortest Task First)
+fail_threshold  0.5             # Probability of proceed failed task anyway.
 
-op_strats       FIFO
-fail_threshold  0.5
-
-ex_name         Weather
+ex_name         Weather         # Name of Exogenous factor
 type            long_serv
 
 ex_name         Medical
 type            add_task
 
-fleet_type_0    0 1 2 3 7 8
+fleet_type_0    0 1 2 3 7 8     #Task that will be produced by this fleet type
 fleet_type_1    3
 fleet_type_2    0 1 3
 fleet_type_3    0 3
@@ -29,7 +29,7 @@ fleet_type_3    0 3
 op_name			Dispatcher
 tasks			0 1 2 3 4 5 6 7 8
 team_size       3
-team_comms      N
+team_comms      N               # N: None, F: Full; S: Some
 
 op_name			Operations Management Specialist
 tasks		    0 1 2 3 4 5 6 7 8
@@ -42,20 +42,20 @@ team_size       2
 team_comms      N
 
 
-name       		Communicating
-prty         	4 3 4
-arr_dist     	E
-arr_pms      	0.952381 0.1 0.75188
-ser_dist     	E
-ser_pms      	7.5188 0
-exp_dist     	E
-exp_pms_lo   	0 0.107167 0
-exp_pms_hi   	0 0.0863333 0
-aff_by_traff  	0 1 0
-islinked		1
-trigger			-1
-team_coord_aff  1
-Human_error_probability .0004	.00008	.007
+name       		Communicating				# This is the name of the task
+prty         	4 3 4						# This is the priority of the task in three different phases.
+arr_dist     	E						    # This is the distribution type of the arrival time. E stand for Exponential, L stands for log normal and U stands for uniform
+arr_pms      	0.952381 0.1 0.75188		# This is the parameter of that distribution.
+ser_dist     	E					    	# This is the distribution type of the service time.
+ser_pms      	7.5188 0					# This is the parameter of that distribution.
+exp_dist     	E						    # This is the distribution type of the expiration time.
+exp_pms_lo   	0 0.107167 0				# This is the parameter of the above distribution in three different phases when the traffic are low.
+exp_pms_hi   	0 0.0863333 0				# When traffic are high.
+aff_by_traff  	0 1 0						# In which phase are the task affected by traffic
+islinked		1                           # Legacy param, Not used in SHADO
+trigger			-1                          # Legacy param
+team_coord_aff  1                           # Whether this task will be facilitated by team coordination
+Human_error_probability .0004 .00008 .007   # param for triangular distribution, first: mode, second: lower bound, third: Upper bound
 
 name      		Exception Handling
 prty         	5 4 5

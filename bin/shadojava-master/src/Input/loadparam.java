@@ -51,6 +51,7 @@ public class loadparam {
 	public int autolvl;
 	public int [] hasExogenous;
 	public String opStrats;
+	public double failThreshold;
 
 	// SCHEN 11/10/17 Fleet heterogeneity
 	public int fleetTypes;
@@ -143,7 +144,7 @@ public class loadparam {
 //		teamComm = readInt(in);
 		hasExogenous = readIntArr(in);
         opStrats = readString(in);
-
+		failThreshold = readDouble(in);
 		reps = new Replication[numReps];
 		rep_failTask = new HashMap<>();
 		//Has exo-factors

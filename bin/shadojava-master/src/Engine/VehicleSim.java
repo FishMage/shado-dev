@@ -37,7 +37,7 @@ public class VehicleSim {
 
     // This is an arraylist of ALL tasks in the order that they're arriving.
 
-    public ArrayList<Task> tasktime;
+    public ArrayList<Task> globalTasks;
 
     // Inspectors
 
@@ -56,7 +56,7 @@ public class VehicleSim {
     // Mutator
 
     public void linktask(Task task) {
-        tasktime.add(task);
+        globalTasks.add(task);
     }
 
     //SCHEN 12/16/17 Modify fleet heterogeniety, fix bug: all vehicle has all operator settings
@@ -70,7 +70,7 @@ public class VehicleSim {
      ****************************************************************************/
 
     public VehicleSim(loadparam param, Operator[] remoteOps, ArrayList<Task> list) {
-        tasktime = list;
+        globalTasks = list;
         operators = remoteOps;
         parameters = param;
     }
@@ -84,7 +84,7 @@ public class VehicleSim {
      ****************************************************************************/
 
     public VehicleSim(loadparam param, int vehicleid,  Operator[] remoteOps, ArrayList<Task> list) {
-        tasktime = list;
+        globalTasks = list;
         operators = remoteOps;
         parameters = param;
         vehicleID = vehicleid;
@@ -104,9 +104,13 @@ public class VehicleSim {
 
         // TODO[COMPLETED] add AI assitant to shorter the service time.
         // For each type of tasks:
-
+        int fleetType = this.vehicleID/10;
+        for(int i = 0; i < parameters.numRemoteOp; i++){
+            if(operators[i].getName().equals("Artificially Intelligent Agent"))
+                this.hasAI = true;
+        }
         //If teamCoord Presents task number = total tasknum -1
-        for (int i = 0; i < parameters.numTaskTypes; i++) {
+        for (int i = 0; i < parameters.fleetHetero[fleetType].length; i++) {
 
             // Create a new empty list of Tasks
 
@@ -115,23 +119,22 @@ public class VehicleSim {
             // Start a new task with PrevTime = 0
 
             Task newTask;
-            // TODO[COMPLETED] add Internal communication task
-
             // if hasAI, use overloaded constructor
-            // TODO determined whether the task shoudld fail
 
-
+            int taskType = parameters.fleetHetero[fleetType][i];
+            //DEBUG
+//            System.out.println("Now Generating Task type: "+taskType +", Fleet Type:" + fleetType);
                 if (parameters.arrPms[i][0] == 0) { //First task
                     if (checkAI()) {
-                        newTask = new Task(i, 30 + Math.random(), parameters, false, true, parameters.teamComm[0]); //New Task
+                        newTask = new Task(taskType, 30 + Math.random(), parameters, false, true, parameters.teamComm[0]); //New Task
                     } else
-                        newTask = new Task(i, 30 + Math.random(), parameters, false); //Old task
+                        newTask = new Task(taskType, 30 + Math.random(), parameters, false); //Old task
                 } else {
 
                     if (checkAI()) {
-                        newTask = new Task(i, 0, parameters, true, true, parameters.teamComm[0]);
+                        newTask = new Task(taskType, 0, parameters, true, true, parameters.teamComm[0]);
                     } else
-                        newTask = new Task(i, 0, parameters, true);
+                        newTask = new Task(taskType, 0, parameters, true);
 
                 }
 
@@ -140,14 +143,16 @@ public class VehicleSim {
                 while (newTask.getArrTime() < parameters.numHours * 60) {
                     newTask = new Task(i, newTask.getArrTime(), parameters, true);
                     newTask.setID(vehicleID);
+                    // TODO if the queue is idle;
+//                    globalTasks.add(newTask);
                     indlist.add(newTask);
                 }
 
 
             // Put all task into the master tasklist.
 
-            tasktime.addAll(indlist);
-            System.out.println("    -Type :"+i+" Total Number of Task gen: " + indlist.size());
+//            globalTasks.addAll(indlist);
+            System.out.println("    -Type :"+taskType+" Total Number of Task gen: " + indlist.size());
         }
 
     }
@@ -156,17 +161,17 @@ public class VehicleSim {
 
         // Sort task by time.
 
-        Collections.sort(tasktime, (o1, o2) -> Double.compare(o1.getArrTime(), o2.getArrTime()));
+        Collections.sort(globalTasks, (o1, o2) -> Double.compare(o1.getArrTime(), o2.getArrTime()));
     }
 
     public void addTriggered() {
 
-        for (Task each : tasktime) {
+        for (Task each : globalTasks) {
             int i = each.getType();
 
             if (parameters.trigger[i][0] != -1) {
                 for (Integer that : parameters.trigger[i]) {
-                    tasktime.add(new Task(that, each.getArrTime(), parameters, false));
+                    globalTasks.add(new Task(that, each.getArrTime(), parameters, false));
                 }
             }
         }
@@ -248,8 +253,8 @@ public class VehicleSim {
             sortTask();
 
         // Put tasks into queue at appropriate order.
-//        System.out.println("Total Tasks: "+tasktime.size());
-//        for (Task task : tasktime) {
+//        System.out.println("Total Tasks: "+globalTasks.size());
+//        for (Task task : globalTasks) {
 //                puttask(task);
 //
 //        }
