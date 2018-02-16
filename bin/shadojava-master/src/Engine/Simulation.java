@@ -35,6 +35,8 @@ public class Simulation {
 
     private int repnumber;
 
+    private int totalRemoteOp;
+
     public int[] getExpiredtask() {
         return expiredtaskcount;
     }
@@ -76,9 +78,9 @@ public class Simulation {
         for (int i = 0; i < param.numOps; i++) {
             operatoroutput[i] = new Data(param.numTaskTypes, (int) param.numHours * 6, param.numReps);
         }
-
-        RemoteOpoutput = new Data[param.numRemoteOp];
-        for (int i = 0; i < param.numRemoteOp; i++) {
+        setTotalRemoteOps();
+        RemoteOpoutput = new Data[totalRemoteOp];
+        for (int i = 0; i < totalRemoteOp; i++) {
             RemoteOpoutput[i] = new Data(param.numTaskTypes, (int) param.numHours * 6, param.numReps);
         }
 
@@ -149,6 +151,13 @@ public class Simulation {
             each.avgdata();
         }
     }
+    private void setTotalRemoteOps(){
+        for(int i : parameters.teamSize){
+            totalRemoteOp += i;
+        }
+    }
+
+
     /****************************************************************************
      *
      *	Method:			sepCSV

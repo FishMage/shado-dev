@@ -147,7 +147,7 @@ public class Replication {
         // NEW FEATURE: AI Assistant
 
         while (optimal_op.getQueue().getfinTime() < task.getArrTime()) {
-            optimal_op.getQueue().done();
+            optimal_op.getQueue().done(parameters);
         }
         // add task to queue.
         // **** I'm setting the operator so that we can access the data arrays of each operator ****
@@ -240,11 +240,6 @@ public class Replication {
         remoteOps = new RemoteOp(parameters,globalTasks);
         remoteOps.run();
         linked = remoteOps.gettasks();
-        // Initialize vehicles.
-//        for(int i = 0; i < parameters.fleetTypes; i++) {
-//            System.out.println("vehicles.length: "+parameters.numvehicles[i]);
-//            vehicles[i] = new VehicleSim[parameters.numvehicles[i]];
-//        }
 
         //SCHEN 11/10/17 For this version of Fleet hetero, assume each batch has 10 vehicles
         vehicles = new VehicleSim[parameters.fleetTypes][parameters.numvehicles[0]];

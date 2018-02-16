@@ -10,6 +10,7 @@ import java.io.BufferedOutputStream;
 import java.io.FileOutputStream;
 import java.io.PrintStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /***************************************************************************
  *
@@ -56,11 +57,15 @@ public class ProcRep {
 
     private loadparam parameter;
 
+    private int totalRemoteOp;
     // INSPECTORS
 
     public int[] getExpired() { return expired; }
 
     public int[] getCompleted() { return completed; }
+
+    public String[] attributes = {"\t", "Average","Minimum","1st Quartile","Median","3rd Quartile","Maximum", "Variance"};
+    public String[] rowName = {"Workload","Error","Delay","Expire"};
 
     /****************************************************************************
      *
@@ -85,7 +90,7 @@ public class ProcRep {
         expired = new int[numtasktypes];
         completed = new int[numtasktypes];
         this.parameter = parameter;
-
+        int totalRemoteOp = 0;
     }
 
     /****************************************************************************
@@ -98,8 +103,10 @@ public class ProcRep {
 
     public void tmpData(){
 
-        repdisdata = new Data[numRemoteOp];
-        for (int i = 0; i < numRemoteOp; i++){
+        System.out.println("Total Num RemoteOps: " + totalRemoteOp);
+//        repdisdata = new Data[numRemoteOp];
+        repdisdata = new Data[totalRemoteOp];
+        for (int i = 0; i < totalRemoteOp; i++){
             repdisdata[i] = new Data(numtasktypes,(int) hours*6, 1);
         }
 
@@ -185,21 +192,21 @@ public class ProcRep {
         //TODO: output operator's data
         Operator[] RemoteOpers = rep.getRemoteOp().getRemoteOp();
 
-        for (int i = 0; i < numRemoteOp; i++){
+        for (int i = 0; i < totalRemoteOp; i++){
             fillRepDataCell(RemoteOpers[i], repdisdata[i], 0);
         }
-        for(int i = 0; i < rep.parameters.fleetTypes;i++) {
-//            for(int j = 0 ; j < vehicles[i].length; j++){
-                for (VehicleSim vehicle : vehicles[i]) {
-//                    System.out.println("Op calculation for vehicle: " + i);
-                    Operator[] operators = vehicle.operators;
-                    for (int j = 0; j < 2; j++) {
-//                        System.out.println("fillRepDataCell for vehicleID: " + vehicle.getvehicleID()%10);
-                        fillRepDataCell(operators[j], repopsdata[j], vehicle.getvehicleID()%10);
-                    }
-                }
-//            }
-        }
+//        for(int i = 0; i < rep.parameters.fleetTypes;i++) {
+////            for(int j = 0 ; j < vehicles[i].length; j++){
+//                for (VehicleSim vehicle : vehicles[i]) {
+////                    System.out.println("Op calculation for vehicle: " + i);
+//                    Operator[] operators = vehicle.operators;
+//                    for (int j = 0; j < 2; j++) {
+////                        System.out.println("fillRepDataCell for vehicleID: " + vehicle.getvehicleID()%10);
+//                        fillRepDataCell(operators[j], repopsdata[j], vehicle.getvehicleID()%10);
+//                    }
+//                }
+////            }
+//        }
         for (Data each: repopsdata){
             each.avgdata();
         }
@@ -218,7 +225,7 @@ public class ProcRep {
 
         // Process the RemoteOp data
 
-        for (int i = 0; i < numRemoteOp; i++){
+        for (int i = 0; i < totalRemoteOp; i++){
             Data processed = RemoteOpdata[i];
             for (int x = 0; x < processed.data.length; x++){
                 for (int y = 0; y < processed.data[0].length; y++){
@@ -249,22 +256,41 @@ public class ProcRep {
 
     public void testProcRep(int currRep) throws IOException {
         int numdisp = 0;
-        for (Data each: repdisdata){
+        int[] teamsize = this.parameter.teamSize;
+        ArrayList<Integer>remoteNum = new ArrayList<>();
+        ArrayList<Integer>remoteType = new ArrayList<>();
+        for(int i = 0 ;i< parameter.teamSize.length;i++){
+           for(int j = 0; j < parameter.teamSize[i]; j++){
+              remoteNum.add(j);
+              remoteType.add(i);
+           }
+        }
+//        System.out.println("repdisdata.size(): "+repdisdata.length);
+        System.out.println(Arrays.toString(remoteNum.toArray()));
+
+        int i = 0;
+        for (Data each: repdisdata) {
             each.avgdata();
 //            System.out.println("FOR Replication \n"+ (currRep -1));
-            sepCSV(each,currRep,numdisp);
+            String opName = parameter.opNames[remoteType.get(i)]+" "+remoteNum.get(i);
+            sepCSV(each, currRep, opName);
 //            numRep++;
-            numdisp++;
+            i++;
 //            each.outputdata();
         }
 
-        for (Data each: repopsdata){
-//            System.out.println(" FOR OPERATOR \n");
-//            each.outputdata();
-            each.avgdata();
+//        for (Data each: repopsdata){
+////            System.out.println(" FOR OPERATOR \n");
+////            each.outputdata();
+//            each.avgdata();
 //            sepCSV(each,currRep,numoperator);
-        }
+//        }
 
+    }
+    private void setTotalRemoteOps(){
+        for(int i : parameter.teamSize){
+            totalRemoteOp += i;
+        }
     }
 
     /****************************************************************************
@@ -276,7 +302,7 @@ public class ProcRep {
      ****************************************************************************/
 
     public void run(int currRep){
-
+        setTotalRemoteOps();
         tmpData();
         fillRepData();
         appendData();
@@ -295,11 +321,11 @@ public class ProcRep {
      *	Purpose:		output CSV for every replication
      *
      ****************************************************************************/
-    public void sepCSV(Data RemoteOpout, int repNum,int numdip)throws IOException{
+    public void sepCSV(Data RemoteOpout, int repNum,String opName)throws IOException{
         String  file_head = FileWizard.getabspath();
         //SCHEN 11/30/17
         //Make RemoteOper dir if not exists
-        String directoryName = "/out/repCSV/Repli_"+repNum;
+        String directoryName = "/out/repCSV/";
         File directory = new File(directoryName);
         if (!directory.exists()){
             directory.mkdir();
@@ -308,9 +334,23 @@ public class ProcRep {
 //            System.out.println("mkdir");
         }
 
-        String file_name = file_head + directoryName + "_"+parameter.opNames[numdip] + ".csv";
+        String file_name = file_head + directoryName + "Op_"+opName+"_Rep_"+repNum+ ".csv";
+//        String opName =parameter.opNames[numdip]+" "+numdip;
         System.setOut(new PrintStream(new BufferedOutputStream(
                 new FileOutputStream(file_name, false)), true));
+        for(String s : attributes){
+            System.out.print(s + ",");
+        }
+        System.out.println();
+        for(String s :rowName){
+            System.out.print(s +",");
+            //Feed Data
+            RemoteOpout.printMetaData(s,repNum,parameter,this,opName);
+            System.out.println();
+        }
+        //Print Something
+        System.out.println();
+        System.out.println("\t\t---Raw data in 10 min interval---");
         RemoteOpout.outputdata();
 //        directory.close();
 

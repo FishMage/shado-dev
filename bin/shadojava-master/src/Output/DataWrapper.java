@@ -91,7 +91,7 @@ public class DataWrapper {
             }
 
         for(int i = 0; i < parameter.numReps;i++) {
-            String summary_file_name = file_head + "/out/repCSV/" + "Replication_Summary_" +i+ ".csv";
+            String summary_file_name = file_head + "/out/repCSV/" + "Error_Summary_Rep_" +i+ ".csv";
             System.setOut(new PrintStream(new BufferedOutputStream(
                     new FileOutputStream(summary_file_name, false)), true));
             System.out.println("Fail Task Detail: ");
@@ -99,7 +99,7 @@ public class DataWrapper {
             for(int k = 0 ; k < failList.size(); k++){
                 String opName = failList.get(k).getKey().getName();
                 String tName = failList.get(k).getValue().getName();
-                System.out.print(opName+" Fails" +tName);
+                System.out.print(opName+" Fails " +tName+ ",");
                 if(failList.get(k).getValue().getFail()){
                     System.out.print(" But still proceed by the Operator");
                 }

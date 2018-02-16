@@ -30,7 +30,7 @@ public class VehicleSim  {
 
     public Operator[] RemoteOpers;
 
-    //Multithread variable section
+    //Test: Multithread variable section
     private BlockingQueue<Task> globalWatingTasks;
 
 

@@ -1,5 +1,14 @@
 package Engine;
 
+import Input.loadparam;
+import Output.ProcRep;
+import javafx.util.Pair;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.DoubleSummaryStatistics;
+
 /***************************************************************************
  * 	FILE: 			Data.java
  *
@@ -109,6 +118,89 @@ public class Data {
             }
             System.out.println();
 
+        }
+    }
+    /****************************************************************************
+     *
+     *	Method:     printMetaData
+     *
+     *	Purpose:    Write data out to csv format.
+     *              Attributes: "Average","Minimum","1st Quartile","Median","3rd Quartile","Maximum", "Variance"
+     *
+     ****************************************************************************/
+    public void printMetaData(String type, int repNum, loadparam parameter, ProcRep proc,String op) {
+        switch (type) {
+
+            case "Workload":
+                double sum = 0;
+                double cnt = 0;
+                double min = Double.MAX_VALUE;
+                double max = Double.MIN_VALUE;
+                double var = 0;
+                ArrayList<Double> expanded = new ArrayList<>();
+                for (double[] x : this.avg) {
+                    for (double y : x) {
+                        if(y !=0) {
+                            sum += y;
+                            cnt++;
+                            expanded.add(y);
+                        }
+                        if (y <= min)
+                            min = y;
+                        if (y >= max)
+                            max = y;
+                    }
+                }
+                double mean = sum/cnt;
+                for (double[] x : this.avg) {
+                    for (double y : x) {
+                        var += (y- mean)*(y - mean);
+                    }
+                }
+
+                //Average
+                System.out.print(mean + ",");
+                //Minimum
+                System.out.print(min + ",");
+                //1st Quartile, Median, 3rd Quartile
+                Collections.sort(expanded);
+                int first_quart = expanded.size()/4;
+                int median = expanded.size()/2;
+                int third_quart = expanded.size()*(3/4);
+                System.out.print(expanded.get(first_quart)+",");
+                System.out.print(expanded.get(median)+",");
+                System.out.print(expanded.get(third_quart)+",");
+                //Maximum
+                System.out.print(max+",");
+                //Variance
+                System.out.print(var/(cnt-1)+",");
+                break;
+            case "Delay":
+
+                break;
+
+            case "Error":
+                ArrayList<Pair<Operator,Task>> failList = parameter.rep_failTask.get(repNum);
+                //Average:
+                double failCnt = 0.0;
+                for(Pair<Operator,Task> p: failList){
+                    if(p.getKey().getName().equals(op)) {
+//                        System.err.println(p.getKey().getName()+" == "+op);
+                        failCnt++;
+                    }
+                }
+                int totaltaskLen = proc.getCompleted().length;
+                int totalTasks = 0;
+                for(int i = 0; i < totaltaskLen; i++ ){
+                    totalTasks += proc.getCompleted()[i];
+                }
+//                System.err.println("FailCount: "+failCnt+", TotalTask: " +totalTasks);
+                System.out.print(failCnt/totalTasks+",");
+
+                break;
+            case "Expired":
+                System.out.print("N/A,N/A,N/A,N/A,N/A,N/A,N/A");
+                break;
         }
     }
 }
