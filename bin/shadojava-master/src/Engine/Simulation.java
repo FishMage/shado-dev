@@ -23,7 +23,7 @@ import java.util.ArrayList;
 
 public class Simulation {
 
-	private loadparam parameters;
+	private loadparam vars;
 
     private int[] expiredtaskcount;
 
@@ -67,9 +67,9 @@ public class Simulation {
 
     public Simulation(loadparam param) {
 
-        // Get overall parameters
+        // Get overall vars
 
-        parameters = param;
+        vars = param;
         repnumber = param.numReps;
         System.out.println("NumReps: " + repnumber);
         // Generate overall data field
@@ -99,14 +99,15 @@ public class Simulation {
 
     public void processReplication(int repID){
 
-        Replication processed = new Replication(parameters, repID);
+        Replication processed = new Replication(vars, repID);
         processed.run();
-        parameters.reps[repID] = processed;
+        vars.reps[repID] = processed;
+//        vars.currRepnum = repID;
 //        ProcRep process = new ProcRep(RemoteOpoutput, operatoroutput, processed);
 //
 //        process.run(repID);
 //
-//        for (int i = 0; i < parameters.numTaskTypes; i++) {
+//        for (int i = 0; i < vars.numTaskTypes; i++) {
 //            expiredtaskcount[i] += process.getExpired()[i];
 //            completedtaskcount[i] += process.getCompleted()[i];
 //        }
@@ -118,23 +119,23 @@ public class Simulation {
      *
      *	Purpose:		Run Simulation
      *
-     ****************************************************************************/
+     ***************************************************************************/
 
     public void run() throws IOException {
 
         for (int i = 0; i < repnumber; i++) {
 
             processReplication(i);
-            parameters.replicationTracker ++;
+            vars.replicationTracker ++;
             if (i%10 == 0)
                 System.out.println("we're at " + i + " repetition");
         }
         //Data Processing for Replications
         for(int i = 0; i < repnumber; i++){
-            ProcRep process = new ProcRep(RemoteOpoutput, operatoroutput, parameters.reps[i],parameters);
+            ProcRep process = new ProcRep(RemoteOpoutput, operatoroutput, vars.reps[i],vars);
             process.run(i);
-
-            for (int j = 0; j < parameters.numTaskTypes; j++) {
+            vars.currRepnum++;
+            for (int j = 0; j < vars.numTaskTypes; j++) {
                 expiredtaskcount[j] += process.getExpired()[j];
                 completedtaskcount[j] += process.getCompleted()[j];
             }
@@ -148,7 +149,7 @@ public class Simulation {
         }
     }
     private void setTotalRemoteOps(){
-        for(int i : parameters.teamSize){
+        for(int i : vars.teamSize){
             totalRemoteOp += i;
         }
     }

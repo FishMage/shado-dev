@@ -20,7 +20,7 @@ import java.util.*;
  * 	VER: 			1.0 SHOW
  * 					1.1 SHADO
  *
- * 	Purpose: 		Load parameter in text.
+ * 	Purpose: 		Load vars in text.
  * 
  **************************************************************************/
 
@@ -104,12 +104,13 @@ public class loadparam {
 
 	//SCHEN 11/15/17 test separated replication
 	public int currRepnum =0;
+	public ArrayList<Pair<Operator,Task>>[] expiredTasks;
 	
 	/****************************************************************************
 	*																			
-	*	Main Object:	loadparameter													
+	*	Main Object:	loadvars
 	*																			
-	*	Purpose:		Load ALL parameter in text
+	*	Purpose:		Load ALL vars in text
 	*																			
 	****************************************************************************/
 		
@@ -147,6 +148,11 @@ public class loadparam {
 		failThreshold = readDouble(in);
 		reps = new Replication[numReps];
 		rep_failTask = new HashMap<>();
+		expiredTasks = new ArrayList[numReps];
+		for(int i = 0; i < numReps; i++){
+			expiredTasks[i] = new ArrayList<Pair<Operator, Task>>();
+		}
+
 		//Has exo-factors
 		int numExos = hasExogenous[1];
         exNames = new String[numExos];
@@ -209,7 +215,7 @@ public class loadparam {
 
 		//Read in agent type and tasks they can do
 
-		//Read in the task parameters
+		//Read in the task vars
 		
 		for (int i = 0; i< numTaskTypes; i++){
 			
@@ -243,9 +249,9 @@ public class loadparam {
 	
 	/****************************************************************************
 	*																			
-	*	Method:		ridparametername													
+	*	Method:		ridvarsname
 	*																			
-	*	Purpose:	Read a line in the text and remove the parameter name, also 
+	*	Purpose:	Read a line in the text and remove the vars name, also
 	*				returns the line as a scanner while moving the main scanner to
 	*				the next line. Also ignore lines if it's empty.
 	*
@@ -254,9 +260,9 @@ public class loadparam {
 	*																			
 	****************************************************************************/
 	
-	public Scanner ridparametername(Scanner in){
+	public Scanner ridvarsname(Scanner in){
 		
-		//get rid of the parameter name in source file.
+		//get rid of the vars name in source file.
 		String line = "";
 		while (true){
 			line = in.nextLine();
@@ -281,7 +287,7 @@ public class loadparam {
 		
 		//Read string object
 		
-		Scanner input = ridparametername(in);
+		Scanner input = ridvarsname(in);
 		String ret = input.nextLine();
 		ret = ret.trim();
 		input.close();
@@ -299,7 +305,7 @@ public class loadparam {
 	
 	public double[] readTraff(Scanner in){
 		
-		Scanner input = ridparametername(in);
+		Scanner input = ridvarsname(in);
 		
 		ArrayList<String> traff = new ArrayList<String>();
 		ArrayList<Double> traffic = new ArrayList<Double>();
@@ -334,7 +340,7 @@ public class loadparam {
 	
 	public int readInt(Scanner in){
 		
-		Scanner input = ridparametername(in);
+		Scanner input = ridvarsname(in);
 		return input.nextInt();
 		
 	}
@@ -349,7 +355,7 @@ public class loadparam {
 	
 	public double readDouble(Scanner in){
 		
-		Scanner input = ridparametername(in);
+		Scanner input = ridvarsname(in);
 		return Double.parseDouble(input.next());
 		
 	}
@@ -364,7 +370,7 @@ public class loadparam {
 	
 	public int[] readIntArr(Scanner in){
 		
-		Scanner input = ridparametername(in);
+		Scanner input = ridvarsname(in);
 		ArrayList<Integer> ints = new ArrayList<Integer>();
 		while (input.hasNextInt()){
 			ints.add(input.nextInt());
@@ -384,7 +390,7 @@ public class loadparam {
 	
 	public double[] readDoubleArr(Scanner in){
 		
-		Scanner input = ridparametername(in);
+		Scanner input = ridvarsname(in);
 		ArrayList<Double> doubs = new ArrayList<Double>();
 		while (input.hasNext()){
 			double myDouble = Double.parseDouble(input.next());
@@ -405,7 +411,7 @@ public class loadparam {
 	
 	public char readChar(Scanner in){
 		
-		Scanner input = ridparametername(in);
+		Scanner input = ridvarsname(in);
 		char myChar = input.next().charAt(0);
 		input.close();
 		return myChar;

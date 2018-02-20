@@ -22,9 +22,9 @@ import javafx.util.Pair;
 
 public class VehicleSim  {
 
-    // The parameters loaded from file
+    // The vars loaded from file
 
-    public loadparam parameters;
+    public loadparam vars;
 
     public Operator[] operators;
 
@@ -54,7 +54,7 @@ public class VehicleSim  {
     }
 
     public double getTotalTime() {
-        return parameters.numHours * 60;
+        return vars.numHours * 60;
     }
 
     // Mutator
@@ -76,7 +76,7 @@ public class VehicleSim  {
 //    public VehicleSim(loadparam param, Operator[] remoteOps, ArrayList<Task> list) {
 //        globalTasks = list;
 //        operators = remoteOps;
-//        parameters = param;
+//        vars = param;
 //    }
 
     /****************************************************************************
@@ -91,10 +91,9 @@ public class VehicleSim  {
 
         //Test Concurrency
         this.globalWatingTasks = globalWaitingTasks;
-
         globalTasks = list;
         operators = remoteOps;
-        parameters = param;
+        vars = param;
         vehicleID = vehicleid;
     }
 
@@ -113,12 +112,12 @@ public class VehicleSim  {
         // TODO[COMPLETED] add AI assitant to shorter the service time.
         // For each type of tasks:
         int fleetType = this.vehicleID/10;
-        for(int i = 0; i < parameters.numRemoteOp; i++){
+        for(int i = 0; i < vars.numRemoteOp; i++){
             if(operators[i].getName().equals("Artificially Intelligent Agent"))
                 this.hasAI = true;
         }
         //If teamCoord Presents task number = total tasknum -1
-        for (int i = 0; i < parameters.fleetHetero[fleetType].length; i++) {
+        for (int i = 0; i < vars.fleetHetero[fleetType].length; i++) {
 
             // Create a new empty list of Tasks
 
@@ -129,21 +128,21 @@ public class VehicleSim  {
             Task newTask;
             // if hasAI, use overloaded constructor
 
-            int taskType = parameters.fleetHetero[fleetType][i];
+            int taskType = vars.fleetHetero[fleetType][i];
             //DEBUG
 //            System.out.println("Now Generating Task type: "+taskType +", Fleet Type:" + fleetType);
-                if (parameters.arrPms[i][0] == 0) { //First task
-                        newTask = new Task(taskType, 30 + Math.random(), parameters, false, checkAI(), parameters.teamComm[0]); //New Task
+                if (vars.arrPms[i][0] == 0) { //First task
+                        newTask = new Task(taskType, 30 + Math.random(), vars, false, checkAI(), vars.teamComm[0]); //New Task
                 } else {
 
-                        newTask = new Task(taskType, 0, parameters, true, checkAI(), parameters.teamComm[0]);
+                        newTask = new Task(taskType, 0, vars, true, checkAI(), vars.teamComm[0]);
 
                 }
 
                 // While the next task is within the time frame, generate.
 
-                while (newTask.getArrTime() < parameters.numHours * 60) {
-                    newTask = new Task(i, newTask.getArrTime(), parameters, true,true, parameters.teamComm[0]);
+                while (newTask.getArrTime() < vars.numHours * 60) {
+                    newTask = new Task(i, newTask.getArrTime(), vars, true,true, vars.teamComm[0]);
                     newTask.setID(vehicleID);
                     // TODO if the queue is idle;
 //                    globalTasks.add(newTask);
@@ -171,9 +170,9 @@ public class VehicleSim  {
         for (Task each : globalTasks) {
             int i = each.getType();
 
-            if (parameters.trigger[i][0] != -1) {
-                for (Integer that : parameters.trigger[i]) {
-                    globalTasks.add(new Task(that, each.getArrTime(), parameters, false));
+            if (vars.trigger[i][0] != -1) {
+                for (Integer that : vars.trigger[i]) {
+                    globalTasks.add(new Task(that, each.getArrTime(), vars, false));
                 }
             }
         }
@@ -192,10 +191,10 @@ public class VehicleSim  {
 //        // Create Operators
 //        //SCHEN 11/20/17:
 //        //TODO[COMPLETED]: Create Different Operatorset for different types of vehicles
-//        operators = new Operator[parameters.ops.length];
+//        operators = new Operator[vars.ops.length];
 //        int fleetType = vehicleID/10;
-//        operators = new Operator[parameters.numOps];
-//        for(int j = 0; j < parameters.numOps; j++) {
+//        operators = new Operator[vars.numOps];
+//        for(int j = 0; j < vars.numOps; j++) {
 //            if(operators[j].getName().equals("Artificially Intelligent Agent")) hasAI = true;
 //        }
 //        }
@@ -222,7 +221,7 @@ public class VehicleSim  {
      *
      ****************************************************************************/
     public int checkTeamCoord(){
-        for(char c: parameters.teamComm){
+        for(char c: vars.teamComm){
 //            System.out.println("Team Coord presents");
             if(c != 'N') return 0;
         }
@@ -243,11 +242,11 @@ public class VehicleSim  {
 
 
         // Finish tasks if no new tasks comes in.
-        double totaltime = parameters.numHours * 60;
+        double totaltime = vars.numHours * 60;
         for (Operator each : operators) {
             if (each != null) {
                 while (each.getQueue().getfinTime() < totaltime) {
-                    each.getQueue().done(parameters);
+                    each.getQueue().done(vars,each);
                 }
             }
         }

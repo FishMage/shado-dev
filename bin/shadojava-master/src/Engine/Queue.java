@@ -1,5 +1,6 @@
 package Engine;
 import Input.loadparam;
+import javafx.util.Pair;
 
 import java.util.*;
 
@@ -134,11 +135,11 @@ public class Queue implements Comparable<Queue>{
      *
      ****************************************************************************/
 
-    public void done(loadparam parameters) {
+    public void done(loadparam vars,Operator op) {
 
 
         //NEW FEATURE OPERATOR STRATEGIES
-        if(parameters.opStrats.equals("STF")){
+        if(vars.opStrats.equals("STF")){
 
         }
 
@@ -174,6 +175,7 @@ public class Queue implements Comparable<Queue>{
             // Add expired tasks to the record
 
             taskqueue.peek().setexpired();
+            vars.expiredTasks[vars.currRepnum].add(new Pair<>(op,taskqueue.peek()));
             recordtasks.add(taskqueue.poll());
 
         }

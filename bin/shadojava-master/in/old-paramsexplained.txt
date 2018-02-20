@@ -25,9 +25,9 @@ prty         	4 3 4						# This is the priority of the task in three different p
 arr_dist     	E						# This is the distribution type of the arrival time. E stand for Exponential, L stands for log normal and U stands for uniform
 arr_pms      	0.952381 0.1 0.75188				# This is the parameter of that distribution.
 ser_dist     	E						# This is the distribution type of the service time.
-ser_pms      	7.5188 0					# This is the parameter of that distribution.
+ser_pms      	7.5188 0					# This is the vars of that distribution.
 exp_dist     	E						# This is the distribution type of the expiration time.
-exp_pms_lo   	0 0.107167 0					# This is the parameter of the above distribution in three different phases when the traffic are low.
+exp_pms_lo   	0 0.107167 0					# This is the vars of the above distribution in three different phases when the traffic are low.
 exp_pms_hi   	0 0.0863333 0					# When traffic are high.
 aff_by_traff  	0 1 0						# In which phase are the task affected by traffic
 islinked		1					# Whether the tasks goes to both RemoteOper and the operator on vehicles.

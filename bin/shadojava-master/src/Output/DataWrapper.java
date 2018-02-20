@@ -26,7 +26,7 @@ import javafx.util.Pair;
 
 public class DataWrapper {
 
-    public loadparam parameter;
+    public loadparam vars;
 
     private Simulation sim;
 
@@ -37,7 +37,7 @@ public class DataWrapper {
     }
 
     public DataWrapper(Simulation o, loadparam param) {
-        parameter = param;
+        vars = param;
         sim = o;
     }
 
@@ -55,15 +55,15 @@ public class DataWrapper {
 
         // RemoteOp & Engineer timetables
 
-        for (int i = 0; i < parameter.numRemoteOp; i++) {
+        for (int i = 0; i < vars.numRemoteOp; i++) {
             String file_name = file_head + "/out/" + "RemoteOperator" + ".csv";
             System.setOut(new PrintStream(new BufferedOutputStream(
                     new FileOutputStream(file_name, false)), true));
             sim.getRemoteOpoutput(i).outputdata();
         }
 
-        for (int j = 0; j < parameter.numOps; j++) {
-            String file_name = file_head + "/out/" + parameter.opNames[j] + ".csv";
+        for (int j = 0; j < vars.numOps; j++) {
+            String file_name = file_head + "/out/" + vars.opNames[j] + ".csv";
             System.setOut(new PrintStream(new BufferedOutputStream(
                     new FileOutputStream(file_name, false)), true));
             sim.getOperatoroutput(j).outputdata();
@@ -75,8 +75,8 @@ public class DataWrapper {
         String file_name = file_head + "/out/Summary/" + "Simulation_Summary_" + ".csv";
         System.setOut(new PrintStream(new BufferedOutputStream(
                 new FileOutputStream(file_name, false)), true));
-        for (int i = 0; i < parameter.numTaskTypes; i++) {
-            System.out.println("Task name: " + parameter.taskNames[i]);
+        for (int i = 0; i < vars.numTaskTypes; i++) {
+            System.out.println("Task name: " + vars.taskNames[i]);
             System.out.println("expired: " + sim.getExpiredtask()[i]);
             System.out.println("completed: " + sim.getCompletedtaskcount()[i]);
 
@@ -84,18 +84,18 @@ public class DataWrapper {
         }
         System.out.println("*** FAILED TASKS ***");
 //            System.out.println("Operator "+ p.getKey().getName()+" Failed: "+p.getValue().getName());
-            for(int i = 0 ; i< parameter.numReps; i++){
-                HashMap<Integer,Integer> failCnt = parameter.failTaskCount;
+            for(int i = 0 ; i< vars.numReps; i++){
+                HashMap<Integer,Integer> failCnt = vars.failTaskCount;
                 int currFailCnt = failCnt.get(i);
                 System.out.println("In Replication " + i +": "+ "Number of Fail Tasks: "+currFailCnt);
             }
 
-        for(int i = 0; i < parameter.numReps;i++) {
+        for(int i = 0; i < vars.numReps;i++) {
             String summary_file_name = file_head + "/out/Summary/" + "Error_Summary_Rep_" +i+ ".csv";
             System.setOut(new PrintStream(new BufferedOutputStream(
                     new FileOutputStream(summary_file_name, false)), true));
             System.out.println("Fail Task Detail: ");
-            ArrayList<Pair<Operator,Task>> failList = parameter.rep_failTask.get(i);
+            ArrayList<Pair<Operator,Task>> failList = vars.rep_failTask.get(i);
             for(int k = 0 ; k < failList.size(); k++){
                 String opName = failList.get(k).getKey().getName();
                 String tName = failList.get(k).getValue().getName();

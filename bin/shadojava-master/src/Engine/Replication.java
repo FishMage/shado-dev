@@ -39,7 +39,7 @@ import static com.sun.xml.internal.ws.spi.db.BindingContextFactory.LOGGER;
 
 public class Replication {
 
-    public loadparam parameters;
+    public loadparam vars;
 
     private int repID;
 
@@ -79,9 +79,9 @@ public class Replication {
      ****************************************************************************/
 
     public Replication(loadparam param, int id) {
-        parameters = param;
+        vars = param;
         this.repID = id;
-        parameters.failTaskCount.put(parameters.replicationTracker,0);
+        vars.failTaskCount.put(vars.replicationTracker,0);
         failedTasks = new ArrayList<>();
     }
 
@@ -147,7 +147,7 @@ public class Replication {
         // NEW FEATURE: AI Assistant
 
         while (optimal_op.getQueue().getfinTime() < task.getArrTime()) {
-            optimal_op.getQueue().done(parameters);
+            optimal_op.getQueue().done(vars,optimal_op);
         }
         // add task to queue.
         // **** I'm setting the operator so that we can access the data arrays of each operator ****
@@ -165,9 +165,9 @@ public class Replication {
      *
      ****************************************************************************/
     private double getTriangularDistribution(int Type){
-        double c = parameters.humanError[Type][0];
-        double a = parameters.humanError[Type][1];
-        double b = parameters.humanError[Type][2];
+        double c = vars.humanError[Type][0];
+        double a = vars.humanError[Type][1];
+        double b = vars.humanError[Type][2];
 
         double F = (c - a)/(b - a);
         double rand = Math.random();
@@ -190,8 +190,8 @@ public class Replication {
      *
      ****************************************************************************/
     private boolean failTask(Operator operator,Task task,int type, double distValue){
-        double rangeMin = parameters.humanError[type][1];
-        double rangeMax = parameters.humanError[type][2];
+        double rangeMin = vars.humanError[type][1];
+        double rangeMax = vars.humanError[type][2];
         Random r = new Random();
         double randomValue = rangeMin + (rangeMax - rangeMin) * r.nextDouble();
 //        System.out.println("comparing" +distValue+" and "+randomValue);
@@ -200,12 +200,12 @@ public class Replication {
         if(operator.getName().split(" ")[0].equals("Artificially"))
             return false;
         if(Math.abs(randomValue - distValue) <= 0.0001){
-            HashMap<Integer,Integer> failCnt = parameters.failTaskCount;
-            int currCnt = failCnt.get(parameters.replicationTracker);
-            failCnt.put(parameters.replicationTracker,++currCnt);
+            HashMap<Integer,Integer> failCnt = vars.failTaskCount;
+            int currCnt = failCnt.get(vars.replicationTracker);
+            failCnt.put(vars.replicationTracker,++currCnt);
 //            System.out.println(operator.getName()+" fails " +task.getName()+", Total Fail "+ currCnt);
             this.failedTasks.add(new Pair <Operator,Task>(operator,task));
-            if(Math.random() < parameters.failThreshold){
+            if(Math.random() < vars.failThreshold){
                 //Task Failed but still processed by operator
                 task.setFail();
                 return false;
@@ -225,7 +225,7 @@ public class Replication {
      *
      *	Method:		run
      *
-     *	Purpose:	Run the simulation once given parameter.
+     *	Purpose:	Run the simulation once given vars.
      *
      ****************************************************************************/
 
@@ -237,22 +237,22 @@ public class Replication {
         //TODO 2. Switch to 2 Threads for production and consumption
         globalTasks = new ArrayList<Task>();
 
-        remoteOps = new RemoteOp(parameters,globalTasks);
+        remoteOps = new RemoteOp(vars,globalTasks);
         remoteOps.run();
         linked = remoteOps.gettasks();
 
         //SCHEN 11/10/17 For this version of Fleet hetero, assume each batch has 10 vehicles
         int maxLen = 0;
-        for(int i = 0; i < parameters.fleetTypes; i++ )
-            if(parameters.numvehicles[i] > maxLen)
-                maxLen = parameters.numvehicles[i];
+        for(int i = 0; i < vars.fleetTypes; i++ )
+            if(vars.numvehicles[i] > maxLen)
+                maxLen = vars.numvehicles[i];
 
-        vehicles = new VehicleSim[parameters.fleetTypes][maxLen];
+        vehicles = new VehicleSim[vars.fleetTypes][maxLen];
 
-        for (int i = 0; i < parameters.fleetTypes; i++) {
-            for(int j = 0; j < parameters.numvehicles[i]; j++) {
+        for (int i = 0; i < vars.fleetTypes; i++) {
+            for(int j = 0; j < vars.numvehicles[i]; j++) {
                 // vehicleId to for 2d Array
-                vehicles[i][j] = new VehicleSim(parameters,i*10 + j,remoteOps.getRemoteOp(),globalTasks,globalWatingTasks);
+                vehicles[i][j] = new VehicleSim(vars,i*10 + j,remoteOps.getRemoteOp(),globalTasks,globalWatingTasks);
                 System.out.println("Vehicle "+(i*10+j)+" generates tasks");
                 vehicles[i][j].genVehicleTask();
             }
@@ -268,14 +268,14 @@ public class Replication {
         }
 
        // Run each vehicle
-        for(int i = 0; i< parameters.fleetTypes; i++){
+        for(int i = 0; i< vars.fleetTypes; i++){
             for (VehicleSim each : vehicles[i]) {
                 if(each != null)
                     each.run();
             }
         }
-        parameters.rep_failTask.put(parameters.replicationTracker,this.failedTasks);
-        System.out.println("Curr Replication: " + parameters.replicationTracker);
+        vars.rep_failTask.put(vars.replicationTracker,this.failedTasks);
+        System.out.println("Curr Replication: " + vars.replicationTracker);
 
     }
 }

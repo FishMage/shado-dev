@@ -55,7 +55,7 @@ public class ProcRep {
 
     private int[] expired;
 
-    private loadparam parameter;
+    private loadparam vars;
 
     private int totalRemoteOp;
     // INSPECTORS
@@ -66,7 +66,7 @@ public class ProcRep {
 
     public String[] attributes = {"\t", "Average","Minimum","1st Quartile","Median",
             "3rd Quartile","Maximum", "Variance","Count of utilization 0-30%","Count of utilization 30%-70%","Count of utilization 70%-100%"};
-    public String[] rowName = {"Workload","Error","",""};
+    public String[] rowName = {"Workload","Error","Expired",""};
 
     /****************************************************************************
      *
@@ -77,20 +77,20 @@ public class ProcRep {
      *
      ****************************************************************************/
 
-    public ProcRep(Data[] dis, Data[] ops, Replication rep, loadparam parameter){
+    public ProcRep(Data[] dis, Data[] ops, Replication rep, loadparam vars){
 
         this.rep = rep;
         RemoteOpdata = dis;
         operatordata = ops;
         vehicles = rep.getvehicles();
         repID = rep.getRepID();
-        numRemoteOp = rep.parameters.numRemoteOp;
-        numoperator = rep.parameters.numOps;
-        numtasktypes = rep.parameters.numTaskTypes;
-        hours = rep.parameters.numHours;
+        numRemoteOp = rep.vars.numRemoteOp;
+        numoperator = rep.vars.numOps;
+        numtasktypes = rep.vars.numTaskTypes;
+        hours = rep.vars.numHours;
         expired = new int[numtasktypes];
         completed = new int[numtasktypes];
-        this.parameter = parameter;
+        this.vars = vars;
         int totalRemoteOp = 0;
     }
 
@@ -113,7 +113,7 @@ public class ProcRep {
 
         repopsdata = new Data[numoperator];
         for (int i = 0; i < numoperator; i++) {
-            for (int j = 0; j < rep.parameters.fleetTypes; j++) {
+            for (int j = 0; j < rep.vars.fleetTypes; j++) {
                 repopsdata[i] = new Data(numtasktypes, (int) hours * 6, vehicles[j].length);
             }
         }
@@ -196,7 +196,7 @@ public class ProcRep {
         for (int i = 0; i < totalRemoteOp; i++){
             fillRepDataCell(RemoteOpers[i], repdisdata[i], 0);
         }
-//        for(int i = 0; i < rep.parameters.fleetTypes;i++) {
+//        for(int i = 0; i < rep.vars.fleetTypes;i++) {
 ////            for(int j = 0 ; j < vehicles[i].length; j++){
 //                for (VehicleSim vehicle : vehicles[i]) {
 ////                    System.out.println("Op calculation for vehicle: " + i);
@@ -259,8 +259,8 @@ public class ProcRep {
         //get mapping for Operator->Num
         ArrayList<Integer>remoteNum = new ArrayList<>();
         ArrayList<Integer>remoteType = new ArrayList<>();
-        for(int i = 0 ;i< parameter.teamSize.length;i++){
-           for(int j = 0; j < parameter.teamSize[i]; j++){
+        for(int i = 0 ;i< vars.teamSize.length;i++){
+           for(int j = 0; j < vars.teamSize[i]; j++){
               remoteNum.add(j);
               remoteType.add(i);
            }
@@ -271,7 +271,7 @@ public class ProcRep {
         int i = 0;
         for (Data each: repdisdata) {
             each.avgdata();
-            String opName = parameter.opNames[remoteType.get(i)]+" "+remoteNum.get(i);
+            String opName = vars.opNames[remoteType.get(i)]+" "+remoteNum.get(i);
             sepCSV(each, currRep, opName);
             i++;
         }
@@ -279,7 +279,7 @@ public class ProcRep {
 
     }
     private void setTotalRemoteOps(){
-        for(int i : parameter.teamSize){
+        for(int i : vars.teamSize){
             totalRemoteOp += i;
         }
     }
@@ -332,7 +332,7 @@ public class ProcRep {
         for(String s :rowName){
             System.out.print(s +",");
             //Feed Data
-            RemoteOpout.printMetaData(s,repNum,parameter,this,opName);
+            RemoteOpout.printMetaData(s,repNum,vars,this,opName);
             System.out.println();
         }
         //Print raw data

@@ -29,7 +29,7 @@ public class Operator {
 
 	private Queue myQueue;
 
-	private loadparam parameters;
+	private loadparam vars;
 
 	// Inspector
 
@@ -45,7 +45,7 @@ public class Operator {
 	 *
 	 *	Main Object:	RemoteOperator
 	 *
-	 *	Purpose:		Generate a RemoteOperator from the parameter file imported
+	 *	Purpose:		Generate a RemoteOperator from the vars file imported
 	 *
 	 ****************************************************************************/
 

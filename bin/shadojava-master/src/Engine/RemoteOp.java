@@ -18,7 +18,7 @@ import Input.loadparam;
 
 public class RemoteOp {
 
-    public loadparam parameters;
+    public loadparam vars;
 
     public VehicleSim[] vehicles;
 
@@ -37,7 +37,7 @@ public class RemoteOp {
     // Constructor is HERE
 
     public RemoteOp(loadparam Param, ArrayList<Task> globalTasks) {
-        parameters = Param;
+        vars = Param;
         this.globalTasks = globalTasks;
     }
 
@@ -67,14 +67,14 @@ public class RemoteOp {
         // SCHEN 11/20/17
         // Note: RemoteOper is a 1d array, to fit in the data structure,
         // change it to 2d array with each subarray with length == 1
-        RemoteOpers = new Operator[parameters.teamSizeTotal];
+        RemoteOpers = new Operator[vars.teamSizeTotal];
         int cnt = 0;
-        for (int i = 0; i < parameters.opTasks.length; i++) {
+        for (int i = 0; i < vars.opTasks.length; i++) {
             //TODO[COMPLETE] generate Operator base on different types of remote Ops
-            for (int j = 0; j < parameters.teamSize[i]; j++) {
-                RemoteOpers[cnt++] = new Operator(i * 10 + j,parameters.opNames[i], parameters.opTasks[i]);
+            for (int j = 0; j < vars.teamSize[i]; j++) {
+                RemoteOpers[cnt++] = new Operator(i * 10 + j,vars.opNames[i], vars.opTasks[i]);
                 //DEBUG
-//                System.out.println("New "+parameters.opNames[i]+", ID: "+ (i*10 + j)+" With Task: " + Arrays.toString(parameters.opTasks[i]));
+//                System.out.println("New "+vars.opNames[i]+", ID: "+ (i*10 + j)+" With Task: " + Arrays.toString(vars.opTasks[i]));
             }
         }
     }
@@ -87,34 +87,34 @@ public class RemoteOp {
      ****************************************************************************/
 
     public void run() {
-//        linkedgen();
+//        genRemoteOpTask();
         genRemoteOp();
 //        runRemoteOp();
     }
 
 //    /****************************************************************************
 //     *
-//     *	Method:			linkedgen
+//     *	Method:			genRemoteOpTask
 //     *
 //     *	Purpose:		Generate all the linked tasks that requires both RemoteOper and
 //     *					operator input.
 //     *
 //     ****************************************************************************/
 
-//    public void linkedgen() {
+//    public void genRemoteOpTask() {
 //
 //        // Creates a new task arraylist of the tasks that are linked
 //        ArrayList<Integer> linkedt = new ArrayList<Integer>();
 //        linkedtasks = new ArrayList<Task>();
 //
 //        // Discrete Tasks owned by the RemoteOper:
-//        for (int la : parameters.RemoteOpTasks) {
+//        for (int la : vars.RemoteOpTasks) {
 //
 //            // Create a new empty list of Tasks
 //            ArrayList<Task> indlist = new ArrayList<Task>();
 //
 //            // Start a new task with PrevTime = 0
-//            Task newTask = new Task(la, 0, parameters, true);
+//            Task newTask = new Task(la, 0, vars, true);
 //
 //            if (newTask.linked())
 //                continue;
@@ -124,8 +124,8 @@ public class RemoteOp {
 //            indlist.add(newTask);
 //
 //            // While the next task is within the time frame, generate.
-//            while (newTask.getArrTime() < parameters.numHours * 60) {
-//                newTask = new Task(la, newTask.getArrTime(), parameters, true);
+//            while (newTask.getArrTime() < vars.numHours * 60) {
+//                newTask = new Task(la, newTask.getArrTime(), vars, true);
 //                newTask.setID(-1);
 //                indlist.add(newTask);
 //            }
@@ -139,20 +139,20 @@ public class RemoteOp {
 //        // For each vehicle:
 //
 //        //SCHEN 11/10/17 Modify the functionality to fit fleet heterogeneity
-//        //for (int j = 0; j < parameters.numvehicles; j++) {
-//        for (int k = 0; k < parameters.fleetTypes; k++) {
+//        //for (int j = 0; j < vars.numvehicles; j++) {
+//        for (int k = 0; k < vars.fleetTypes; k++) {
 //
 //            //For each vehicle
-//            for (int j = 0; j < parameters.numvehicles[k]; j++) {
+//            for (int j = 0; j < vars.numvehicles[k]; j++) {
 //
 //                // For each type of tasks:
-//                for (int i = 0; i < parameters.numTaskTypes; i++) {
+//                for (int i = 0; i < vars.numTaskTypes; i++) {
 //
 //                    // Create a new empty list of Tasks
 //                    ArrayList<Task> indlist = new ArrayList<Task>();
 //
 //                    // Start a new task with PrevTime = 0
-//                    Task newTask = new Task(i, 0, parameters, true);
+//                    Task newTask = new Task(i, 0, vars, true);
 //                    if (!newTask.linked()) {
 //                        continue;
 //                    }
@@ -167,8 +167,8 @@ public class RemoteOp {
 //                    indlist.add(newTask);
 //
 //                    // While the next task is within the time frame, generate.
-//                    while (newTask.getArrTime() < parameters.numHours * 60) {
-//                        newTask = new Task(i, newTask.getArrTime(), parameters, true);
+//                    while (newTask.getArrTime() < vars.numHours * 60) {
+//                        newTask = new Task(i, newTask.getArrTime(), vars, true);
 //                        newTask.setID(j);
 //                        indlist.add(newTask);
 //                    }
@@ -194,12 +194,12 @@ public class RemoteOp {
 //
 //    public void runRemoteOp() {
 //
-//        VehicleSim RemoteOpSim = new VehicleSim(parameters, RemoteOpers, linkedtasks);
+//        VehicleSim RemoteOpSim = new VehicleSim(vars, RemoteOpers, linkedtasks);
 //        RemoteOpSim.run();
 //        proctasks = new ArrayList<Task>();
 //        tovehicle = new ArrayList<Task>();
 //        //SCHEN 11/20/17 Changes for 2d array in VehicleSim Object
-//         for(int i = 0; i < parameters.numRemoteOp; i++) {
+//         for(int i = 0; i < vars.numRemoteOp; i++) {
 //             for (Operator RemoteOp : RemoteOpSim.operators) {
 //                 proctasks.addAll(RemoteOp.getQueue().records());
 //             }

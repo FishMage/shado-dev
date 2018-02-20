@@ -128,7 +128,7 @@ public class Data {
      *              Attributes: "Average","Minimum","1st Quartile","Median","3rd Quartile","Maximum", "Variance"
      *
      ****************************************************************************/
-    public void printMetaData(String type, int repNum, loadparam parameter, ProcRep proc,String op) {
+    public void printMetaData(String type, int repNum, loadparam vars, ProcRep proc,String op) {
         switch (type) {
 
             case "Workload":
@@ -202,10 +202,10 @@ public class Data {
                 break;
 
             case "Error":
-                int totalRep = parameter.numReps; // Use to calculate the across replications
+                int totalRep = vars.numReps; // Use to calculate the across replications
                 double failCnt = 0.0;
                 double varErr = 0.0;
-                ArrayList<Pair<Operator,Task>> failList = parameter.rep_failTask.get(repNum);
+                ArrayList<Pair<Operator,Task>> failList = vars.rep_failTask.get(repNum);
 
                 //Average:
                 //Get fail count for this replication
@@ -220,7 +220,7 @@ public class Data {
                 int totalFail = 0;
                 double[] failEachRep = new double[totalRep];
                 for(int i = 0; i < totalRep; i++){
-                    ArrayList<Pair<Operator,Task>> thisFail = parameter.rep_failTask.get(i);
+                    ArrayList<Pair<Operator,Task>> thisFail = vars.rep_failTask.get(i);
                     for(Pair<Operator,Task> p: thisFail){
                         if(p.getKey().getName().equals(op)) {
                             failEachRep[i]++;
@@ -237,11 +237,35 @@ public class Data {
                     varErr+=(v-meanErr)*(v-meanErr);
                 }
 
-                System.out.print(meanErr+","+failCnt+","+failCnt+","+failCnt+","+failCnt+","+failCnt+","+ varErr/totalFail+"N/A,N/A,N/A");
+                System.out.print(meanErr+","+failCnt+","+failCnt+","+failCnt+","+failCnt+","+failCnt+","+ varErr/totalFail+",N/A,N/A,N/A");
 
                 break;
             case "Expired":
-                System.out.print("N/A,N/A,N/A,N/A,N/A,N/A,N/A");
+                int expCount = 0;
+                int expTotal = 0;
+                double varExp = 0.0;
+                double[] expEachRep = new double[vars.numReps];
+                ArrayList<Pair<Operator,Task>> thisExpired = vars.expiredTasks[repNum];
+                for(Pair<Operator,Task> p: thisExpired){
+                    if(p.getKey().getName().equals(op)) {
+                        expCount++;
+                    }
+                }
+                for(int i = 0; i < vars.numReps; i++){
+                    ArrayList<Pair<Operator,Task>> eachExpired = vars.expiredTasks[i];
+                    for(Pair<Operator,Task> p: eachExpired){
+                        if(p.getKey().getName().equals(op)) {
+                            expEachRep[i]++;
+                            expTotal++;
+                        }
+                    }
+                }
+                int meanExp = expTotal/vars.numReps;
+                for(double v : expEachRep){
+                    varExp+=(v-meanExp)*(v-meanExp);
+                }
+
+                System.out.print(meanExp+","+expCount+","+expCount+","+expCount+","+expCount+","+expCount+","+varExp/expTotal+",N/A,N/A,N/A");
                 break;
         }
     }

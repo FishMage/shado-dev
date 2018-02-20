@@ -31,7 +31,7 @@ public class Task implements Comparable<Task> {
 	private double beginTime;
 	private double endTime;
 	private int[] opNums;
-	private loadparam parameters;
+	private loadparam vars;
 	private String name;
 	private int vehicleID;
 	private boolean expired;
@@ -86,23 +86,23 @@ public class Task implements Comparable<Task> {
 	 *	Main Object:	Task
 	 *
 	 *	Purpose:		Generate a new task on completion of old task. And return
-	 *					it's parameters.
+	 *					it's vars.
 	 *
 	 ****************************************************************************/
 
 	public Task(int type, double PrevTime, loadparam Param, boolean fromPrev ) {
 
 		Type = type;
-		parameters = Param;
+		vars = Param;
 		prevTime = PrevTime;
 //        System.out.println("PrevTime: "+prevTime);
         this.fail = false;
-		if (parameters.arrPms[type][0] != 0) {
-			Phase = getPhase(PrevTime, parameters.numHours);
-			shiftPeriod = getShiftTime(PrevTime,parameters.numHours);
+		if (vars.arrPms[type][0] != 0) {
+			Phase = getPhase(PrevTime, vars.numHours);
+			shiftPeriod = getShiftTime(PrevTime,vars.numHours);
 		} else {
-			Phase = getPhase(31, parameters.numHours);
-            shiftPeriod = getShiftTime(PrevTime,parameters.numHours);
+			Phase = getPhase(31, vars.numHours);
+            shiftPeriod = getShiftTime(PrevTime,vars.numHours);
 		}
 
 		Priority = Param.taskPrty[Type][Phase];
@@ -112,7 +112,7 @@ public class Task implements Comparable<Task> {
 			arrTime = PrevTime;
 		}
 		//SCHEN 12/10/17 Fleet Autonomy, Team Coord and Exogenous factor added
-		int teamCoordParam = parameters.teamCoordAff[Type];
+		int teamCoordParam = vars.teamCoordAff[Type];
 		serTime = genSerTime();
 		if(teamCoordParam == 1)
 			changeServTime(lvl_SOME);
@@ -122,9 +122,9 @@ public class Task implements Comparable<Task> {
         changeServTime(1.01*(shiftPeriod+1));
 		expTime = genExpTime();
 		beginTime = arrTime;
-		opNums = parameters.opNums[Type];
-		name = parameters.taskNames[Type];
-		isLinked = parameters.linked[Type] == 1;
+		opNums = vars.opNums[Type];
+		name = vars.taskNames[Type];
+		isLinked = vars.linked[Type] == 1;
 		elapsedTime = 0;
 		expired = false;
 //        ExponentialTest();
@@ -135,22 +135,22 @@ public class Task implements Comparable<Task> {
 	 *	Main Object:	Task overload with AI
 	 *
 	 *	Purpose:		Generate a new task on completion of old task. And return
-	 *					it's parameters.
+	 *					it's vars.
 	 *
 	 ****************************************************************************/
 
 	public Task(int type, double PrevTime, loadparam Param, boolean fromPrev, boolean hasAI, char lvlComm ) {
 
 		Type = type;
-		parameters = Param;
+		vars = Param;
 		prevTime = PrevTime;
 		this.fail = false;
-        if (parameters.arrPms[type][0] != 0) {
-            Phase = getPhase(PrevTime, parameters.numHours);
-            shiftPeriod = getShiftTime(PrevTime,parameters.numHours);
+        if (vars.arrPms[type][0] != 0) {
+            Phase = getPhase(PrevTime, vars.numHours);
+            shiftPeriod = getShiftTime(PrevTime,vars.numHours);
         } else {
-            Phase = getPhase(31, parameters.numHours);
-            shiftPeriod = getShiftTime(PrevTime,parameters.numHours);
+            Phase = getPhase(31, vars.numHours);
+            shiftPeriod = getShiftTime(PrevTime,vars.numHours);
         }
 
 		Priority = Param.taskPrty[Type][Phase];
@@ -160,7 +160,7 @@ public class Task implements Comparable<Task> {
 			arrTime = PrevTime;
 		}
 		//SCHEN 12/10/17 Fleet Autonomy, Team Coord and Exogenous factor added
-		int teamCoordParam = parameters.teamCoordAff[Type];
+		int teamCoordParam = vars.teamCoordAff[Type];
 		serTime = genSerTime();
 		if(teamCoordParam == 1)
 			changeServTime(lvl_SOME);
@@ -178,9 +178,9 @@ public class Task implements Comparable<Task> {
 		// Use Service time to calculate ExpTime
 		expTime = genExpTime();
 		beginTime = arrTime;
-		opNums = parameters.opNums[Type];
-		name = parameters.taskNames[Type];
-		isLinked = parameters.linked[Type] == 1;
+		opNums = vars.opNums[Type];
+		name = vars.taskNames[Type];
+		isLinked = vars.linked[Type] == 1;
 		elapsedTime = 0;
 		expired = false;
 //        getTriangularDistribution();
@@ -278,7 +278,7 @@ public class Task implements Comparable<Task> {
 	 *	Method:			Exponential
 	 *
 	 *	Purpose:		Return an exponential distributed random number with input
-	 *					parameter lambda.
+	 *					vars lambda.
 	 *
 	 ****************************************************************************/
 
@@ -332,7 +332,7 @@ public class Task implements Comparable<Task> {
 	 *
 	 *	Method:			genTime
 	 *
-	 *	Purpose:		Generate a new time with the specified type and parameters.
+	 *	Purpose:		Generate a new time with the specified type and vars.
 	 *
 	 ****************************************************************************/
 
@@ -367,12 +367,12 @@ public class Task implements Comparable<Task> {
 
 		double newArrTime = TimeTaken + prevTime;
 
-		if (parameters.affByTraff[Type][Phase] == 1 && loadparam.TRAFFIC_ON){
+		if (vars.affByTraff[Type][Phase] == 1 && loadparam.TRAFFIC_ON){
 
 			double budget = TimeTaken;
 			double currTime = prevTime;
 			int currHour = (int) currTime/60;
-			double traffLevel = parameters.traffic[currHour];
+			double traffLevel = vars.traffic[currHour];
 			double TimeToAdj = (currHour+1)*60 - currTime;
 			double adjTime = TimeToAdj * traffLevel;
 
@@ -382,11 +382,11 @@ public class Task implements Comparable<Task> {
 				currTime += TimeToAdj;
 				currHour ++;
 
-				if (currHour >= parameters.traffic.length){
+				if (currHour >= vars.traffic.length){
 					return Double.POSITIVE_INFINITY;
 				}
 
-				traffLevel = parameters.traffic[currHour];
+				traffLevel = vars.traffic[currHour];
 				TimeToAdj = (currHour + 1)*60 - currTime;
 				adjTime = TimeToAdj * traffLevel;
 
@@ -408,9 +408,9 @@ public class Task implements Comparable<Task> {
 
 	private double genSerTime(){
 
-		char type = parameters.serDists[Type];
-		double start = parameters.serPms[Type][0];
-		double end = parameters.serPms[Type][1];
+		char type = vars.serDists[Type];
+		double start = vars.serPms[Type][0];
+		double end = vars.serPms[Type][1];
 //		System.out.println("genSerTime: Sertime " +start+ " " +end);
 		return GenTime(type, start, end);
 
@@ -429,14 +429,14 @@ public class Task implements Comparable<Task> {
 		double param;
 		double expiration = 0;
 		int hour = (int) arrTime/60;
-		if (hour >= parameters.traffic.length){
+		if (hour >= vars.traffic.length){
 			return arrTime;
-		} else if (parameters.traffic[hour] == 2){
-			param = parameters.expPmsHi[Type][Phase];
+		} else if (vars.traffic[hour] == 2){
+			param = vars.expPmsHi[Type][Phase];
 		} else {
-			param = parameters.expPmsLo[Type][Phase];
+			param = vars.expPmsLo[Type][Phase];
 		}
-		expiration = GenTime(parameters.expDists[Type], param, 0);
+		expiration = GenTime(vars.expDists[Type], param, 0);
 		return arrTime + 2*serTime + expiration;
 
 	}
@@ -456,16 +456,16 @@ public class Task implements Comparable<Task> {
 		//SCHEN 12/10/17: Add Fleet autonomy -> adjust arrival rate
 		double autoLevel = 1;
 
-		if(parameters.autolvl == 1) autoLevel = lvl_SOME;
-		if(parameters.autolvl == 2) autoLevel = lvl_FULL;
+		if(vars.autolvl == 1) autoLevel = lvl_SOME;
+		if(vars.autolvl == 2) autoLevel = lvl_FULL;
 
 		return  autoLevel;
 	}
 
 //	private  double getTeamComm(){
 //		double teamComm = 1;
-//		if(parameters.teamCoordAff == 1) teamComm = 0.7;
-//		if(parameters.autolvl == 2) teamComm = 0.3;
+//		if(vars.teamCoordAff == 1) teamComm = 0.7;
+//		if(vars.autolvl == 2) teamComm = 0.3;
 //
 //		return  teamComm;
 //	}
@@ -481,21 +481,21 @@ public class Task implements Comparable<Task> {
 	}
 
 	private double changeArrivalRate(double num){
-		return parameters.arrPms[Type][Phase];
+		return vars.arrPms[Type][Phase];
 	}
 
 	private void applyExogenousFactor(){
 
-		if(parameters.hasExogenous[0] == 1){
-			int numExo = parameters.hasExogenous[1];
+		if(vars.hasExogenous[0] == 1){
+			int numExo = vars.hasExogenous[1];
 			for(int i = 0; i < numExo; i++){
-				if(parameters.exTypes[i].equals("long_serv")){
+				if(vars.exTypes[i].equals("long_serv")){
 					changeServTime(1.1);
 				}
-				if (parameters.exTypes[i].equals("add_task")) {
+				if (vars.exTypes[i].equals("add_task")) {
 					//TODO: additional Task function
 				}
-				if(parameters.exTypes[i].equals("inc_arrival")){
+				if(vars.exTypes[i].equals("inc_arrival")){
 					changeArrivalRate(1.1);
 				}
 			}

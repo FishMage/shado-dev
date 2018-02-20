@@ -26,7 +26,7 @@ public class Main {
 
 	public static void main(String[] args) throws IOException {
 
-		// LOAD the parameter file.
+		// LOAD the vars file.
 
 		String head = FileWizard.getabspath();
 
