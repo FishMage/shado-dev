@@ -242,21 +242,27 @@ public class Replication {
         linked = remoteOps.gettasks();
 
         //SCHEN 11/10/17 For this version of Fleet hetero, assume each batch has 10 vehicles
-        vehicles = new VehicleSim[parameters.fleetTypes][parameters.numvehicles[0]];
+        int maxLen = 0;
+        for(int i = 0; i < parameters.fleetTypes; i++ )
+            if(parameters.numvehicles[i] > maxLen)
+                maxLen = parameters.numvehicles[i];
+
+        vehicles = new VehicleSim[parameters.fleetTypes][maxLen];
 
         for (int i = 0; i < parameters.fleetTypes; i++) {
             for(int j = 0; j < parameters.numvehicles[i]; j++) {
-                //SCHEN 11/20/17 vehicleId change for 2d Array
+                // vehicleId to for 2d Array
                 vehicles[i][j] = new VehicleSim(parameters,i*10 + j,remoteOps.getRemoteOp(),globalTasks,globalWatingTasks);
                 System.out.println("Vehicle "+(i*10+j)+" generates tasks");
                 vehicles[i][j].genVehicleTask();
             }
         }
+
+        //Put all tasks in a timely order
         sortTask();
         System.out.println("Total Tasks: "+globalTasks.size());
 
         for (Task task : globalTasks) {
-//            System.out.println("PrevTime after sorting: " +task.getArrTime());
             puttask(task);
 
         }
@@ -264,7 +270,8 @@ public class Replication {
        // Run each vehicle
         for(int i = 0; i< parameters.fleetTypes; i++){
             for (VehicleSim each : vehicles[i]) {
-                each.run();
+                if(each != null)
+                    each.run();
             }
         }
         parameters.rep_failTask.put(parameters.replicationTracker,this.failedTasks);

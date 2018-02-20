@@ -137,9 +137,16 @@ public class Data {
                 double min = Double.MAX_VALUE;
                 double max = Double.MIN_VALUE;
                 double var = 0;
+                double[] columnSum = new double[this.avg[0].length];
+                int count_0 = 0,count_30 = 0,count_70 = 0;
+
+                int col_itr;
+
                 ArrayList<Double> expanded = new ArrayList<>();
                 for (double[] x : this.avg) {
+                    col_itr = 0;
                     for (double y : x) {
+                        columnSum[col_itr] += y;
                         if(y !=0) {
                             sum += y;
                             cnt++;
@@ -149,6 +156,7 @@ public class Data {
                             min = y;
                         if (y >= max)
                             max = y;
+                        col_itr++;
                     }
                 }
                 double mean = sum/cnt;
@@ -174,28 +182,62 @@ public class Data {
                 System.out.print(max+",");
                 //Variance
                 System.out.print(var/(cnt-1)+",");
+
+                for(double c: columnSum){
+                    //Count of utilization 0-30%
+                    if(c < 0.3) count_0++;
+
+                    //Count of utilization 30%-70%
+                    else if (c >= 0.3 && c <0.7) count_30++;
+
+                    //Count of utilization 70%-100%
+                    else if (c >= 0.7) count_70 ++;
+
+                }
+                System.out.print(count_0+","+count_30+","+count_70);
+
                 break;
             case "Delay":
 
                 break;
 
             case "Error":
-                ArrayList<Pair<Operator,Task>> failList = parameter.rep_failTask.get(repNum);
-                //Average:
+                int totalRep = parameter.numReps; // Use to calculate the across replications
                 double failCnt = 0.0;
+                double varErr = 0.0;
+                ArrayList<Pair<Operator,Task>> failList = parameter.rep_failTask.get(repNum);
+
+                //Average:
+                //Get fail count for this replication
+
                 for(Pair<Operator,Task> p: failList){
                     if(p.getKey().getName().equals(op)) {
 //                        System.err.println(p.getKey().getName()+" == "+op);
                         failCnt++;
                     }
                 }
-                int totaltaskLen = proc.getCompleted().length;
-                int totalTasks = 0;
-                for(int i = 0; i < totaltaskLen; i++ ){
-                    totalTasks += proc.getCompleted()[i];
+                //Get sum of fail task for all replications
+                int totalFail = 0;
+                double[] failEachRep = new double[totalRep];
+                for(int i = 0; i < totalRep; i++){
+                    ArrayList<Pair<Operator,Task>> thisFail = parameter.rep_failTask.get(i);
+                    for(Pair<Operator,Task> p: thisFail){
+                        if(p.getKey().getName().equals(op)) {
+                            failEachRep[i]++;
+                            totalFail++;
+                        }
+                    }
+//                    System.err.println(totalFail+",  "+totalRep);
+
                 }
-//                System.err.println("FailCount: "+failCnt+", TotalTask: " +totalTasks);
-                System.out.print(failCnt/totalTasks+",");
+                //Mean
+                int meanErr = totalFail/totalRep;
+                //Variance calculation
+                for(double v : failEachRep){
+                    varErr+=(v-meanErr)*(v-meanErr);
+                }
+
+                System.out.print(meanErr+","+failCnt+","+failCnt+","+failCnt+","+failCnt+","+failCnt+","+ varErr/totalFail+"N/A,N/A,N/A");
 
                 break;
             case "Expired":

@@ -64,8 +64,9 @@ public class ProcRep {
 
     public int[] getCompleted() { return completed; }
 
-    public String[] attributes = {"\t", "Average","Minimum","1st Quartile","Median","3rd Quartile","Maximum", "Variance"};
-    public String[] rowName = {"Workload","Error","Delay","Expire"};
+    public String[] attributes = {"\t", "Average","Minimum","1st Quartile","Median",
+            "3rd Quartile","Maximum", "Variance","Count of utilization 0-30%","Count of utilization 30%-70%","Count of utilization 70%-100%"};
+    public String[] rowName = {"Workload","Error","",""};
 
     /****************************************************************************
      *
@@ -255,8 +256,7 @@ public class ProcRep {
      ****************************************************************************/
 
     public void testProcRep(int currRep) throws IOException {
-        int numdisp = 0;
-        int[] teamsize = this.parameter.teamSize;
+        //get mapping for Operator->Num
         ArrayList<Integer>remoteNum = new ArrayList<>();
         ArrayList<Integer>remoteType = new ArrayList<>();
         for(int i = 0 ;i< parameter.teamSize.length;i++){
@@ -271,20 +271,11 @@ public class ProcRep {
         int i = 0;
         for (Data each: repdisdata) {
             each.avgdata();
-//            System.out.println("FOR Replication \n"+ (currRep -1));
             String opName = parameter.opNames[remoteType.get(i)]+" "+remoteNum.get(i);
             sepCSV(each, currRep, opName);
-//            numRep++;
             i++;
-//            each.outputdata();
         }
 
-//        for (Data each: repopsdata){
-////            System.out.println(" FOR OPERATOR \n");
-////            each.outputdata();
-//            each.avgdata();
-//            sepCSV(each,currRep,numoperator);
-//        }
 
     }
     private void setTotalRemoteOps(){
@@ -318,7 +309,7 @@ public class ProcRep {
      *
      *	Method:			SepCSV
      *
-     *	Purpose:		output CSV for every replication
+     *	Purpose:		output CSV for every replication (per Operator, per Replication)
      *
      ****************************************************************************/
     public void sepCSV(Data RemoteOpout, int repNum,String opName)throws IOException{
@@ -329,13 +320,9 @@ public class ProcRep {
         File directory = new File(directoryName);
         if (!directory.exists()){
             directory.mkdir();
-            // If you require it to make the entire directory path including parents,
-            // use directory.mkdirs(); here instead.
-//            System.out.println("mkdir");
         }
 
         String file_name = file_head + directoryName + "Op_"+opName+"_Rep_"+repNum+ ".csv";
-//        String opName =parameter.opNames[numdip]+" "+numdip;
         System.setOut(new PrintStream(new BufferedOutputStream(
                 new FileOutputStream(file_name, false)), true));
         for(String s : attributes){
@@ -348,12 +335,10 @@ public class ProcRep {
             RemoteOpout.printMetaData(s,repNum,parameter,this,opName);
             System.out.println();
         }
-        //Print Something
+        //Print raw data
         System.out.println();
         System.out.println("\t\t---Raw data in 10 min interval---");
         RemoteOpout.outputdata();
-//        directory.close();
-
     }
 
 }

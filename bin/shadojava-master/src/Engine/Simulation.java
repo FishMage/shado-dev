@@ -126,10 +126,10 @@ public class Simulation {
 
             processReplication(i);
             parameters.replicationTracker ++;
-//            if (i%10 == 0){
+            if (i%10 == 0)
                 System.out.println("we're at " + i + " repetition");
-//            }
         }
+        //Data Processing for Replications
         for(int i = 0; i < repnumber; i++){
             ProcRep process = new ProcRep(RemoteOpoutput, operatoroutput, parameters.reps[i],parameters);
             process.run(i);
@@ -140,14 +140,10 @@ public class Simulation {
             }
         }
 
-        int repNum = 0;
         for (Data each: RemoteOpoutput){
-//            sepCSV(each,repNum);
-//            repNum++;
             each.avgdata();
         }
         for (Data each: operatoroutput){
-
             each.avgdata();
         }
     }
@@ -155,23 +151,5 @@ public class Simulation {
         for(int i : parameters.teamSize){
             totalRemoteOp += i;
         }
-    }
-
-
-    /****************************************************************************
-     *
-     *	Method:			sepCSV
-     *
-     *  Author:         Richard Chen
-     *
-     *	Purpose:		Generate separated CSV file for each replication
-     *
-     ****************************************************************************/
-	public void sepCSV(Data RemoteOpout, int repNum) throws IOException {
-	        String  file_head = FileWizard.getabspath();
-            String file_name = file_head + "/out/repCSV/" + "rep_"+ repNum + ".csv";
-            System.setOut(new PrintStream(new BufferedOutputStream(
-                    new FileOutputStream(file_name, false)), true));
-            RemoteOpout.outputdata();
     }
 }

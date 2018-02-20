@@ -57,96 +57,6 @@ public class RemoteOp {
 
     /****************************************************************************
      *
-     *	Method:			linkedgen
-     *
-     *	Purpose:		Generate all the linked tasks that requires both RemoteOper and
-     *					operator input.
-     *
-     ****************************************************************************/
-
-    public void linkedgen() {
-
-        // Creates a new task arraylist of the tasks that are linked
-        ArrayList<Integer> linkedt = new ArrayList<Integer>();
-        linkedtasks = new ArrayList<Task>();
-
-        // Discrete Tasks owned by the RemoteOper:
-        for (int la : parameters.RemoteOpTasks) {
-
-            // Create a new empty list of Tasks
-            ArrayList<Task> indlist = new ArrayList<Task>();
-
-            // Start a new task with PrevTime = 0
-            Task newTask = new Task(la, 0, parameters, true);
-
-            if (newTask.linked())
-                continue;
-
-            // Set vehicle ID.
-            newTask.setID(-1);
-            indlist.add(newTask);
-
-            // While the next task is within the time frame, generate.
-            while (newTask.getArrTime() < parameters.numHours * 60) {
-                newTask = new Task(la, newTask.getArrTime(), parameters, true);
-                newTask.setID(-1);
-                indlist.add(newTask);
-            }
-
-            // Put all task into the master tasklist.
-
-            linkedtasks.addAll(indlist);
-
-        }
-
-        // For each vehicle:
-
-        //SCHEN 11/10/17 Modify the functionality to fit fleet heterogeneity
-        //for (int j = 0; j < parameters.numvehicles; j++) {
-        for (int k = 0; k < parameters.fleetTypes; k++) {
-
-            //For each vehicle
-            for (int j = 0; j < parameters.numvehicles[k]; j++) {
-
-                // For each type of tasks:
-                for (int i = 0; i < parameters.numTaskTypes; i++) {
-
-                    // Create a new empty list of Tasks
-                    ArrayList<Task> indlist = new ArrayList<Task>();
-
-                    // Start a new task with PrevTime = 0
-                    Task newTask = new Task(i, 0, parameters, true);
-                    if (!newTask.linked()) {
-                        continue;
-                    }
-                    linkedt.add(i);
-
-                    // Set vehicle ID.
-                    //SCHEN 11/10/17 vehicle id for 2d array
-//                    System.out.println("vehicle id: " + (k*10 +j));
-                    int id = k*10 +j;
-                    newTask.setID(id);
-
-                    indlist.add(newTask);
-
-                    // While the next task is within the time frame, generate.
-                    while (newTask.getArrTime() < parameters.numHours * 60) {
-                        newTask = new Task(i, newTask.getArrTime(), parameters, true);
-                        newTask.setID(j);
-                        indlist.add(newTask);
-                    }
-
-                    // Put all task into the master tasklist.
-                    linkedtasks.addAll(indlist);
-                }
-            }
-
-            linked = linkedt.stream().mapToInt(Integer::intValue).toArray();
-        }
-    }
-
-    /****************************************************************************
-     *
      *	Method:			genRemoteOp
      *
      *	Purpose:		Generate RemoteOperators
@@ -168,14 +78,119 @@ public class RemoteOp {
             }
         }
     }
-
     /****************************************************************************
      *
-     *	Method:			runRemoteOp
+     *	Main Method:	run
      *
-     *	Purpose:		generate the final state of the RemoteOper and their tasks.
+     *	Purpose:		Wraps the entire objects functionality.
      *
      ****************************************************************************/
+
+    public void run() {
+//        linkedgen();
+        genRemoteOp();
+//        runRemoteOp();
+    }
+
+//    /****************************************************************************
+//     *
+//     *	Method:			linkedgen
+//     *
+//     *	Purpose:		Generate all the linked tasks that requires both RemoteOper and
+//     *					operator input.
+//     *
+//     ****************************************************************************/
+
+//    public void linkedgen() {
+//
+//        // Creates a new task arraylist of the tasks that are linked
+//        ArrayList<Integer> linkedt = new ArrayList<Integer>();
+//        linkedtasks = new ArrayList<Task>();
+//
+//        // Discrete Tasks owned by the RemoteOper:
+//        for (int la : parameters.RemoteOpTasks) {
+//
+//            // Create a new empty list of Tasks
+//            ArrayList<Task> indlist = new ArrayList<Task>();
+//
+//            // Start a new task with PrevTime = 0
+//            Task newTask = new Task(la, 0, parameters, true);
+//
+//            if (newTask.linked())
+//                continue;
+//
+//            // Set vehicle ID.
+//            newTask.setID(-1);
+//            indlist.add(newTask);
+//
+//            // While the next task is within the time frame, generate.
+//            while (newTask.getArrTime() < parameters.numHours * 60) {
+//                newTask = new Task(la, newTask.getArrTime(), parameters, true);
+//                newTask.setID(-1);
+//                indlist.add(newTask);
+//            }
+//
+//            // Put all task into the master tasklist.
+//
+//            linkedtasks.addAll(indlist);
+//
+//        }
+//
+//        // For each vehicle:
+//
+//        //SCHEN 11/10/17 Modify the functionality to fit fleet heterogeneity
+//        //for (int j = 0; j < parameters.numvehicles; j++) {
+//        for (int k = 0; k < parameters.fleetTypes; k++) {
+//
+//            //For each vehicle
+//            for (int j = 0; j < parameters.numvehicles[k]; j++) {
+//
+//                // For each type of tasks:
+//                for (int i = 0; i < parameters.numTaskTypes; i++) {
+//
+//                    // Create a new empty list of Tasks
+//                    ArrayList<Task> indlist = new ArrayList<Task>();
+//
+//                    // Start a new task with PrevTime = 0
+//                    Task newTask = new Task(i, 0, parameters, true);
+//                    if (!newTask.linked()) {
+//                        continue;
+//                    }
+//                    linkedt.add(i);
+//
+//                    // Set vehicle ID.
+//                    //SCHEN 11/10/17 vehicle id for 2d array
+////                    System.out.println("vehicle id: " + (k*10 +j));
+//                    int id = k*10 +j;
+//                    newTask.setID(id);
+//
+//                    indlist.add(newTask);
+//
+//                    // While the next task is within the time frame, generate.
+//                    while (newTask.getArrTime() < parameters.numHours * 60) {
+//                        newTask = new Task(i, newTask.getArrTime(), parameters, true);
+//                        newTask.setID(j);
+//                        indlist.add(newTask);
+//                    }
+//
+//                    // Put all task into the master tasklist.
+//                    linkedtasks.addAll(indlist);
+//                }
+//            }
+//
+//            linked = linkedt.stream().mapToInt(Integer::intValue).toArray();
+//        }
+//    }
+
+
+
+//    /****************************************************************************
+//     *
+//     *	Method:			runRemoteOp
+//     *
+//     *	Purpose:		generate the final state of the RemoteOper and their tasks.
+//     *
+//     ****************************************************************************/
 //
 //    public void runRemoteOp() {
 //
@@ -199,18 +214,5 @@ public class RemoteOp {
 //    }
 
 
-    /****************************************************************************
-     *
-     *	Main Method:	run
-     *
-     *	Purpose:		Wraps the entire objects functionality.
-     *
-     ****************************************************************************/
-
-    public void run() {
-//        linkedgen();
-        genRemoteOp();
-//        runRemoteOp();
-    }
 
 }

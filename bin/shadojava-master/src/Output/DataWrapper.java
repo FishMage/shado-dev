@@ -72,7 +72,7 @@ public class DataWrapper {
 
         // Expired Tasks
 
-        String file_name = file_head + "/out/repCSV/" + "Simulation_Summary_" + ".csv";
+        String file_name = file_head + "/out/Summary/" + "Simulation_Summary_" + ".csv";
         System.setOut(new PrintStream(new BufferedOutputStream(
                 new FileOutputStream(file_name, false)), true));
         for (int i = 0; i < parameter.numTaskTypes; i++) {
@@ -91,7 +91,7 @@ public class DataWrapper {
             }
 
         for(int i = 0; i < parameter.numReps;i++) {
-            String summary_file_name = file_head + "/out/repCSV/" + "Error_Summary_Rep_" +i+ ".csv";
+            String summary_file_name = file_head + "/out/Summary/" + "Error_Summary_Rep_" +i+ ".csv";
             System.setOut(new PrintStream(new BufferedOutputStream(
                     new FileOutputStream(summary_file_name, false)), true));
             System.out.println("Fail Task Detail: ");
