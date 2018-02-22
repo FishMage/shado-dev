@@ -1,0 +1,159 @@
+output_path		/Users/erinsong/Documents/shadojava/out
+num_hours	    8
+traff_levels   	m m m m m m m m
+num_reps	    3
+fleet_types     4
+num_vehicle		3 3 3 3
+num_ops 		3
+num_RemoteOp	1
+RemoteOp_task	0 2 4
+num_task_types	7
+num_phases      2
+autonomy_lvl    0
+hasExogenous    0 2
+
+op_strats       FIFO
+fail_threshold  0.5
+
+ex_name         Weather
+type            long_serv
+
+ex_name         Medical
+type            add_task
+
+fleet_type_0    0 1 2 3 4 5 6
+fleet_type_1    0 1 2 3 4 5 6
+fleet_type_2    0 1 2 3 4 5 6
+fleet_type_3    0 1 2 3 4 5 6
+
+op_name			Dispatcher
+tasks			0 1 2 3 4 5 6
+team_size       1
+team_comms      N
+
+op_name			Operations Management Specialist
+tasks		    0 1 2 3 4 5 6
+team_size       2
+team_comms      F
+
+op_name			Artificially Intelligent Agent
+tasks		    0 1 2 3 4 5 6
+team_size       2
+team_comms      N
+
+
+name       		Actuation
+prty         	4 7
+arr_dist     	E
+arr_pms      	0.03 0.1
+ser_dist     	U
+ser_pms      	0.5 2
+exp_dist     	E
+exp_pms_lo   	0 0.184
+exp_pms_hi   	0 0.184
+aff_by_traff  	0 1
+islinked		1
+trigger			-1
+team_coord_aff  0
+Human_error_probability .0004	.00008	.007
+
+name      		Directive_Mandatory
+prty         	5 5
+arr_dist     	E
+arr_pms      	0 0.0333333
+ser_dist     	U
+ser_pms      	0 0.5
+exp_dist     	E
+exp_pms_lo   	0 0.0446667
+exp_pms_hi   	0 0.0551667
+aff_by_traff  	0 1
+islinked		0
+trigger			-1
+team_coord_aff  0
+Human_error_probability 0.003	.0008	.007
+
+
+name       		Directive_Courtesy_1
+prty         	3 4
+arr_dist     	E
+arr_pms      	0 0.00167
+ser_dist     	U
+ser_pms      	0.167 2.5
+exp_dist     	E
+exp_pms_lo   	0 0
+exp_pms_hi   	0 0
+aff_by_traff   	0 1
+islinked		0
+trigger			-1
+team_coord_aff  0
+Human_error_probability .07	.02	.17
+
+
+name       		Directive_Courtesy_2
+prty         	3 4
+arr_dist     	E
+arr_pms      	0 0.00166667
+ser_dist     	U
+ser_pms      	0.167 2.5
+exp_dist     	E
+exp_pms_lo   	0 0.184
+exp_pms_hi   	0 0.184
+aff_by_traff   	0 1
+islinked		0
+trigger			-1
+team_coord_aff  0
+Human_error_probability .003	.0008	.007
+
+
+name       		Communications_Other
+prty         	6 5
+arr_dist     	E
+arr_pms      	0.952381 0.1
+ser_dist     	E
+ser_pms      	7.5188 0
+exp_dist     	E
+exp_pms_lo   	0 0.184
+exp_pms_hi   	0 0.184
+aff_by_traff 	0 1
+islinked		0
+trigger			-1
+team_coord_aff  0
+Human_error_probability .003	.0008	.007
+
+
+name       		Recordkeeping
+prty         	3 2
+arr_dist     	E
+arr_pms      	0.149925 0.3003
+ser_dist     	U
+ser_pms      	0.05 1.5
+exp_dist     	E
+exp_pms_lo   	0 0.184
+exp_pms_hi   	0 0.184
+aff_by_traff 	0 1
+islinked		0
+trigger			-1
+team_coord_aff  0
+Human_error_probability .003	.0008	.007
+
+name			Referencing
+prty         	3 2
+arr_dist     	E
+arr_pms      	0.149925 0.3003
+ser_dist     	U
+ser_pms      	0.05 1.5
+exp_dist     	E
+exp_pms_lo   	0 0
+exp_pms_hi   	0 0
+aff_by_traff   	0 0
+islinked		0
+trigger			-1
+team_coord_aff  0
+Human_error_probability .09	.06	.13
+
+
+
+
+
+
+

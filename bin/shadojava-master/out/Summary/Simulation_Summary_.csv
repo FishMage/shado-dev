@@ -1,0 +1,25 @@
+Task name: Actuation
+expired: 43
+completed: 1387
+Task name: Directive_Mandatory
+expired: 37
+completed: 491
+Task name: Directive_Courtesy_1
+expired: 0
+completed: 31
+Task name: Directive_Courtesy_2
+expired: 3
+completed: 11
+Task name: Communications_Other
+expired: 331
+completed: 2261
+Task name: Recordkeeping
+expired: 3781
+completed: 943
+Task name: Referencing
+expired: 34
+completed: 4820
+*** FAILED TASKS ***
+In Replication 0: Number of Fail Tasks: 61
+In Replication 1: Number of Fail Tasks: 51
+In Replication 2: Number of Fail Tasks: 80
