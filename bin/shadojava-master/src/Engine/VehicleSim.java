@@ -193,8 +193,8 @@ public class VehicleSim  {
 //        //TODO[COMPLETED]: Create Different Operatorset for different types of vehicles
 //        operators = new Operator[vars.ops.length];
 //        int fleetType = vehicleID/10;
-//        operators = new Operator[vars.numOps];
-//        for(int j = 0; j < vars.numOps; j++) {
+//        operators = new Operator[vars.numTeams];
+//        for(int j = 0; j < vars.numTeams; j++) {
 //            if(operators[j].getName().equals("Artificially Intelligent Agent")) hasAI = true;
 //        }
 //        }

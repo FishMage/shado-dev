@@ -5,7 +5,7 @@ num_reps	    2               # Number of Replications
 fleet_types     4               # Number of FleetTypes
 num_vehicle		3 3 3 3         # Number of Vehicle in each fleet type
 num_ops 		3               # Types of Operators (Legacy vars, can be replaced by next param)
-num_RemoteOp	3               # Types of Operators
+num_RemoteOp	3               # Sum of Operators from all teams
 RemoteOp_task	0 2 4           # Legacy Param, not used
 num_task_types	9               # Number of task types
 num_phases      3               # Number of Phases, need to match the input in each task

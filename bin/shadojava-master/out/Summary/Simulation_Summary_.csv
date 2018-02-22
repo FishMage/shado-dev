@@ -1,25 +1,32 @@
-Task name: Actuation
-expired: 43
-completed: 1387
-Task name: Directive_Mandatory
-expired: 37
-completed: 491
-Task name: Directive_Courtesy_1
+Task name: Communicating
+expired: 1235
+completed: 4633
+Task name: Exception Handling
 expired: 0
-completed: 31
-Task name: Directive_Courtesy_2
-expired: 3
-completed: 11
-Task name: Communications_Other
-expired: 331
-completed: 2261
-Task name: Recordkeeping
-expired: 3781
-completed: 943
-Task name: Referencing
-expired: 34
-completed: 4820
+completed: 6
+Task name: Paperwork
+expired: 0
+completed: 2177
+Task name: Maintenance of Way Interactions
+expired: 11
+completed: 51
+Task name: Temporary Speed Restrictions
+expired: 272
+completed: 991
+Task name: Signal Response Management
+expired: 402
+completed: 3310
+Task name: Monitoring Inside
+expired: 58
+completed: 12620
+Task name: Monitoring Outside
+expired: 0
+completed: 0
+Task name: Communicating internally
+expired: 1174
+completed: 4699
 *** FAILED TASKS ***
-In Replication 0: Number of Fail Tasks: 61
-In Replication 1: Number of Fail Tasks: 51
-In Replication 2: Number of Fail Tasks: 80
+In Replication 0: Number of Fail Tasks: 43
+In Replication 1: Number of Fail Tasks: 61
+In Replication 2: Number of Fail Tasks: 49
+In Replication 3: Number of Fail Tasks: 48

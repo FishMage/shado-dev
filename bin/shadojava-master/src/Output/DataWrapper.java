@@ -62,7 +62,7 @@ public class DataWrapper {
             sim.getRemoteOpoutput(i).outputdata();
         }
 
-        for (int j = 0; j < vars.numOps; j++) {
+        for (int j = 0; j < vars.numTeams; j++) {
             String file_name = file_head + "/out/" + vars.opNames[j] + ".csv";
             System.setOut(new PrintStream(new BufferedOutputStream(
                     new FileOutputStream(file_name, false)), true));

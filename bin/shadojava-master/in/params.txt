@@ -4,8 +4,8 @@ traff_levels   	m h h h l l l m
 num_reps	    4
 fleet_types     4
 num_vehicle		1 7 1 9
-num_ops 		3
-num_RemoteOp	3
+num_team		3
+num_RemoteOp	7
 RemoteOp_task	0 2 4
 num_task_types	9
 num_phases      3

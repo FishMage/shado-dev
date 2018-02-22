@@ -1,52 +1,62 @@
 Fail Task Detail: 
-Dispatcher 0 Fails Communications_Other, But still proceed by the Operator
-Operations Management Specialist 1 Fails Communications_Other, But still proceed by the Operator
-Operations Management Specialist 1 Fails Communications_Other,
-Operations Management Specialist 0 Fails Communications_Other,
-Operations Management Specialist 1 Fails Directive_Mandatory,
-Operations Management Specialist 0 Fails Recordkeeping,
-Operations Management Specialist 0 Fails Referencing, But still proceed by the Operator
-Operations Management Specialist 1 Fails Recordkeeping, But still proceed by the Operator
-Operations Management Specialist 1 Fails Recordkeeping, But still proceed by the Operator
-Operations Management Specialist 1 Fails Referencing, But still proceed by the Operator
-Dispatcher 0 Fails Recordkeeping, But still proceed by the Operator
-Operations Management Specialist 1 Fails Communications_Other,
-Operations Management Specialist 0 Fails Communications_Other,
-Operations Management Specialist 0 Fails Communications_Other, But still proceed by the Operator
-Operations Management Specialist 1 Fails Recordkeeping, But still proceed by the Operator
-Operations Management Specialist 0 Fails Recordkeeping, But still proceed by the Operator
-Operations Management Specialist 0 Fails Referencing, But still proceed by the Operator
-Operations Management Specialist 1 Fails Actuation, But still proceed by the Operator
-Operations Management Specialist 0 Fails Directive_Courtesy_2,
-Operations Management Specialist 1 Fails Recordkeeping,
-Dispatcher 0 Fails Directive_Mandatory,
-Dispatcher 0 Fails Recordkeeping,
-Operations Management Specialist 0 Fails Actuation, But still proceed by the Operator
-Operations Management Specialist 1 Fails Recordkeeping,
-Operations Management Specialist 0 Fails Referencing, But still proceed by the Operator
-Operations Management Specialist 1 Fails Recordkeeping, But still proceed by the Operator
-Operations Management Specialist 1 Fails Recordkeeping,
-Dispatcher 0 Fails Recordkeeping, But still proceed by the Operator
-Dispatcher 0 Fails Recordkeeping, But still proceed by the Operator
-Operations Management Specialist 1 Fails Referencing,
-Dispatcher 0 Fails Referencing, But still proceed by the Operator
-Operations Management Specialist 1 Fails Recordkeeping,
-Dispatcher 0 Fails Communications_Other,
-Operations Management Specialist 0 Fails Actuation,
-Operations Management Specialist 1 Fails Directive_Mandatory, But still proceed by the Operator
-Operations Management Specialist 1 Fails Referencing, But still proceed by the Operator
-Operations Management Specialist 0 Fails Actuation,
-Dispatcher 0 Fails Recordkeeping,
-Dispatcher 0 Fails Actuation, But still proceed by the Operator
-Operations Management Specialist 0 Fails Recordkeeping,
-Operations Management Specialist 0 Fails Directive_Mandatory,
-Operations Management Specialist 0 Fails Recordkeeping, But still proceed by the Operator
-Operations Management Specialist 0 Fails Recordkeeping, But still proceed by the Operator
-Operations Management Specialist 0 Fails Recordkeeping,
-Dispatcher 0 Fails Recordkeeping,
-Operations Management Specialist 1 Fails Recordkeeping, But still proceed by the Operator
-Operations Management Specialist 1 Fails Recordkeeping, But still proceed by the Operator
-Dispatcher 0 Fails Actuation,
-Operations Management Specialist 0 Fails Recordkeeping,
-Operations Management Specialist 0 Fails Actuation, But still proceed by the Operator
-Operations Management Specialist 1 Fails Communications_Other,
+Dispatcher 1 Fails Communicating,
+Operations Management Specialist 0 Fails Communicating internally, But still proceed by the Operator
+Operations Management Specialist 0 Fails Communicating, But still proceed by the Operator
+Operations Management Specialist 0 Fails Communicating, But still proceed by the Operator
+Operations Management Specialist 1 Fails Communicating, But still proceed by the Operator
+Dispatcher 0 Fails Paperwork,
+Dispatcher 2 Fails Communicating internally,
+Dispatcher 0 Fails Communicating,
+Dispatcher 1 Fails Communicating, But still proceed by the Operator
+Dispatcher 1 Fails Monitoring Inside, But still proceed by the Operator
+Dispatcher 2 Fails Communicating,
+Operations Management Specialist 1 Fails Communicating,
+Dispatcher 0 Fails Paperwork, But still proceed by the Operator
+Operations Management Specialist 0 Fails Communicating,
+Operations Management Specialist 0 Fails Communicating,
+Dispatcher 2 Fails Communicating, But still proceed by the Operator
+Operations Management Specialist 0 Fails Communicating, But still proceed by the Operator
+Dispatcher 2 Fails Monitoring Inside,
+Operations Management Specialist 1 Fails Communicating, But still proceed by the Operator
+Operations Management Specialist 1 Fails Communicating,
+Dispatcher 0 Fails Paperwork,
+Dispatcher 2 Fails Paperwork, But still proceed by the Operator
+Dispatcher 2 Fails Communicating,
+Dispatcher 2 Fails Communicating,
+Dispatcher 1 Fails Communicating, But still proceed by the Operator
+Operations Management Specialist 0 Fails Signal Response Management,
+Dispatcher 0 Fails Communicating,
+Operations Management Specialist 0 Fails Monitoring Inside, But still proceed by the Operator
+Operations Management Specialist 1 Fails Paperwork, But still proceed by the Operator
+Dispatcher 1 Fails Communicating,
+Operations Management Specialist 1 Fails Communicating, But still proceed by the Operator
+Dispatcher 2 Fails Paperwork,
+Operations Management Specialist 0 Fails Communicating,
+Operations Management Specialist 0 Fails Communicating,
+Dispatcher 0 Fails Paperwork, But still proceed by the Operator
+Operations Management Specialist 0 Fails Communicating, But still proceed by the Operator
+Operations Management Specialist 0 Fails Paperwork,
+Operations Management Specialist 1 Fails Communicating, But still proceed by the Operator
+Dispatcher 2 Fails Paperwork,
+Dispatcher 1 Fails Communicating,
+Dispatcher 0 Fails Communicating, But still proceed by the Operator
+Dispatcher 1 Fails Communicating, But still proceed by the Operator
+Operations Management Specialist 0 Fails Maintenance of Way Interactions,
+Dispatcher 0 Fails Communicating,
+Dispatcher 1 Fails Paperwork, But still proceed by the Operator
+Dispatcher 0 Fails Communicating, But still proceed by the Operator
+Dispatcher 0 Fails Communicating, But still proceed by the Operator
+Operations Management Specialist 1 Fails Monitoring Inside,
+Operations Management Specialist 1 Fails Communicating,
+Dispatcher 0 Fails Communicating,
+Operations Management Specialist 1 Fails Paperwork,
+Dispatcher 2 Fails Communicating, But still proceed by the Operator
+Dispatcher 2 Fails Communicating,
+Dispatcher 2 Fails Paperwork, But still proceed by the Operator
+Operations Management Specialist 0 Fails Communicating, But still proceed by the Operator
+Dispatcher 0 Fails Communicating,
+Dispatcher 0 Fails Paperwork,
+Operations Management Specialist 0 Fails Communicating, But still proceed by the Operator
+Operations Management Specialist 1 Fails Communicating, But still proceed by the Operator
+Operations Management Specialist 0 Fails Communicating,
+Operations Management Specialist 1 Fails Communicating,

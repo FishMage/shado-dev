@@ -85,7 +85,7 @@ public class ProcRep {
         vehicles = rep.getvehicles();
         repID = rep.getRepID();
         numRemoteOp = rep.vars.numRemoteOp;
-        numoperator = rep.vars.numOps;
+        numoperator = rep.vars.numTeams;
         numtasktypes = rep.vars.numTaskTypes;
         hours = rep.vars.numHours;
         expired = new int[numtasktypes];

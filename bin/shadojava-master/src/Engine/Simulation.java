@@ -74,8 +74,8 @@ public class Simulation {
         System.out.println("NumReps: " + repnumber);
         // Generate overall data field
 
-        operatoroutput = new Data[param.numOps];
-        for (int i = 0; i < param.numOps; i++) {
+        operatoroutput = new Data[param.numTeams];
+        for (int i = 0; i < param.numTeams; i++) {
             operatoroutput[i] = new Data(param.numTaskTypes, (int) param.numHours * 6, param.numReps);
         }
         setTotalRemoteOps();

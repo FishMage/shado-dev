@@ -130,7 +130,6 @@ public class Data {
      ****************************************************************************/
     public void printMetaData(String type, int repNum, loadparam vars, ProcRep proc,String op) {
         switch (type) {
-
             case "Workload":
                 double sum = 0;
                 double cnt = 0;
@@ -147,18 +146,20 @@ public class Data {
                     col_itr = 0;
                     for (double y : x) {
                         columnSum[col_itr++] += y;
-                        if(y !=0) {
-                            sum += y;
-                            cnt++;
-                            expanded.add(y);
-                        }
+                        sum += y;
+                        cnt++;
+                        expanded.add(y);
                         if (y <= min)
                             min = y;
                         if (y >= max)
                             max = y;
                     }
                 }
-                double mean = sum/cnt;
+                double columMean  = 0;
+                for(int i  = 0 ; i < columnSum.length;i++){
+                    columMean += columnSum[i];
+                }
+                double mean = columMean/columnSum.length;
                 for (double[] x : this.avg) {
                     for (double y : x) {
                         var += (y- mean)*(y - mean);
@@ -173,7 +174,7 @@ public class Data {
                 Collections.sort(expanded);
                 int first_quart = expanded.size()/4;
                 int median = expanded.size()/2;
-                int third_quart = expanded.size()*(3/4);
+                int third_quart = expanded.size()*3/4;
                 System.out.print(expanded.get(first_quart)+",");
                 System.out.print(expanded.get(median)+",");
                 System.out.print(expanded.get(third_quart)+",");
@@ -197,7 +198,6 @@ public class Data {
 
                 break;
             case "Delay":
-
                 break;
 
             case "Error":
@@ -227,29 +227,32 @@ public class Data {
                         }
                     }
 //                    System.err.println(totalFail+",  "+totalRep);
-
                 }
+
                 //Mean
                 int meanErr = totalFail/totalRep;
+
                 //Variance calculation
                 for(double v : failEachRep){
                     varErr+=(v-meanErr)*(v-meanErr);
                 }
 
                 System.out.print(meanErr+","+failCnt+","+failCnt+","+failCnt+","+failCnt+","+failCnt+","+ varErr/totalFail+",N/A,N/A,N/A");
-
                 break;
+
             case "Expired":
                 int expCount = 0;
                 int expTotal = 0;
                 double varExp = 0.0;
                 double[] expEachRep = new double[vars.numReps];
                 ArrayList<Pair<Operator,Task>> thisExpired = vars.expiredTasks[repNum];
+
                 for(Pair<Operator,Task> p: thisExpired){
                     if(p.getKey().getName().equals(op)) {
                         expCount++;
                     }
                 }
+
                 for(int i = 0; i < vars.numReps; i++){
                     ArrayList<Pair<Operator,Task>> eachExpired = vars.expiredTasks[i];
                     for(Pair<Operator,Task> p: eachExpired){
@@ -259,6 +262,7 @@ public class Data {
                         }
                     }
                 }
+
                 int meanExp = expTotal/vars.numReps;
                 for(double v : expEachRep){
                     varExp+=(v-meanExp)*(v-meanExp);

@@ -65,7 +65,7 @@ public class loadparam {
 
 	//Global count for number of operators
 	public int teamSizeTotal;
-    public int numOps;
+    public int numTeams;
 	public String[] opNames;
 	public int[][] opTasks;
 
@@ -135,7 +135,7 @@ public class loadparam {
 		//SCHEN 11/10/17 Read numvehicles Array
 //		numvehicles = readInt(in);
 		numvehicles = readIntArr(in);
-		numOps = readInt(in);
+		numTeams = readInt(in);
 		numRemoteOp = readInt(in);
 		RemoteOpTasks = readIntArr(in);
 		numTaskTypes = readInt(in);
@@ -174,12 +174,12 @@ public class loadparam {
 
         //SCHEN 1/20/2018 Individualize team_comm to each operator type
 		teamSizeTotal = 0;
-		opNames = new String[numOps];
-		opTasks = new int[numOps][];
-		teamComm = new char[numOps];
-        teamSize = new int[numOps];
-        ops = new int[numOps];
-		for (int i = 0; i < numOps; i++){
+		opNames = new String[numTeams];
+		opTasks = new int[numTeams][];
+		teamComm = new char[numTeams];
+        teamSize = new int[numTeams];
+        ops = new int[numTeams];
+		for (int i = 0; i < numTeams; i++){
 			opNames[i] = readString(in);
 			opTasks[i] = readIntArr(in);
 
@@ -238,7 +238,7 @@ public class loadparam {
 		
 		for (int i = 0; i < numTaskTypes; i++){
 			ArrayList<Integer> wha = new ArrayList<Integer>();
-			for (int j = 0; j < numOps; j++){
+			for (int j = 0; j < numTeams; j++){
 				if (Arrays.asList(opTasks[j]).contains(i)){
 					wha.add(j);
 				}
