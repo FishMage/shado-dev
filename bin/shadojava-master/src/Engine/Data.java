@@ -146,7 +146,7 @@ public class Data {
                 for (double[] x : this.avg) {
                     col_itr = 0;
                     for (double y : x) {
-                        columnSum[col_itr] += y;
+                        columnSum[col_itr++] += y;
                         if(y !=0) {
                             sum += y;
                             cnt++;
@@ -156,7 +156,6 @@ public class Data {
                             min = y;
                         if (y >= max)
                             max = y;
-                        col_itr++;
                     }
                 }
                 double mean = sum/cnt;

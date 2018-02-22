@@ -154,7 +154,7 @@ public class Task implements Comparable<Task> {
         }
 
 		Priority = Param.taskPrty[Type][Phase];
-		if (fromPrev == true) {
+		if (fromPrev) {
 			arrTime = genArrTime(PrevTime);
 		} else {
 			arrTime = PrevTime;
@@ -253,7 +253,7 @@ public class Task implements Comparable<Task> {
 			return 0;
 		} else if (time >= 30 && time < hours * 60 - 30) {
 			return 1;
-		} else return 2;
+		} else return 1;
 
 	}
 

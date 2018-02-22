@@ -33,7 +33,7 @@ public class Main {
 		loadparam data;
 
 		if (args.length == 0){
-			data =  new loadparam(head + "/in/params.txt");
+			data =  new loadparam(head + "/in/params-test.txt");
 		} else {
 			data = new loadparam(args[0]);
 		}

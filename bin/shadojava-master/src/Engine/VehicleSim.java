@@ -131,7 +131,7 @@ public class VehicleSim  {
             int taskType = vars.fleetHetero[fleetType][i];
             //DEBUG
 //            System.out.println("Now Generating Task type: "+taskType +", Fleet Type:" + fleetType);
-                if (vars.arrPms[i][0] == 0) { //First task
+                if (vars.arrPms[taskType][0] == 0) { //First task
                         newTask = new Task(taskType, 30 + Math.random(), vars, false, checkAI(), vars.teamComm[0]); //New Task
                 } else {
 
@@ -142,7 +142,7 @@ public class VehicleSim  {
                 // While the next task is within the time frame, generate.
 
                 while (newTask.getArrTime() < vars.numHours * 60) {
-                    newTask = new Task(i, newTask.getArrTime(), vars, true,true, vars.teamComm[0]);
+                    newTask = new Task(taskType, newTask.getArrTime(), vars, true,true, vars.teamComm[0]);
                     newTask.setID(vehicleID);
                     // TODO if the queue is idle;
 //                    globalTasks.add(newTask);
