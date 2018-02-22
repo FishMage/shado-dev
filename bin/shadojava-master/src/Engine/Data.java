@@ -4,10 +4,7 @@ import Input.loadparam;
 import Output.ProcRep;
 import javafx.util.Pair;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.DoubleSummaryStatistics;
+import java.util.*;
 
 /***************************************************************************
  * 	FILE: 			Data.java
@@ -156,10 +153,23 @@ public class Data {
                     }
                 }
                 double columMean  = 0;
+                double columnMin = Double.MAX_VALUE;
+                double columnMax = Double.MIN_VALUE;
+                double columnVar = 0;
                 for(int i  = 0 ; i < columnSum.length;i++){
                     columMean += columnSum[i];
+                    if (columnSum[i] > columnMax) columnMax = columnSum[i];
+                    if (columnSum[i] < columnMin) columnMin = columnSum[i];
+
+
                 }
                 double mean = columMean/columnSum.length;
+
+                for(int i  = 0 ; i < columnSum.length;i++){
+                    columnVar+= (columnSum[i] -mean)*(columnSum[i] -mean);
+                }
+                columnVar = columnVar/(columnSum.length -1);
+
                 for (double[] x : this.avg) {
                     for (double y : x) {
                         var += (y- mean)*(y - mean);
@@ -169,19 +179,19 @@ public class Data {
                 //Average
                 System.out.print(mean + ",");
                 //Minimum
-                System.out.print(min + ",");
+                System.out.print(columnMin + ",");
                 //1st Quartile, Median, 3rd Quartile
-                Collections.sort(expanded);
-                int first_quart = expanded.size()/4;
-                int median = expanded.size()/2;
-                int third_quart = expanded.size()*3/4;
-                System.out.print(expanded.get(first_quart)+",");
-                System.out.print(expanded.get(median)+",");
-                System.out.print(expanded.get(third_quart)+",");
+                Arrays.sort(columnSum);
+                int first_quart = columnSum.length/4;
+                int median = columnSum.length/2;
+                int third_quart = columnSum.length*3/4;
+                System.out.print(columnSum[first_quart]+",");
+                System.out.print(columnSum[median]+",");
+                System.out.print(columnSum[third_quart]+",");
                 //Maximum
-                System.out.print(max+",");
+                System.out.print(columnMax+",");
                 //Variance
-                System.out.print(var/(cnt-1)+",");
+                System.out.print(columnVar+",");
 
                 for(double c: columnSum){
                     //Count of utilization 0-30%

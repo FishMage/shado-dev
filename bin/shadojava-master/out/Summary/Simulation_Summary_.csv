@@ -1,32 +1,32 @@
 Task name: Communicating
-expired: 1235
-completed: 4633
+expired: 1173
+completed: 4625
 Task name: Exception Handling
-expired: 0
-completed: 6
+expired: 1
+completed: 15
 Task name: Paperwork
 expired: 0
-completed: 2177
+completed: 2144
 Task name: Maintenance of Way Interactions
-expired: 11
-completed: 51
+expired: 3
+completed: 62
 Task name: Temporary Speed Restrictions
-expired: 272
-completed: 991
+expired: 275
+completed: 1027
 Task name: Signal Response Management
-expired: 402
-completed: 3310
+expired: 363
+completed: 3286
 Task name: Monitoring Inside
-expired: 58
-completed: 12620
+expired: 44
+completed: 12488
 Task name: Monitoring Outside
 expired: 0
 completed: 0
 Task name: Communicating internally
-expired: 1174
-completed: 4699
+expired: 1236
+completed: 4798
 *** FAILED TASKS ***
-In Replication 0: Number of Fail Tasks: 43
+In Replication 0: Number of Fail Tasks: 44
 In Replication 1: Number of Fail Tasks: 61
-In Replication 2: Number of Fail Tasks: 49
-In Replication 3: Number of Fail Tasks: 48
+In Replication 2: Number of Fail Tasks: 47
+In Replication 3: Number of Fail Tasks: 49
