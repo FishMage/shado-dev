@@ -84,11 +84,11 @@ public class DataWrapper {
         }
         System.out.println("*** FAILED TASKS ***");
 //            System.out.println("Operator "+ p.getKey().getName()+" Failed: "+p.getValue().getName());
-            for(int i = 0 ; i< vars.numReps; i++){
-                HashMap<Integer,Integer> failCnt = vars.failTaskCount;
-                int currFailCnt = failCnt.get(i);
-                System.out.println("In Replication " + i +": "+ "Number of Fail Tasks: "+currFailCnt);
-            }
+        for(int i = 0 ; i< vars.numReps; i++){
+            HashMap<Integer,Integer> failCnt = vars.failTaskCount;
+            int currFailCnt = failCnt.get(i);
+            System.out.println("In Replication " + i +": "+ "Number of Fail Tasks: "+currFailCnt);
+        }
 
         for(int i = 0; i < vars.numReps;i++) {
             String summary_file_name = file_head + "/out/Summary/" + "Error_Summary_Rep_" +i+ ".csv";
@@ -108,8 +108,29 @@ public class DataWrapper {
 
 
         }
+        //Cross-Replication Summary for workloads
+        String summary_file_name = file_head + "/out/Summary/" + "Workload_Summary.csv";
+        System.setOut(new PrintStream(new BufferedOutputStream(
+                new FileOutputStream(summary_file_name, false)), true));
+
+        double[] workloads  = new double[3];
+        double workloadSum = 0;
+        int columnCnt;
+        for(double[] x: vars.crossRepCount){
+            columnCnt = 0;
+            for(double y: x){
+                workloads[columnCnt++] += y;
+                workloadSum += y;
+            }
+            //System.out.println(Arrays.toString(vars.crossRepCount[i]));
+        }
+        double percentage_0 = (workloads[0]/workloadSum) * 100;
+        double percentage_30 = workloads[1]/workloadSum * 100;
+        double percentage_70 = workloads[2]/workloadSum * 100;
+        System.out.println("Workload Summary");
+        System.out.println("Percentage of utilization 0-30%,Percentage of utilization 30-70%,Percentage of utilization 70-100% ");
+        System.out.println(percentage_0+"% ,"+percentage_30+"% ,"+percentage_70+"%,");
     }
 
-    }
-
+}
 

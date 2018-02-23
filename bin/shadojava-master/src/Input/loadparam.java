@@ -71,6 +71,7 @@ public class loadparam {
 
     public char[] teamComm;
     public int[] teamSize;
+    public double[][] crossRepCount;
 
 	// Task Settings
 		
@@ -130,7 +131,7 @@ public class loadparam {
 		fleetTypes = readInt(in);
         failTaskCount = new HashMap<>();
        	replicationTracker = 0;
-
+		crossRepCount = new double[numReps][];
 
 		//SCHEN 11/10/17 Read numvehicles Array
 //		numvehicles = readInt(in);

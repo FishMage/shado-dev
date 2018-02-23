@@ -1,11 +1,11 @@
 output_path		/Users/erinsong/Documents/shadojava/out
 num_hours	    8
 traff_levels   	m h h h l l l m
-num_reps	    4
+num_reps	    2
 fleet_types     4
 num_vehicle		1 7 1 9
 num_team		3
-num_RemoteOp	7
+num_RemoteOp	1
 RemoteOp_task	0 2 4
 num_task_types	9
 num_phases      3
@@ -28,17 +28,17 @@ fleet_type_3    0 1 2 3 4 5 6 8
 
 op_name			Dispatcher
 tasks			0 1 2 3 4 5 6 7 8
-team_size       3
+team_size       1
 team_comms      N
 
 op_name			Operations Management Specialist
 tasks		    0 1 2 3 4 5 6 7 8
-team_size       2
+team_size       0
 team_comms      F
 
 op_name			Artificially Intelligent Agent
 tasks		    0 1 2 3 4 5 6 7 8
-team_size       2
+team_size       0
 team_comms      N
 
 

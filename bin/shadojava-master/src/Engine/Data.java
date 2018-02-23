@@ -143,15 +143,16 @@ public class Data {
                     col_itr = 0;
                     for (double y : x) {
                         columnSum[col_itr++] += y;
-                        sum += y;
-                        cnt++;
-                        expanded.add(y);
-                        if (y <= min)
-                            min = y;
-                        if (y >= max)
-                            max = y;
+//                        sum += y;
+//                        cnt++;
+//                        expanded.add(y);
+//                        if (y <= min)
+//                            min = y;
+//                        if (y >= max)
+//                            max = y;
                     }
                 }
+
                 double columMean  = 0;
                 double columnMin = Double.MAX_VALUE;
                 double columnMax = Double.MIN_VALUE;
@@ -160,8 +161,6 @@ public class Data {
                     columMean += columnSum[i];
                     if (columnSum[i] > columnMax) columnMax = columnSum[i];
                     if (columnSum[i] < columnMin) columnMin = columnSum[i];
-
-
                 }
                 double mean = columMean/columnSum.length;
 
@@ -181,6 +180,7 @@ public class Data {
                 //Minimum
                 System.out.print(columnMin + ",");
                 //1st Quartile, Median, 3rd Quartile
+
                 Arrays.sort(columnSum);
                 int first_quart = columnSum.length/4;
                 int median = columnSum.length/2;
@@ -188,6 +188,7 @@ public class Data {
                 System.out.print(columnSum[first_quart]+",");
                 System.out.print(columnSum[median]+",");
                 System.out.print(columnSum[third_quart]+",");
+
                 //Maximum
                 System.out.print(columnMax+",");
                 //Variance
@@ -204,6 +205,7 @@ public class Data {
                     else if (c >= 0.7) count_70 ++;
 
                 }
+                vars.crossRepCount[repNum] = new double[]{count_0,count_30,count_70};
                 System.out.print(count_0+","+count_30+","+count_70);
 
                 break;
