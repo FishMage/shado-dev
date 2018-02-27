@@ -1,7 +1,9 @@
 {
   "Simulation": {
-      "output_path": "/Users/erinsong/Documents/shadojava/out",
+    "session_number":"A19Df1S",
       "Global": {
+      "output_path": "out/",
+      "sim_type":"railroad",
       "num_hours": 8,
       "traffic_levels": [
         "m",
@@ -24,7 +26,8 @@
           [0,1,2,3],
           [0,2,4,8],
           [1,3,5,7],
-          [0,1,2,3,4,5,6,7,8]]
+          [0,1,2,3,4,5,6,7,8]
+        ]
       },
       "Teams_param":{
         "num_teams": 3,
@@ -134,7 +137,7 @@
             "human_error_prob":[0.003,0.00008,0.007]
           },
           {
-            "name": "Recordkeeping",
+            "name": "Record Keeping",
             "priority":[3,2],
             "arrival_distribution": "E",
             "arrival_param":[0.033333,0.1],
