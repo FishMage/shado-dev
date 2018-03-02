@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css" integrity="sha384-nn4HPE8lTHyVtfCBi5yW9d20FjT8BJwUXyWZT9InLYax14RDjBj46LmSztkmNP9w" crossorigin="anonymous">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script type="text/javascript" src="webTestController.js" ></script>
+
+    <body style="text-align: center">
+        <br><br>
+        <h1>SHADO parameter test</h1>
+        <h2>Global Parameters</h2>
+        <label="Number of Hours">Simulation Type</label>
+        <select id="sim_type">
+          <option value="aviation">Aviation</option>
+          <option value="railroad">Railroad</option>
+        </select>  <br><br>
+        <label="Number of Hours">Number of Hours</label>
+        <input id="num_hours"type="text" value="8"placeholder="8"></input>  <br><br>
+        <label="Number of Replications">Numebr of Replications</label>
+        <input id="num_replications"type="text" value="2"placeholder="2"></input>  <br><br>
+        <label="Number of Phases">Number of Phases</label>
+        <input id="num_phases"type="text" value="2"placeholder="2"></input>  <br><br>
+        <label="Autonomy Level">Autonomy Level</label>
+        <input id="autonomy_lvl"type="text" value="2"placeholder="2"></input>  <br><br>
+
+        <label="Traffic Level">Traffic Level</label>
+        <select id="traffic_levels">
+          <option value="">medium</option>
+          <option value="">low</option>
+          <option value="">high</option>
+        </select>
+        <div id="fleet_div">
+          <h2> Fleet Parameters</h2>
+          <label>Number of Fleet Types</label>
+          <!-- <input id="num_fleet_types"type="text" placeholder="4"></input>  <br><br> -->
+          <select id="num_fleet_types" onselect="popFleetTypes()" onchange ="popFleetTypes()">
+            <option value="" selected disabled hidden>Choose here</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+          </select><br><br>
+          <h3 id="header_fleet_type" hidden>Fleet Type Details</h3>
+
+            <div class="fleet_option"></div>
+
+        </div>
+        <div id="team_div">
+          <h2> Team Parameters</h2>
+          <label="Number of Hours">Number of Teams</label>
+          <select id="num_teams" onselect="popTeamTypes()" onchange ="popTeamTypes()">
+            <option value="" selected disabled hidden>Choose here</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+          </select><br><br>
+
+            <div class="team_option"></div><br>
+        </div>
+        <div id="exogenous_factor_div">
+            <h2> Exogenous Factor Parameters</h2>
+          <label="Number of Hours">Number of exogenous Factor</label>
+          <select id="num_exo" onselect="popExoFactor()" onchange ="popExoFactor()">
+            <option value="" selected disabled hidden>Choose here</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+          </select><br><br>
+          <div class="exo_option"></div><br>
+        </div>
+        <div>
+          <h2> Task Parameters</h2>
+          <label="Number of Task">Number of Tasks</label>
+          <select id="num_task" onselect="popTask()" onchange ="popTask()">
+            <option value="" selected disabled hidden>Number of Tasks</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="9">9</option>
+          </select><br><br>
+
+          <div class ="task_option"></div>
+        </div>
+
+            <button id="test" class="button-success pure-button" title="" onclick="submit()">Submit</button><br><br>
+    </body>
+</html>
